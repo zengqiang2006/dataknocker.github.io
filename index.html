@@ -63,6 +63,389 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-spark安装及运行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/14/spark安装及运行/" class="article-date">
+  <time datetime="2014-04-14T08:20:17.000Z" itemprop="datePublished">Apr 14 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装">安装</h2>
+<ul>
+<li><p>编辑 SPARK/etc/spark/conf/spark-env.sh:</p>
+<p>  STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01.jx.sankuai.com<br>  DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop </p>
+</li>
+</ul>
+<ul>
+<li><p>将 SPARK/etc/spark/conf 拷到其他结点上.</p>
+</li>
+<li><p>启动master:</p>
+<p>  /opt/cloudera/parcels/SPARK/lib/spark/sbin/start-master.sh</p>
+</li>
+<li><p>如果可以共同ssh的话，可以执行<br>  /opt/cloudera/parcels/SPARK/lib/spark/sbin/start-slaves.sh<br>否则就要在各workers上启动：<br>  /opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://jx-mobile-weibo01.jx.sankuai.com:7077</p>
+</li>
+</ul>
+<h2 id="spark_example">spark example</h2>
+<pre><code>./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.JavaSparkPi</span> –c <span class="number">1</span>
+
+//本地文件要用file:///
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.HdfsTest</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test –c <span class="number">1</span>
+</code></pre><p><em>在examples/lib/加入自己的jar包后，程序会启不来，不管是Master还是Worker，报下面的错:</em></p>
+<pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="preprocessor">.lang</span><span class="preprocessor">.NoSuchMethodException</span>: akka<span class="preprocessor">.remote</span><span class="preprocessor">.RemoteActorRefProvider</span>.&lt;init&gt;(java<span class="preprocessor">.lang</span><span class="preprocessor">.String</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.ActorSystem</span>$Settings, akka<span class="preprocessor">.event</span><span class="preprocessor">.EventStream</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.Scheduler</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.DynamicAccess</span>)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="rci45p3x6qb41mr1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-solr空间索引原理及源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/11/solr空间索引原理及源码分析/" class="article-date">
+  <time datetime="2014-04-11T05:17:04.000Z" itemprop="datePublished">Apr 11 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。<br>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
+<p><img src="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-TMrohJ9%2BDqj3I6dSenR346JpTYg%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=755260657&amp;size=c850_u580&amp;quality=100" alt="四叉树分层"></p>
+<h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
+<ul>
+<li>maxLevels不同：geohash的maxLevels为11，quad的maxLevels为26。</li>
+<li>通过distance获得相应的detailLevel不同</li>
+<li>获得子Cell不同：geohash下一层有32个子Cell(编码为0-z), quad下一层有4个子Cell(编码为ABCD。A:左上，B：右上，C:左下，D:右下)</li>
+</ul>
+<p>由于两种方法的大致思想一致，所以下文重点介绍geohash。</p>
+<h2 id="重要属性">重要属性</h2>
+<p>schema.xml中的空间索引类型的配置：</p>
+<pre><code>&lt;fieldType <span class="property">name</span>=<span class="string">"location_jts"</span>   <span class="type">class</span>=<span class="string">"solr.SpatialRecursivePrefixTreeFieldType"</span>
+           spatialContextFactory=<span class="string">"com.spatial4j.core.context.jts.JtsSpatialContextFactory"</span>
+           distErrPct=<span class="string">"0.025"</span>
+           maxDistErr=<span class="string">"0.000009"</span>
+           units=<span class="string">"degrees"</span>/&gt;
+</code></pre><ul>
+<li>SpatialRecursivePrefixTreeFieldType</li>
+</ul>
+<p>用于深度遍历前缀树的FieldType，主要用于获得基于Lucene中的RecursivePrefixTreeStrategy。</p>
+<ul>
+<li>JtsSpatialContextFactory<br>当有Polygon多边形时会使用jts(需要把jts.jar放到solr服务的lib下)。基本形状使用SpatialContext (spatial4j的类)。</li>
+<li><p>distErrPct<br>定义非Point图形的精度，范围在0-0.5之间，默认0.025。该值决定了非Point的图形索引或查询时的level(如geohash模式时就是geohash的长度)。当为0时取maxLevels，即精度最大。计算level的方法是 Shape中心到其外包矩形的最远corner的距离 * distErrPct (这块理论依据还没研究…)。实现代码如下SpatialArgs.calcDistanceFromErrPct()返回distErr：</p>
+<p>  public static double calcDistanceFromErrPct(Shape shape, double distErrPct, SpatialContext ctx) {</p>
+<pre><code>  <span class="keyword">if</span> (distErrPct &lt; <span class="number">0</span> || distErrPct &gt; <span class="number">0.5</span>) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"distErrPct "</span> + distErrPct + <span class="string">" must be between [0 to 0.5]"</span>);
+  }
+  <span class="keyword">if</span> (distErrPct == <span class="number">0</span> || shape <span class="keyword">instanceof</span> Point) {
+    <span class="keyword">return</span> <span class="number">0</span>;
+  }
+  Rectangle bbox = shape.getBoundingBox();
+  <span class="comment">//Compute the distance from the center to a corner.  Because the distance</span>
+  <span class="comment">// to a bottom corner vs a top corner can vary in a geospatial scenario,</span>
+  <span class="comment">// take the closest one (greater precision).</span>
+  Point ctr = bbox.getCenter();
+  <span class="keyword">double</span> y = (ctr.getY() &gt;= <span class="number">0</span> ? bbox.getMaxY() : bbox.getMinY());
+  <span class="keyword">double</span> diagonalDist = ctx.getDistCalc().distance(ctr, bbox.getMaxX(), y);
+  <span class="keyword">return</span> diagonalDist * distErrPct;
+}
+</code></pre></li>
+</ul>
+<p>然后由GeohashPrefixTree.getLevelForDistantce(distErr)来求得geohash精度。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLevelForDistance</span>(<span class="keyword">double</span> dist) {
+    <span class="keyword">if</span> (dist == <span class="number">0</span>) <span class="comment">//Point时dist=0</span>
+      <span class="keyword">return</span> maxLevels;<span class="comment">//short circuit</span>
+    <span class="keyword">final</span> <span class="keyword">int</span> level = GeohashUtils.lookupHashLenForWidthHeight(dist, dist);
+    <span class="keyword">return</span> Math.max(Math.min(level, maxLevels), <span class="number">1</span>);
+  }
+</code></pre><ul>
+<li>maxDistErr/maxLevels</li>
+</ul>
+<p>定义索引数据的最高层maxLevels，默认是0.000009即1米(geohash11位)，直接决定了Point索引的term数。<br>maxLevels优先级高于maxDistErr,即有maxLevels的话maxDistErr失效。详见SpatialPrefixTreeFactory.init()方法。<br>不过一般使用maxDistErr。</p>
+<ul>
+<li>worldBounds<br>世界坐标值：”minX minY maxX maxY”。 geo=true即geohash模式时，该值默认为”-180 -90 180 90”。geo=false即quad时，该值为Java double类型的正负边界，此时需要指定该值，设置成”-180 -90 180 90”。<h3 id="Solr_spatial的类框架图">Solr spatial的类框架图</h3>
+<img src="http://d.pcs.baidu.com/thumbnail/525b414d616cd5d8bb0570ece9f1b70c?fid=3809902540-250528-656032329766340&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-5sT4%2F9jcrqWxSCjd2waLZcdb4T8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=935693678&amp;size=c850_u580&amp;quality=100" alt="solr spatial类图"></li>
+</ul>
+<h3 id="各类作用说明：">各类作用说明：</h3>
+<h4 id="lucene实现的：">lucene实现的：</h4>
+<ul>
+<li>SpatialStrategy: 空间索引的核心，用来创建 索引域 以及 查询Query、查询Filter，以及用于score=distance等的打分策略(DistanceValueSource)。</li>
+<li>SpatialPrefixTree: 其子类为GeohashPrefixTree和QuadPrefixTree。其主要用于获得索引Level、深度遍历获得与目标Shape相交的Cell，以及将token字符串与Cell间的相互转换。GeohashPrefix.GhCell (下层32个子结点，因为geohash每位代表5bit，2^5=32, 经度3bit，纬度2bit)和QuadPrefixTree.QuadCell(下层4个子结点)均是用于获得与目标Shape相交的下一层子cell。</li>
+<li>SpatialPrefixTreeFactory:初始化maxLevels, 通过makeSPT()方法创建SpatialPrefixTree对象(grid)</li>
+</ul>
+<h4 id="spatial4j/jts实现的：">spatial4j/jts实现的：</h4>
+<ul>
+<li>SpatialContext: 用于获得距离计算Calculator以及解析形状等。其属于spatial4j包中，该包中还有各种Shape及判断各Shape间的相交情况。JtsSpatialContext(jts包)用于处理多边形等情况。</li>
+</ul>
+<h4 id="solr实现的：">solr实现的：</h4>
+<ul>
+<li>AbstractSpatialFieldType:用于获得相应的Strategy，获得相应的索引域、查询Query。</li>
+</ul>
+<h2 id="创建空间索引">创建空间索引</h2>
+<h3 id="索引结构">索引结构</h3>
+<p>geohash模式的索引结构分成Point和非Point。下图为索引结构示意图(为方便起见只画了6层, 蓝色为Point，黄色为非Point)：<br>note: d=5的未画出的其他分支…</p>
+<p><img src="http://d.pcs.baidu.com/thumbnail/1f8fc467533002558a5ffe94b146f7d1?fid=3809902540-250528-559740344400821&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-GSW7UAxe1I7MQycZAFCuSWVZa7M%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=887575405&amp;size=c850_u580&amp;quality=100" alt="solr Spatial索引结构"></p>
+<ul>
+<li>Point<br>如经纬度41.79452,123.41555，对应的geohash为wxrvb2kqexu(maxLevels=11), 则其对应的term有11个(如w、wx、wxr、wxrv…，存储了前缀，牺牲索引加快查询速度)。</li>
+<li>非Point<br>如Polygon。非Point的索引中有leaf叶子结点的概念，比如wtxrvb包含在Polygon中，则该cell为leaf，生成term时会有wtxrvb与wtxrvb+(+是leaf的标志)。</li>
+</ul>
+<h3 id="空间索引创建流程">空间索引创建流程</h3>
+<p><img src="http://d.pcs.baidu.com/thumbnail/fdefa9d009fd03de1aa56dd72941ae99?fid=3809902540-250528-316561493786033&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-rjLwzQdZVlxZFPerHths5VJwJTc%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=310846834&amp;size=c850_u580&amp;quality=100" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="http://d.pcs.baidu.com/thumbnail/1081205675f505e44a5da8506a78e60e?fid=3809902540-250528-83708255641820&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-8oE1Ll2aE6NED2YsZbu0E6vNNd8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=935556342&amp;size=c850_u580&amp;quality=100" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
+<h2 id="空间索引查询">空间索引查询</h2>
+<h3 id="查询语法">查询语法</h3>
+<pre><code><span class="setting">q=<span class="value">{!geofilt pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
+<span class="setting">q=<span class="value">{!bbox pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
+<span class="setting">q=<span class="value">geo:<span class="string">"Intersects(-74.093 41.042 -69.347 44.558)"</span></span></span>
+<span class="setting">q=<span class="value">geo:<span class="string">"Intersects(POLYGON((-10 30, -40 40, -10 -20, 40 20, 0 0, -10 30)))"</span></span></span>
+</code></pre><h3 id="查询方法">查询方法</h3>
+<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="http://d.pcs.baidu.com/thumbnail/aee1561e1cf81f90167e9e89fce14688?fid=3809902540-250528-66230369459728&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-4QG4vKd8NplRMQSZN6CbzkXz68M%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=440662057&amp;size=c850_u580&amp;quality=100" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="http://d.pcs.baidu.com/thumbnail/0d3e4c4b23dedb01d9b54a31183bd81b?fid=3809902540-250528-125366649033453&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-qQqwAg9D9sSZ3RjYgzpiPRC52X8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=773115614&amp;size=c850_u580&amp;quality=100" alt="solr空间索引查询示意图"></p>
+<h3 id="空间索引查询流程">空间索引查询流程</h3>
+<p><img src="http://d.pcs.baidu.com/thumbnail/29133b025bac876352fafff305016e65?fid=3809902540-250528-143007737502964&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-oOHNL2Ejlv9BLPB9TW222CMBFns%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=698951542&amp;size=c850_u580&amp;quality=100" alt="空间索引查询流程"><br>上图以geofilt查询为例，其中分成有score=distance和无score=distance两种情况。</p>
+<ul>
+<li>先介绍不需要score的情况：<br>1、解析查询，生成Query树：获得相应的QParse, 对geofilt进行语法解析，获得geofilt的各个参数，并且获得相应的查询Query(ConstantScoreQuery)包括相应的Filter(IntersectsPrefixTreeFilter)，其中也计算了查询Shape的一些属性，如最大索引长度detailLevel。<br>2、查询：SolrIndexSearch.search()进行创建Weight树和Score树。利用IntersectsPrefixTreeFilter得到符合条件的docIdSet(调用了前面的VistorTemplate深度遍历策略)。由于不需要score，所以Score返回的是ConstantScorer。</li>
+<li>需要score的情况(大坑，要缓存所有term对应的docId及对应的geohash中心点)，只说明score=distance,score=recipDistance图中已经说明：<br>基本流程和上面一致。说明下主要不同的地方：</li>
+<li>Query对象：其创建的是FilteredQuery，其中有几个属性关系到打分：<pre><code>a、ShapeFieldCacheDistanceValueSource: 用于生成FuncitonValues对象来给各个doc打分，只用于计算<span class="keyword">Point</span>类的doc，非<span class="keyword">Point</span>类的doc都打<span class="number">180</span>分(即非<span class="keyword">Point</span>都是最近的)。其主要属性PointPrefixTreeFieldCacheProvider缓存了所有<span class="keyword">Point</span>类doc的docId–&gt;point所在geohash的中心点(大坑之所在)。
+b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等主要用于空间索引的打分操作。
+</code></pre></li>
+<li>Scorer.score()调用的是AllScorer.score(): 解析出符合条件的docId，然后通过ShapeFieldCacheDistanceValueSource生成的FunctionValues得到docId对应的中心点，计算与查询Shape中心的距离来作为score。再放到优先队列中进行排序，从而实现按score排序的功能。</li>
+</ul>
+<h3 id="一些主要类说明：">一些主要类说明：</h3>
+<ul>
+<li>FunctionValues: 其floatVal(docId)用于计算两点距离(非Point默认最近)，调用provider的cache来获得各个docId的中心点坐标。</li>
+<li>ShapeFieldCacheDistanceValueSource: 生成的FunctionWeight。</li>
+<li>ShapeFieldCache(大坑,文档里说以后会替换这块):缓存了docId—&gt;其term对应的Cell的中心点。cache[docId]=ArrayList。</li>
+<li>PointPrefixTreeFieldCacheProvider:管理ShapeFieldCache。(只支持Point)</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="q6djm0cpibltpmyo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mapreduce在相似度计算中的应用及优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/" class="article-date">
+  <time datetime="2014-04-11T03:36:54.000Z" itemprop="datePublished">Apr 11 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>需求：计算用户的相似度，有用户列表U和特征列表F以及用户和特征的关系<U,F>。 根据<U1,Fn> ∩ <U2, Fm>的交集数来判断U1和U2的相似度。<br>解决方法：</p>
+<h2 id="一、用户维度的Join">一、用户维度的Join</h2>
+<p>最暴力低效的方法，因为用户量一般很大，所以join效率极低。一般不考虑。</p>
+<h2 id="二、特征维度">二、特征维度</h2>
+<p>将用户对特征的矩阵转成特征对用户的矩阵。</p>
+<h3 id="1、转成特征对用户的矩阵：F1-&gt;U1…Un">1、转成特征对用户的矩阵：F1-&gt;U1…Un</h3>
+<pre><code><span class="attribute">map</span>: <span class="string">context.write(F, U)</span>
+<span class="attribute">reduce</span>: <span class="string">context.write(F,List&lt;U&gt;)</span>
+</code></pre><h3 id="2、计算相似度">2、计算相似度</h3>
+<p>各种解决方案如下：</p>
+<h4 id="(1)直接输出UxUy_pair(IO密集型)">(1)直接输出UxUy pair(IO密集型)</h4>
+<p>map:  将user list拆成各user pair对并输出，具体如下所示范例(代码只是伪码)：</p>
+<pre><code>String data[] = value.toSting().<span class="keyword">split</span>(<span class="string">"\t"</span>);
+String users[] = data[<span class="number">1</span>].<span class="keyword">split</span>(<span class="string">","</span>);<span class="regexp">//user</span>间以,分隔
+<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; users.<span class="keyword">length</span>; i ++){
+   <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; users.<span class="keyword">length</span>; j ++){
+        <span class="regexp">//</span>判断users[i]与users[j]的大小 
+      context.<span class="keyword">write</span>(users[i]+<span class="string">"_"</span>+users[j], <span class="number">1</span>);<span class="regexp">//</span>这里要加上users[i]与users[j]大小的判断，小放前，大放后，便于后面的操作
+    }
+}
+</code></pre><p>reduce: 对每个user pair的value list进行求和，即是这两个用户的相似度<br>缺点：map端输出的user pair很多(O(N*N))，使reducer的shuffle成为瓶颈</p>
+<h4 id="(2)按各user进行聚合(计算密集型)">(2)按各user进行聚合(计算密集型)</h4>
+<p><u1,u3,u5,u2>，按(1)的输出是<u1_u3-->1&gt;,  <u1_u5-->1&gt;,  <u1_u2-->1&gt;, <u3_u5-->1&gt;, <u3_u2-->1&gt;,<u5_u2-->1&gt;。  (1是次数)<br>按user聚合的结果是：<u1-->u2,u3,u5&gt; ,<u2-->u3,u5&gt;,<u3-->u5&gt;，输出数为N(U)-1。<br>该方案需要对user list进行排序，便于后面reduce进行按userid聚合，如一个user list输出的是<u1-->u2,u3,u5&gt;，另一个是<u1-->u3,u5&gt;,这样reduce时就是u1-&gt;u2,u3,u5,u3,u5。<br>而如果不排序的话就需要再弄一个job进行操作：如<u1-->u2,u3,u5&gt;, <u2-->u1,u3,u5&gt; 。 这样会得到<u1_u2>与<u2_u1>，还需要job进行一次合并求和处理。<br>mapper:</p>
+<pre><code>StringBuilder uuidListStr = new StringBuilder();
+String data[] = value.toString().<span class="keyword">split</span>(<span class="string">"\t"</span>);
+String uuidArr[] = data[<span class="number">1</span>].<span class="keyword">split</span>(<span class="string">","</span>);
+Arrays.<span class="keyword">sort</span>(uuidArr);
+<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; uuidArr.<span class="keyword">length</span>; i ++){
+    <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; uuidArr.<span class="keyword">length</span>; j ++){
+        uuidListStr.append(uuidArr[j]).append(<span class="string">","</span>);
+    }
+    <span class="keyword">if</span>(uuidListStr.<span class="keyword">length</span>() &gt; <span class="number">0</span>){
+        uuidListStr.deleteCharAt(uuidListStr.<span class="keyword">length</span>() - <span class="number">1</span>);
+        context.<span class="keyword">write</span>(new Text(uuidArr[i]), new Text(uuidListStr.toString()));
+        uuidListStr = new StringBuilder();
+    }
+}        
+</code></pre><p>reduce: 会得到u1-&gt;u2,u3,u5,u3,u5,  计算values中各用户出现的个数<ux,count>, 然后输出count&gt;即可</p>
+<pre><code><span class="comment">//利用hashMap来管理各user的次数</span>
+Map&lt;<span class="built_in">String</span>, Integer&gt; countMap = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, Integer&gt;();
+<span class="keyword">for</span> (Text v : values) { <span class="comment">//每个v都是u1,u2,u3这样的形式</span>
+    uuids = v.toString().split(<span class="string">","</span>);
+    <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; uuids.length; i++) {
+        uuid = uuids[i];
+        tmp = countMap.get(uuid);
+        <span class="keyword">if</span> (<span class="literal">null</span> == tmp) {
+            countMap.put(uuid, <span class="keyword">new</span> Integer(<span class="number">1</span>));
+        } <span class="keyword">else</span> {
+            countMap.put(uuid, tmp + <span class="number">1</span>);
+        }
+    }
+}
+<span class="keyword">for</span> (Map.Entry&lt;<span class="built_in">String</span>, Integer&gt; entry : countMap.entrySet()) {
+    context.write(<span class="keyword">new</span> Text(key.toString() + <span class="string">"_"</span> + entry.getKey()), <span class="keyword">new</span> IntWritable(entry.getValue()));
+}
+</code></pre><p>该方案有个瓶颈是map中自己实现的排序，可能某个F下用户数特别大，会造成数据倾斜，有的user list特别大，排序花费时间长，导致整个任务变慢(计算密集型)。一种思路是将splitSize变小，如从默认的64M变成8M，这样InputSplit数将变多，即Mapper变多，各个Mapper处理的数据量变小，充分发挥并行的优势。<br>具体设置splitSize的代码：</p>
+<pre><code>//splitSize = max(minSize, min(maxSize, blockSize))
+conf.<span class="operator"><span class="keyword">set</span>(<span class="string">"mapred.min.split.size"</span>, <span class="number">8</span> * <span class="number">1024</span> * <span class="number">1024</span> + <span class="string">""</span>);</span>
+conf.<span class="operator"><span class="keyword">set</span>(<span class="string">"mapred.max.split.size"</span>, <span class="number">8</span> * <span class="number">1024</span> * <span class="number">1024</span> + <span class="string">""</span>);</span>
+</code></pre><h4 id="(3)排序放到Reducer端">(3)排序放到Reducer端</h4>
+<p>在转置特征对用户的矩阵的job中reduce已经得到了各F的user list，则可以直接对user list进行排序并输出按user聚合的结果。</p>
+<h5 id="a、reduce方法中对user_list进行排序">a、reduce方法中对user list进行排序</h5>
+<p>会遇到和(2)方案中一样的数据倾斜问题，且无法像(2)那样减少splitSize来减少各Mapper的处理数据量，增大Mapper数。 该方案一般会作死，数据量大时不用考虑。</p>
+<h5 id="b、利用Reducer的Sort功能">b、利用Reducer的Sort功能</h5>
+<p>需要覆盖的类：<br>MapOutputKey：其中的compareTo用于map/reduce各阶段进行排序的依据<br>Partitioner: 用于partition分到哪个区<br>GroupingComparator：用于reduce的sort—&gt;reduce中 key迭代时的分组。<br>Reducer的各阶段为：Shuffle/Merge,  Sort, Reduce, Output。其中Sort与Reduce是并行的。Sort迭代遍历得到的记录会进行grouping,从而得到reduce方法中的values。<br>Sort会将各文件按Key(MapOutputKey)的大小建最小堆，每取一个最小Key的记录, 都会到GroupingComparator进行判断(具体源码没研究，不过这里面的实现应该是会保存上一个记录的Key, 如果当前记录与上一Key 通过GroupingComparator方法得到的结果是一样的话，则把当前记录加到group的记录列表中，该列表元素顺序是按插入顺序的；如果不一样的话，就将Key以前列表的数据传到reduce方法，并清空group的记录列表)<br>我们可以创建自己的MapOutputKey</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> GeoMapOutputKey implements Writable,WritableComparable&lt;GeoMapOutputKey&gt; {
+    <span class="keyword">private</span> Text geohash = <span class="keyword">new</span> Text();<span class="comment">//相当于Feature</span>
+    <span class="keyword">private</span> Text uuid = <span class="keyword">new</span> Text();  <span class="comment">//相当于user</span>
+    <span class="keyword">public</span> <span class="title">GeoMapOutputKey</span>(){}
+    <span class="keyword">public</span> <span class="title">GeoMapOutputKey</span>(String geohash, String uuid){
+        <span class="keyword">this</span>.geohash.<span class="keyword">set</span>(geohash);
+        <span class="keyword">this</span>.uuid.<span class="keyword">set</span>(uuid);
+    }
+    <span class="keyword">public</span> Text <span class="title">getGeohash</span>() {
+        <span class="keyword">return</span> geohash;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGeohash</span>(Text geohash) {
+        <span class="keyword">this</span>.geohash = geohash;
+    }
+    <span class="keyword">public</span> Text <span class="title">getUuid</span>() {
+        <span class="keyword">return</span> uuid;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUuid</span>(Text uuid) {
+        <span class="keyword">this</span>.uuid = uuid;
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span>(DataOutput dataOutput) throws IOException {
+        geohash.write(dataOutput);
+        uuid.write(dataOutput);
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span>(DataInput dataInput) throws IOException {
+        geohash.readFields(dataInput);
+        uuid.readFields(dataInput);
+    }
+    @Override
+    <span class="comment">//重点是这个compareTo方法，会先根据geohash进行排序，再根据uuid进行排序</span>
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span>(GeoMapOutputKey o) {
+        <span class="keyword">int</span> compareValue = <span class="keyword">this</span>.geohash.compareTo(o.geohash);
+        <span class="keyword">if</span>(compareValue == <span class="number">0</span>){
+            compareValue = <span class="keyword">this</span>.uuid.compareTo(o.uuid);
+        }
+        <span class="keyword">return</span> compareValue;
+    }
+    @Override
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span>() {
+        <span class="keyword">return</span> geohash.hashCode() * <span class="number">163</span> + uuid.hashCode() * <span class="number">163</span>;
+    }
+    @Override
+    <span class="keyword">public</span> boolean <span class="title">equals</span>(Object o) {
+        <span class="keyword">if</span> (o instanceof GeoMapOutputKey) {
+            GeoMapOutputKey ok = (GeoMapOutputKey) o;
+            <span class="keyword">return</span> geohash.equals(ok.getGeohash()) &amp;&amp; uuid.equals(ok.getUuid());
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    @Override
+    <span class="keyword">public</span> String <span class="title">toString</span>() {
+        <span class="keyword">return</span> geohash + <span class="string">"\t"</span> + uuid;
+    }
+}
+</code></pre><p>通过这个GeoMapOutputKey，就可以保存先按Feature进行排序，再按user进行排序。(map输出有N行记录，Reducer默认情况下也要对这N行记录进行compare，所以性能没有什么影响)。<br>Mapper的map阶段的输出会调用Partitioner方法进行决定分区，默认情况下会按feature+user进行分区，我们需要按Feature进行分区，所以要覆盖：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeoPartitioner</span> <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">Partitioner</span>&lt;<span class="title">GeoMapOutputKey</span>, <span class="title">Text</span>&gt; {</span>
+    @Override
+    <span class="keyword">public</span> <span class="keyword">int</span> getPartition(GeoMapOutputKey geoMapOutputKey, Text text, <span class="keyword">int</span> numPartitions) {
+   <span class="comment">//这里的geohash就是feature</span>
+        <span class="keyword">return</span> Math.abs(geoMapOutputKey.getGeohash().hashCode()) % numPartitions;
+    }
+}
+</code></pre><p>默认情况下Reducer的GroupingComparator会按Key进行grouping聚合操作，这样reduce方法中的key就是feature_u1这样的，没多大帮助，所以我们要自定义GroupingComparator，让相同feature的聚合在一起，即reduce方法中的key是feature。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeoGroupingComparator</span> <span class="keyword">extends</span> <span class="title">WritableComparator</span> {</span>
+    <span class="keyword">protected</span> <span class="title">GeoGroupingComparator</span>() {
+        <span class="keyword">super</span>(GeoMapOutputKey.class, <span class="keyword">true</span>);
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span>(WritableComparable a, WritableComparable b) {
+        GeoMapOutputKey ok1 = (GeoMapOutputKey) a;
+        GeoMapOutputKey ok2 = (GeoMapOutputKey) b;
+        <span class="comment">//这里只对feature进行比较，即会按feature进行grouping聚合</span>
+        <span class="keyword">return</span> ok1.getGeohash().compareTo(ok2.getGeohash());
+    }
+}
+</code></pre><p>设置这两个类的代码：</p>
+<pre><code>job<span class="preprocessor">.setMapOutputKeyClass</span>(GeoMapOutputKey<span class="preprocessor">.class</span>)<span class="comment">;</span>
+job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComparator<span class="preprocessor">.class</span>)<span class="comment">;</span>
+</code></pre><p>通过这样的设置，就可以实现Sort最小堆是按先feature再user进行排序，而聚合时又是按feature进行聚合。<br>reduce中的key是<F,u1>,<F,u2>,<F,u5>中的某一个(第一个?)，value是<u1,u2,u5><br>这个job的输出是U1–&gt;u2,u3,u5这样的形式。<br>下一个job的mapper只要context(“u1”,”u2,u3,u5”)，而reducer和(2)中的reducer操作一样。</p>
+<p>第(3)种方案是最优的，处理速度比前面的高效很多。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="3jau0jf8snluxsyg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-first" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/04/01/first/" class="article-date">
@@ -94,15 +477,24 @@
 <h2 id="关于我">关于我</h2>
 <p><a href="http://dataknocker.github.io" target="_blank">我的其他博客</a></p>
 <h1 id="我的代码">我的代码</h1>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
+  <span class="keyword">val</span> x = a
+  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
+  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
+}
+</code></pre><blockquote>
+<p>这是图片</p>
+</blockquote>
+<p><img src="img/y.jpg" alt="solr空间索引查询过程"></p>
 <blockquote>
-<p>这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：<br>这是很好的<br>还有以后会添加很多相应的例子<br>    class M(a:Int) {<br>      val x = a<br>      def +(that:M)= new M(this.x + that.x)<br>      def <em>(that:M)= new M(this.x </em> that.x)<br>    }</p>
+<p>这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：<br>这是很好的<br>还有以后会添加很多相应的例子</p>
 </blockquote>
 <p>&amp;copy wangzejie</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="445aszxjrr86z65w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="ux3bcgub7kn40t4w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -134,11 +526,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<h1 id="MapReduce在相似度计算中的应用及优化">MapReduce在相似度计算中的应用及优化</h1>
+</blockquote>
+<p>map: context.write(F, U)<br>reduce: context.write(F, List(U))</p>
+<h3 id="1、计算相似度">1、计算相似度</h3>
+<p>各种解决方案如下：</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="vzernsgf0t5ivgmj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="1c5gqc5651pe4bu4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="kuvmylznm5y97cry" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="672awjdhsc3qn2ql" class="article-share-link">Share</a>
       
       
     </footer>
@@ -200,7 +598,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -212,15 +610,23 @@
       <ul>
         
           <li>
+            <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
+          </li>
+        
+          <li>
             <a href="/2014/04/01/first/">first</a>
           </li>
         
           <li>
             <a href="/2014/04/01/test/">Test</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/hello-world/">Hello World</a>
           </li>
         
       </ul>
