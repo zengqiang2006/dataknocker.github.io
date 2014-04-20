@@ -114,12 +114,12 @@ val d3 = d1 zip d4</span>
 <p>30、val (n,r)=(1,10)  可以这样赋值，后面就可以使用n和r</p>
 <p>31、 def hello(){“Hello”} //返回是Unit,  加上等号后结果就是String</p>
 <h2 id="类：">类：</h2>
-<p>1、如果没有发现任何显式的返回语句,Scala 方法将返回方法中最后一个计<br>算得到的值。可以加上return<br>2、方法参数都是val的，不能被修改<br>3、var t = new MyClass 或new MyClass()都可以<br>   class Myclass{<br>    var x=0;  //默认是public, 可以加上private等修饰<br>        def sum(y:Int)=x+=y<br>              def getX()=x<br>    }<br>   如果方法无参数，则调用时可以把()省略，如t.getX<br>4、带有大括号但没有等号的,在本质上当作是显式定义结果类型为 Unit 的方法<br>      def test(){“abc”} 最后返回是()Unit<br>     目前已经不支持这样的语法：<br>    def test(){“abc”}或def test():Unit=“abc”都是不行的<br>5、<br>(1) A.add(1)  可以变成中间操作符： A add 1   </p>
+<p>1、如果没有发现任何显式的返回语句,Scala 方法将返回方法中最后一个计<br>算得到的值。可以加上return<br>2、方法参数都是val的，不能被修改<br>3、var t = new MyClass 或new MyClass()都可以<br>   class Myclass{<br>  var x=0;  //默认是public, 可以加上private等修饰<br>        def sum(y:Int)=x+=y<br>              def getX()=x<br>    }<br>   如果方法无参数，则调用时可以把()省略，如t.getX<br>4、带有大括号但没有等号的,在本质上当作是显式定义结果类型为 Unit 的方法<br>      def test(){“abc”} 最后返回是()Unit<br>     目前已经不支持这样的语法：<br>    def test(){“abc”}或def test():Unit=“abc”都是不行的<br>5、<br>(1) A.add(1)  可以变成中间操作符： A add 1   </p>
 <p>两个参数的  A max (1,2,3) 要用()来括起参数</p>
 <p>(2) </p>
 <pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyTest</span>{</span>
 
-     <span class="function"><span class="keyword">def</span> </span>unary<span class="number">_</span>-()=<span class="string">"abc"</span>
+  <span class="function"><span class="keyword">def</span> </span>unary<span class="number">_</span>-()=<span class="string">"abc"</span>
 
   }
 </code></pre><p>则可以使用  var d=new MyTest      -d的结果就是abc, 这样的前缀操作符</p>
@@ -297,7 +297,7 @@ test(t:_*)
 
 }</span>
 </code></pre><p>27、子类声明和父类一样的方法或属性时一定要加override</p>
-<p>28、object和静态类一样，里面的每一个属性方法都是静态的</p>
+<p>28、object和静态类一样，里面的每一个属性方法都是静态的<br>单例的apply</p>
 <pre><code><span class="comment">//单实例对象</span>
 <span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span> <span class="title">private</span>{</span>  <span class="comment">//private使主构造器成为私有， class SingleInstance private(val name:String)</span>
 }
@@ -315,6 +315,13 @@ test(t:_*)
   println(a)
   println(b)
 }
+</code></pre><p>类的apply</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span>{</span>
+  <span class="keyword">def</span> apply()=<span class="string">"Hello"</span>
+}  
+
+<span class="keyword">val</span> a = <span class="keyword">new</span>  SingleInstance
+a() <span class="comment">//此时调用的就是apply</span>
 </code></pre><h2 id="特质trait">特质trait</h2>
 <p>1、</p>
 <pre><code><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span>{</span>
@@ -404,14 +411,14 @@ val t = x match{
       n =&gt; <span class="string">"Hello "</span> + n   <span class="comment">//可以改成"Hello " + _</span>
     }
 </code></pre><h2 id="异常：">异常：</h2>
-<pre><code><span class="keyword">try</span> {            
-  val f = <span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>)            
+<pre><code><span class="keyword">try</span> {     
+  val f = <span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>)     
   <span class="comment">// Use and close file</span>
 thrown <span class="keyword">new</span> <span class="keyword">Exception</span>()
 } <span class="keyword">catch</span> {
   <span class="keyword">case</span> ex: FileNotFoundException =&gt; println(“Hello<span class="string">") // Handle missing file
   case ex: IOException =&gt; // Handle other I/O error
-｝finally{}            
+｝finally{}      
 
 def f(): Int = try { return 1 } finally { return 2 }   //返回2
 def g(): Int = try { 1 } finally { 2 } //返回1</span>
@@ -419,7 +426,7 @@ def g(): Int = try { 1 } finally { 2 } //返回1</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="4jxj059qt8rmaw56" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="6b0rncxn6yjy6qi1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -500,7 +507,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="zdezyr1rv6313oj0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="smd3h5jzscvfjp60" class="article-share-link">Share</a>
       
       
     </footer>
@@ -642,7 +649,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="jrh3nis0lulb794c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="7octm9q1sbum2c4m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -825,7 +832,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="8gs7etzde93fk9kw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="899gamm9d1z7s5ud" class="article-share-link">Share</a>
       
       
     </footer>
@@ -883,7 +890,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="s5wd2z6ydm4sg5z8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="vf5vqp8quq41mwbv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -925,7 +932,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="7kppnuq9whos0wgk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="68xwdqjn8g6fg594" class="article-share-link">Share</a>
       
       
     </footer>
@@ -962,7 +969,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="p63bx3ojbqpshfz3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="tlgl4z9dxglrx7c9" class="article-share-link">Share</a>
       
       
     </footer>
