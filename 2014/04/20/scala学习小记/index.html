@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DataKnocker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="og:type" content="blog">
+<meta name="og:title">
+<meta name="og:url" content="http://yoursite.com/2014/04/20/scala学习小记/">
+<meta name="og:image">
+<meta name="og:site_name" content="DataKnocker">
+<meta name="og:description" content="问题：
+1、统一访问原则，方法可以不带()2、闭包概念3、单例对象 object
+var x=1x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”
+基本
+1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)2、for(d&lt;-datas) print(d)3、1+2   (1)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">DataKnocker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">learn bigdata step by step</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-scala学习小记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/20/scala学习小记/" class="article-date">
+  <time datetime="2014-04-20T08:55:57.000Z" itemprop="datePublished">Apr 20 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题：">问题：</h2>
+<p>1、统一访问原则，方法可以不带()<br>2、闭包概念<br>3、单例对象 object</p>
+<p>var x=1<br>x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”</p>
+<h2 id="基本">基本</h2>
+<p>1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)<br>2、for(d&lt;-datas) print(d)<br>3、1+2   (1).+(2)<br>4、1::2::3::Nil 生成List(1,2,3)<br>5、1::list，将1添加到List的头<br>6、list1:::list2 将两个list合并<br>7、list.mkString(“,”)变成1,2,3<br>8、data.foreach(d=&gt;println(d))   data.foreach(println(<em>))  data.foreach(println)<br>9、array(0)即array.apply(0)  array(0)=1即array.update(0,1)<br>      Array(1,2,3)  即Array.apply(1,2,3)<br>10、List中的元素值是不可变的，即list(0)=1是会出错的，无update方法<br>       list.init()去掉头元素后的，tail()去掉尾元素， drop(2)去掉前2个等操作都不会改变原List，而是产生新list<br>       list.map(</em>+1) 每个结果都加1，也是产生新list<br>       list.foreach(println)</p>
+<p>11、Tuple:   var d = (1,”3”,”abc”) 即x: (Int, String) = (1,abc)<br>         d._1  d._2 d._3</p>
+<p>12、var list=List(123), list::list的结果是：   List[Any] = List(List(1, 2, 3), 1, 2, 3)<br>        其中每个元素都是Any，失去了List或Int的属性</p>
+<pre><code>    list.sortWith<span class="function"><span class="params">((a,b) =&gt; a&gt;b)</span>  按元素降序排</span>
+</code></pre><p>13、import scala.collection.immutable.Set  与scala.collection.mutable.Set  (HashSet也一样)<br>        不可变：  s1+=1 其实是s1=s1+1, 这样就产生了新的set并赋给s1，原先的s1并没有变   var t=s1+=1，t是Unit的，因为s1=s1+1无返回值<br>        可变： s1+=1 其实是s1.+=(1), 是在原s1进行修改. 即var x=s1+1， 这时x和s1是一样的，以后改变任何一个，另一个也跟着变(其实就是改同一个)<br>        缺省是不可变的</p>
+<p>14、-&gt;是scala任何对象都有的，即变成Tuple，如1-&gt;”abc” 结果是(1,”abc”)</p>
+<p>15、var m=Map<a href="">Int,String</a> 默认是不可变的，用HashMap时要import<br>        m+=(1-&gt;”abc”)    m(1)获得值即m.apply(1)<br>        m+=(1,”abc”)这样是不行的。。。<br>        可以这样初始化：var t=Map(1-&gt;”abc”,2-&gt;”cde”)<br>        可变与不可变与Set的一样</p>
+<pre><code>     可变时可以用map(1)=“abc”  来赋值即x.<span class="operator"><span class="keyword">update</span>(<span class="number">1</span>,”abc”)， 而不可变时则不能用，其没有<span class="keyword">update</span></span>
+</code></pre><p>16、指令式是使用var, 如while var i=1 等，  而函数式就是不用var，如for(d&lt;-data)<br>       def echo(name:String)=print(name)  可以不用指定结果<br>       但有递归时就要有返回值： def fin(n:Int):Int=if(n&lt;=0) 0 else n + fin(n-1)</p>
+<p>17、var t=“abc”*2 结果是abcabc</p>
+<p>18、Source.fromFile(“/Users/wangzejie/t1.txt”).getLines.toList<br>val longestLine = lines.reduceLeft(<br>  (a, b) =&gt; if (a.length &gt; b.length) a else b<br>)<br>得到lines中长度最大的元素<br>19、var d = “””  Hello World   “good” yes“”” 中间可以不用转义<br>20、var d=‘abc  结果是Symbol类，  d.name可以得到abc String<br>21、var d= !true    =后一定要有空格，不然会变成换行后面还要加内容<br>22、== 是看是否是null,不是的话就进行equal比较，和java的不一样<br>23、1 min 5    -1 abs<br>24、var x<em>:=1是不行的， var x</em>:加空格=1,则变量名是x<em>:<br>        var x</em>空格:Int=1才Ok…<br>25、Scala 的惯例是常数也用驼峰式风格,如 XOffset<br>26、如果使用了scala的保留字，如声明了for的方法，可以用<code>` ，如def</code>for<code>()=“abc” ,调用时</code>for`()<br>27、val x = if(!true) “abc” else 1   这样是可以的，x会根据返回的结果来决定用什么类型</p>
+<p>28、</p>
+<pre><code><span class="keyword">val</span> d1 = Array(<span class="string">"s"</span>,<span class="string">"b"</span>)
+<span class="keyword">val</span> d2 = Array(<span class="string">"n"</span>,<span class="string">"c"</span>)
+<span class="keyword">val</span> d3 = d1 zip d2
+</code></pre><p>d3的结果是Array((s,n),(b,c))</p>
+<p>如果两个操作数组的其中一个比另一个长,zip 将舍弃余下的元素</p>
+<pre><code><span class="keyword">val</span> d1 = Array(<span class="string">"s"</span>,<span class="string">"b"</span>)
+<span class="keyword">val</span> d4 = “a<span class="string">"
+val d3 = d1 zip d4</span>
+</code></pre><p>d3的结果是Array((s,a))</p>
+<p>29、 def hello(name:String=“abc”)={XXX}  //可以直接调用hello()时，会启用默认参数， 但hello不能用，因为hello其实是有参数的</p>
+<p>30、val (n,r)=(1,10)  可以这样赋值，后面就可以使用n和r</p>
+<p>31、 def hello(){“Hello”} //返回是Unit,  加上等号后结果就是String</p>
+<h2 id="类：">类：</h2>
+<p>1、如果没有发现任何显式的返回语句,Scala 方法将返回方法中最后一个计<br>算得到的值。可以加上return<br>2、方法参数都是val的，不能被修改<br>3、var t = new MyClass 或new MyClass()都可以<br>   class Myclass{<br>    var x=0;  //默认是public, 可以加上private等修饰<br>        def sum(y:Int)=x+=y<br>              def getX()=x<br>    }<br>   如果方法无参数，则调用时可以把()省略，如t.getX<br>4、带有大括号但没有等号的,在本质上当作是显式定义结果类型为 Unit 的方法<br>      def test(){“abc”} 最后返回是()Unit<br>     目前已经不支持这样的语法：<br>    def test(){“abc”}或def test():Unit=“abc”都是不行的<br>5、<br>(1) A.add(1)  可以变成中间操作符： A add 1   </p>
+<p>两个参数的  A max (1,2,3) 要用()来括起参数</p>
+<p>(2) </p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyTest</span>{</span>
+
+     <span class="function"><span class="keyword">def</span> </span>unary<span class="number">_</span>-()=<span class="string">"abc"</span>
+
+  }
+</code></pre><p>则可以使用  var d=new MyTest      -d的结果就是abc, 这样的前缀操作符</p>
+<p>前缀操作符目前只支持+ - ! ~ </p>
+<p>(3) 后缀操作符</p>
+<p>方法没有参数，A.toLowerCase()  可以用A.toLowerCase以及 A toLowerCase     </p>
+<p>6、class Test(a:Int){ println(a)}   在类内部可以使用a，但外部不能调用test.a，用的话还要是</p>
+<p>  class Test(a:Int){ val x:Int=a}  这样后才可以test.x来调</p>
+<p>7、</p>
+<pre><code>  class Test(<span class="operator">a</span>:Int){
+
+       def <span class="built_in">add</span>(b:Int)=<span class="operator">a</span>+b  <span class="comment"> //结果有return a+b</span>
+
+       def <span class="built_in">add</span>(b:Int)={<span class="operator">a</span>+b}  <span class="comment"> //结果有return a+b</span>
+
+       def <span class="built_in">add</span>(b:Int){<span class="operator">a</span>+b}  <span class="comment"> //结果是Unit， 其中使用return a+b是不行   只用return是可以的</span>
+
+  }
+</code></pre><p>8、this和java的用法一样</p>
+<p>9、方法或类中可以加 require(d != 0)  来规定参数一定要是非0</p>
+<p>10、</p>
+<pre><code><span class="keyword">def</span> toString=“abc”  没有参数的方法可以省略(),  toString是父类已经有的，重载它必须写<span class="keyword">override</span>
+
+<span class="keyword">def</span> hello=“Hello”  调用hello没问题，但调用hello()报错
+
+<span class="keyword">def</span> hello()=“Hello” 则两个都可以
+</code></pre><p>11、从构造器：最终都会调用到主构造器上</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(a:Int)</span>{</span><span class="comment">//主构造器</span>
+
+  <span class="keyword">def</span> <span class="keyword">this</span>()=<span class="keyword">this</span>(<span class="number">1</span>) <span class="comment">//从构造器</span>
+
+  <span class="keyword">def</span> value()=a
+
+  }
+</code></pre><p>12、</p>
+<pre><code><span class="class"><span class="keyword">object</span> <span class="title">MyClass</span>{</span>
+
+   <span class="keyword">def</span> main(args:Array[String]){ xxxx}       
+
+}   
+</code></pre><p>这样才能执行main,  如果object改成class，则该main方法无效</p>
+<p>13、类中定义了+ <em>后，也存在操作符优先级，即t1 + t2 </em> t3 也是先*再+</p>
+<p>14、</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
+
+  <span class="keyword">val</span> x = a
+
+  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
+
+  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
+
+ }
+</code></pre><p>  implicit def intToM(a : Int)=new M(a) 可以将int隐式转成M</p>
+<p>  即val t=new M(1)     t+1 或1+t的结果是M(2),   </p>
+<p>15、var t = <em> + 1   t(2)这样也是不行的，要改成var t = (</em> : Int) + 1</p>
+<pre><code>去掉:Int 只能在<span class="operator">a</span>.<span class="built_in">filter</span>(x=&gt;x+<span class="number">1</span>)  <span class="operator">a</span>.<span class="built_in">filter</span>(_+<span class="number">1</span>)这样的方法中
+</code></pre><p>16、偏应用函数</p>
+<pre><code>def <span class="built_in">sum</span>(<span class="operator">a</span>:Int, b:Int, c:Int)=<span class="operator">a</span>+b+c
+
+val s = <span class="built_in">sum</span> _
+
+s(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)
+
+val s1 = <span class="built_in">sum</span>(<span class="number">1</span>,_ : Int,<span class="number">3</span>)
+
+val s2 = <span class="built_in">sum</span>(<span class="number">8</span>,_ : Int,<span class="number">3</span>)
+
+println(s1(<span class="number">9</span>))
+
+println(s2(<span class="number">9</span>))
+</code></pre><p>17、闭包  </p>
+<pre><code>val more=<span class="number">1</span>
+
+val f1 = x<span class="function"> =&gt;</span> x+more    <span class="regexp">//</span>这样是不行的，要改成val <span class="function"><span class="title">f1</span> = <span class="params">(x :Int)</span> =&gt;</span> x+more
+
+def test<span class="function"><span class="params">(more:Int)</span>=<span class="params">(x:Int)</span>=&gt;</span>x+more
+
+val t1 = test(<span class="number">10</span>)
+
+val t2 = test(<span class="number">5</span>)
+
+println(t1(<span class="number">1</span>)) <span class="regexp">//</span><span class="number">11</span>
+
+println(t2(<span class="number">1</span>)) <span class="regexp">//</span><span class="number">6</span>
+</code></pre><p>18、重复参数  参数后加*</p>
+<pre><code>def test(args:<span class="keyword">String</span>*)<span class="list">{
+
+  args.foreach(println)
+
+}</span>
+
+test(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c”)</span>
+</code></pre><p>但不能传入Array，要传入Array就要改成args:_* ，编译器会把args的每个元素当成参数</p>
+<pre><code>def test(args:<span class="keyword">String</span>*)<span class="list">{
+
+  args.foreach(println)
+
+}</span>
+
+val t = <span class="keyword">Array</span>(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>)
+
+test(t:_*)
+</code></pre><p>  test(“ABC”,t:_*,”ABC”)是不行的</p>
+<p>19、</p>
+<p>def x=1   </p>
+<p>println(x) 这样也是可以的，但println(x())不行</p>
+<p>def x()=1 时println(x)和println(x())都可以</p>
+<p>20、直接参数化字段</p>
+<pre><code><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MyObject</span>{</span>
+
+  <span class="keyword">def</span> hello : String
+
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(val hello: String)</span> <span class="keyword">extends</span> <span class="title">MyObject</span>{</span>
+
+}
+</code></pre><p>21、字段和方法是一类的，不能同名</p>
+<p>22、</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> {</span>
+
+  <span class="keyword">val</span> dangerous = <span class="keyword">false</span>
+}
+<span class="class"><span class="keyword">class</span> <span class="title">Tiger</span><span class="params">(
+  override val dangerous: Boolean,
+  private var age: Int
+)</span> <span class="keyword">extends</span> <span class="title">Cat</span></span>
+</code></pre><p>Tiger 的定义是以下包括重载成员 dangerous 和 private 成员 age 的类定义替代写法的简写:</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Tiger</span><span class="params">(param1: Boolean, param2: Int)</span> <span class="keyword">extends</span> <span class="title">Cat</span> {</span>
+  <span class="keyword">override</span> <span class="keyword">val</span> dangerous = param1
+  <span class="keyword">private</span> <span class="keyword">var</span> age = param2
+}
+</code></pre><p>23、final修饰使类不可被继承、方法不可被override</p>
+<p>24、Array a1, Array a2</p>
+<pre><code>    a1+a2报错， a1++a2，则将两个数组合并
+
+    <span class="keyword">Array</span> <span class="keyword">foreach</span>(println)时最后都有个()即Unit，但算长度等时不算这个值
+</code></pre><p>25、class A{ var name:String=_  //生成getter和setter,     val age=10  //只生成getter}</p>
+<p>26、</p>
+<pre><code><span class="keyword">class</span> A(val name:<span class="keyword">String</span>, val age:<span class="keyword">String</span>)<span class="comment">{//主构造器，其中的参数会被编译成参数
+
+        println(“Hello”)  //方法中的语句都会被执行一次
+
+}</span>
+
+   <span class="keyword">class</span> A(name:<span class="keyword">String</span>)<span class="comment">{// 没有val或var的话，相当于private[this] name，只在类内部可以使用
+
+ }</span>
+
+
+
+<span class="keyword">class</span> Person(<span class="keyword">var</span> name:<span class="keyword">String</span>, val age:Int)<span class="comment">{//声明成val后，就不能进行修改，如p.age=10，就报错
+
+  println("this is primary constructor.”)
+
+  age = 10 //这里报错
+
+  var gender : String = _   
+
+  def this(name:String, age:Int, gender:String){
+
+    this(name, age)  //一定要先调
+
+    this.gender = gender  //如果gender是val, 这里也编译不过去
+
+  }</span>
+
+}
+
+<span class="keyword">class</span> Student(name:<span class="keyword">String</span>,
+              age:Int<span class="comment">//这里不能加val，要加的话只能加override val, override var不行，要和父类的val一样</span>
+              val major:<span class="keyword">String</span>) extends Person(name, age)<span class="comment">{
+
+  println("this is a child constructor.")
+
+}</span>
+</code></pre><p>27、子类声明和父类一样的方法或属性时一定要加override</p>
+<p>28、object和静态类一样，里面的每一个属性方法都是静态的</p>
+<pre><code><span class="comment">//单实例对象</span>
+<span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span> <span class="title">private</span>{</span>  <span class="comment">//private使主构造器成为私有， class SingleInstance private(val name:String)</span>
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">SingleInstance</span> {</span>
+  <span class="keyword">private</span> <span class="keyword">val</span> instance = <span class="keyword">new</span> SingleInstance
+  <span class="keyword">def</span> apply() = instance  <span class="comment">//apply方法</span>
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
+  <span class="keyword">val</span> x = SingleInstance <span class="comment">//其实就是静态类</span>
+  <span class="keyword">val</span> a = SingleInstance() <span class="comment">//加()号会调用apply方法</span>
+  <span class="keyword">val</span> b = SingleInstance()
+  <span class="comment">//a和b是一样的</span>
+  println(a)
+  println(b)
+}
+</code></pre><h2 id="特质trait">特质trait</h2>
+<p>1、</p>
+<pre><code><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span>{</span>
+  <span class="keyword">def</span> logger{
+    println(<span class="string">"Logger"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">trait</span> <span class="title">ConsoleLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> logger{ <span class="comment">//因为Logger已经实现了，所以要加override，否则不用加</span>
+    println(<span class="string">"ConsoleLogger"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
+  <span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger  <span class="comment">//物质混入对象</span>
+  c.logger  <span class="comment">//调用ConsoleLogger</span>
+  <span class="keyword">val</span> x = <span class="keyword">new</span> MyTest <span class="keyword">with</span> Logger 
+  x.logger  <span class="comment">//调用ConsoleLogger，不会用Logger的，这里应该也会用子特质的</span>
+  <span class="keyword">val</span> d = <span class="keyword">new</span> MyTest   
+  d.logger   <span class="comment">//调用Logger</span>
+}
+</code></pre><p>如果类混入了某个特质X，有方法A，则对象混入另一个拥有方法A的特质Y时会报错，因为是方法冲突，除非X和Y有继承关系，或者X ext Y，或者Y ext X</p>
+<pre><code><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span>{</span>
+  <span class="keyword">def</span> logger{
+    println(<span class="string">"Logger"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">trait</span> <span class="title">ConsoleLogger</span>{</span>
+  <span class="keyword">def</span> logger{
+    println(<span class="string">"ConsoleLogger"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
+  <span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger
+  c.logger
+}
+</code></pre><p>报错：</p>
+<pre><code><span class="comment">//方法冲突</span>
+anonymous <span class="keyword">class</span> $anon inherits conflicting members:
+method logger <span class="keyword">in</span> trait Logger <span class="keyword">of</span> <span class="class"><span class="keyword">type</span> =</span>&gt; Unit  <span class="keyword">and</span>
+method logger <span class="keyword">in</span> trait ConsoleLogger <span class="keyword">of</span> <span class="class"><span class="keyword">type</span> =</span>&gt; Unit
+(Note: this can be resolved by declaring an <span class="keyword">override</span> <span class="keyword">in</span> anonymous <span class="keyword">class</span> $anon.)
+<span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger
+          ^
+</code></pre><p>如果Logger和ConsoleLogger的方法不一样，就不会有这个问题</p>
+<h2 id="控制语句：">控制语句：</h2>
+<p>1、if是有返回值的 val a=if(a&gt;b) a else b</p>
+<p>2、for(d&lt;-data if(d %2==0)) println(d)   可以直接在for中加条件进行过滤</p>
+<pre><code><span class="keyword">for</span> (
+      <span class="keyword">file</span> &lt;- filesHere
+      <span class="keyword">if</span> <span class="keyword">file</span>.isFile;
+      <span class="keyword">if</span> <span class="keyword">file</span>.getName.<span class="keyword">endsWith</span>(<span class="string">".scala"</span>)
+) println(<span class="keyword">file</span>)   
+</code></pre><p>for()换成for{}也是可以的。 使用()，这里面的要加; 使用{}则用换行，不需要;<br>嵌套循环：</p>
+<pre><code><span class="title">for</span>(d&lt;-<span class="typedef"><span class="keyword">data</span>;x&lt;-<span class="keyword">data</span> if<span class="container">(<span class="title">x</span>%2==1)</span>) println<span class="container">(<span class="title">d</span>*<span class="title">x</span>)</span></span>
+</code></pre><p>流间变量:</p>
+<pre><code><span class="title">for</span>(d&lt;-<span class="typedef"><span class="keyword">data</span>;x&lt;-<span class="keyword">data</span> if<span class="container">(<span class="title">x</span>%2==1)</span>;t=d+":") println<span class="container">(<span class="title">t</span> + <span class="title">d</span>*<span class="title">x</span>)</span>    //这里可以直接使用t</span>
+</code></pre><p>创建新集合： val t=for {子句} yield {循环体}    这样返回的是循环体中各元素产生的集合</p>
+<pre><code><span class="keyword">var</span> data=<span class="built_in">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>) ,  则val t=<span class="keyword">for</span>(d&lt;-data) <span class="keyword">yield</span> {d+<span class="number">1</span>} ， t的结果是<span class="built_in">Array</span>(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
+
+<span class="keyword">for</span> (file &lt;-filesHere <span class="keyword">if</span> file.getName.endsWith(<span class="string">".scala"</span>)) { <span class="keyword">yield</span> file <span class="comment">// 语法错误!}  这样的语法是错的</span>
+</code></pre><p>3、 (line = readLine()) != “”的坑</p>
+<pre><code>//这里再赋值时返回的是Unit，值 是(),  ()!=“”返回是<span class="constant">true</span>，将进入死循环
+var <span class="built_in">line</span> = <span class="string">""</span>
+<span class="keyword">while</span> ((<span class="built_in">line</span> = readLine()) != <span class="string">""</span>)<span class="comment"> // 不起作用</span>
+println(<span class="string">"Read: "</span>+ <span class="built_in">line</span>)     
+</code></pre><p>4、match,即java的switch</p>
+<pre><code><span class="comment">//match也可以赋值</span>
+val t = x match{
+  <span class="keyword">case</span> <span class="string">"abc"</span> =&gt; <span class="number">1</span> <span class="comment">//break被隐藏了</span>
+  <span class="keyword">case</span> <span class="string">"b"</span> =&gt;<span class="number">2</span>
+  <span class="keyword">case</span> _ =&gt; <span class="number">3</span> <span class="comment">//default</span>
+}
+</code></pre><p>   case中的都要是同一个类型的<br>5、scala中break和continue被取消，调整或多加if else 以及while的结果标识变量或使用递归可以达到相同的结果<br>6、val x=1<br>   val x=2是会报错的, 解释器里不会报错，因为实际上解释器创建了如下的shadow形式(val x=1  x=2，这样在解释器里也会报错)<br>但val x= 1<br>  {val x=2}是可以的，因为可以在内部遮蔽:shadow， 这时外部变量在内部范围不可见了<br> 但 val x=1<br>{x=2}是不行的</p>
+<p>7、方法一个参数时可以写在x(a)以及x{a}  ，x(a,b)两个参数时只能用小括号, 要改成使用{}的话，可以用curry</p>
+<pre><code>def test(name:<span class="built_in">String</span>)(func:<span class="built_in">String</span>=&gt;<span class="built_in">String</span>)=func(name)
+    test(<span class="string">"scala"</span>){
+      n =&gt; <span class="string">"Hello "</span> + n   <span class="comment">//可以改成"Hello " + _</span>
+    }
+</code></pre><h2 id="异常：">异常：</h2>
+<pre><code><span class="keyword">try</span> {            
+  val f = <span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>)            
+  <span class="comment">// Use and close file</span>
+thrown <span class="keyword">new</span> <span class="keyword">Exception</span>()
+} <span class="keyword">catch</span> {
+  <span class="keyword">case</span> ex: FileNotFoundException =&gt; println(“Hello<span class="string">") // Handle missing file
+  case ex: IOException =&gt; // Handle other I/O error
+｝finally{}            
+
+def f(): Int = try { return 1 } finally { return 2 }   //返回2
+def g(): Int = try { 1 } finally { 2 } //返回1</span>
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="5yr1um4q7jlqgprl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/04/14/spark安装及运行/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">spark安装及运行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/04/20/scala学习小记/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/01/first/">first</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 wangzejie<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

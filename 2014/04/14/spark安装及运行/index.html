@@ -11,13 +11,11 @@
 <meta name="og:image">
 <meta name="og:site_name" content="DataKnocker">
 <meta name="og:description" content="安装
-
-编辑 SPARK/etc/spark/conf/spark-env.sh:
-  STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01.jx.sankuai.com  DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop 
-
-
-
-将 SPARK/etc/spark/conf 拷到其他结点上.">
+-编辑 SPARK/etc/spark/conf/spark-env.sh:
+STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01.jx.sankuai.com
+DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop 
+-将 SPARK/etc/spark/conf 拷到其他结点上.
+-启动ma">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
@@ -91,32 +89,55 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="安装">安装</h2>
-<ul>
-<li><p>编辑 SPARK/etc/spark/conf/spark-env.sh:</p>
-<p>  STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01.jx.sankuai.com<br>  DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop </p>
-</li>
-</ul>
-<ul>
-<li><p>将 SPARK/etc/spark/conf 拷到其他结点上.</p>
-</li>
-<li><p>启动master:</p>
-<p>  /opt/cloudera/parcels/SPARK/lib/spark/sbin/start-master.sh</p>
-</li>
-<li><p>如果可以共同ssh的话，可以执行<br>  /opt/cloudera/parcels/SPARK/lib/spark/sbin/start-slaves.sh<br>否则就要在各workers上启动：<br>  /opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://jx-mobile-weibo01.jx.sankuai.com:7077</p>
-</li>
-</ul>
-<h2 id="spark_example">spark example</h2>
-<pre><code>./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.JavaSparkPi</span> –c <span class="number">1</span>
+<p>-编辑 SPARK/etc/spark/conf/spark-env.sh:</p>
+<pre><code>STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>
+DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop 
+</code></pre><p>-将 SPARK/etc/spark/conf 拷到其他结点上.</p>
+<p>-启动master:</p>
+<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/sbin/<span class="operator"><span class="keyword">start</span>-master.sh</span>
+</code></pre><p>-如果可以共同ssh的话，可以执行</p>
+<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/sbin/<span class="operator"><span class="keyword">start</span>-slaves.sh</span>
+</code></pre><p>否则就要在各workers上启动：</p>
+<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.worker</span><span class="preprocessor">.Worker</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span>
+</code></pre><h2 id="spark_example">spark example</h2>
+<p>spark跑任务命令<br>    ./bin/spark-class org.apache.spark.deploy.Client launch<br>    [client-options] \<br>    <cluster-url> <application-jar-url> <main-class> \<br>    [application-options]</p>
+<pre><code><span class="attribute">cluster-url</span>: <span class="string">The URL of the master node.</span>
+<span class="attribute">application-jar-url</span>: <span class="string">Path to a bundled jar including your application and all dependencies. Currently, the URL must be globally visible inside of your cluster, for instance, an `hdfs://` path or a `file://` path that is present on all nodes. </span>
+<span class="attribute">main-class</span>: <span class="string">The entry point for your application.</span>
 
-//本地文件要用file:///
+<span class="avrasm">Client Options:
+  --memory &lt;count&gt; (amount of memory, <span class="keyword">in</span> MB, allocated for your driver program)
+  --cores &lt;count&gt; (number of cores allocated for your driver program)
+  --supervise (whether to automatically restart your driver on application <span class="keyword">or</span> node failure)
+  --verbose (prints increased logging output)
+    ./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.JavaSparkPi</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> –c <span class="number">1</span>
+
+
+//官方文档: application-jar-url: Path to a bundled jar including your application <span class="keyword">and</span> all dependencies. Currently, the URL must be globally visible inside of your cluster, for instance, an `hdfs://` path <span class="keyword">or</span> a `file://` path that is present on all nodes.
+
+//本地文件要用file:///, 使用本地文件时要确保各机器相同路径下都要有相应的jar，否则会报找不到文件的错误
 ./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.HdfsTest</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test –c <span class="number">1</span>
+
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span>
+
+//所有可以将自己的jar放到hdfs上，让所有机器都可以访问到, 但这个在<span class="number">0.9</span><span class="number">.1</span>是个bug
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span></span>
 </code></pre><p><em>在examples/lib/加入自己的jar包后，程序会启不来，不管是Master还是Worker，报下面的错:</em></p>
 <pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="preprocessor">.lang</span><span class="preprocessor">.NoSuchMethodException</span>: akka<span class="preprocessor">.remote</span><span class="preprocessor">.RemoteActorRefProvider</span>.&lt;init&gt;(java<span class="preprocessor">.lang</span><span class="preprocessor">.String</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.ActorSystem</span>$Settings, akka<span class="preprocessor">.event</span><span class="preprocessor">.EventStream</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.Scheduler</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.DynamicAccess</span>)
-</code></pre>
+</code></pre><h2 id="application-jar-url_bug">application-jar-url bug</h2>
+<pre><code>./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span>
+</code></pre><p>异常：</p>
+<pre><code>Jar url <span class="string">'hdfs:///jx-mobile-weibo01.jx.sankuai.com:8020/user/root/spark-examples_2.10-0.9.0-cdh4.6.0.jar'</span> is <span class="operator">not</span> <span class="operator">a</span> valid <span class="built_in">URL</span>.
+Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <span class="built_in">format</span> (e.g. hdfs://XX, <span class="built_in">file</span>://XX)
+</code></pre><p><a href="http://apache-spark-user-list.1001560.n3.nabble.com/Unable-to-submit-an-application-to-standalone-cluster-which-on-hdfs-td1730.html" target="_blank">关于jar_url是hdfs://时的讨论</a><br><a href="https://github.com/cloudera/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/ClientArguments.scala" target="_blank">cloudear/spark上的bug源码</a><br><a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/ClientArguments.scala" target="_blank">apache/spark上的修改源码</a></p>
+<h2 id="小记">小记</h2>
+<h3 id="reduceByKey">reduceByKey</h3>
+<p>reduceByKey不是RDD的方法，而是PairRDDFunctions的方法，需要import org.apache.spark.SparkContext._ 才能实现RDD隐式转成PairRDDFunctions的功能<br><a href="http://mail-archives.apache.org/mod_mbox/spark-user/201311.mbox/%3C527C02F2.6090606@oracle.com%3E" target="_blank">解决方法</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="rci45p3x6qb41mr1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="musb9ituo12464wt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -124,6 +145,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2014/04/20/scala学习小记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2014/04/11/solr空间索引原理及源码分析/" id="article-nav-older" class="article-nav-link-wrap">
@@ -150,7 +180,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -160,6 +190,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/04/20/scala学习小记/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
@@ -175,10 +209,6 @@
         
           <li>
             <a href="/2014/04/01/first/">first</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/test/">Test</a>
           </li>
         
       </ul>
