@@ -93,7 +93,8 @@ var x=1x=“abc”这样是不行的，因为编译器已经认为x是Int了，�
 <h2 id="基本">基本</h2>
 <p>1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)<br>2、for(d&lt;-datas) print(d)<br>3、1+2   (1).+(2)<br>4、1::2::3::Nil 生成List(1,2,3)<br>5、1::list，将1添加到List的头<br>6、list1:::list2 将两个list合并<br>7、list.mkString(“,”)变成1,2,3<br>8、data.foreach(d=&gt;println(d))   data.foreach(println(<em>))  data.foreach(println)<br>9、array(0)即array.apply(0)  array(0)=1即array.update(0,1)<br>      Array(1,2,3)  即Array.apply(1,2,3)<br>10、List中的元素值是不可变的，即list(0)=1是会出错的，无update方法<br>       list.init()去掉头元素后的，tail()去掉尾元素， drop(2)去掉前2个等操作都不会改变原List，而是产生新list<br>       list.map(</em>+1) 每个结果都加1，也是产生新list<br>       list.foreach(println)</p>
 <p>11、Tuple:   var d = (1,”3”,”abc”) 即x: (Int, String) = (1,abc)<br>         d._1  d._2 d._3</p>
-<p>12、var list=List(123), list::list的结果是：   List[Any] = List(List(1, 2, 3), 1, 2, 3)<br>        其中每个元素都是Any，失去了List或Int的属性</p>
+<pre><code><span class="number">1</span>-&gt;<span class="number">2</span> 的结果是(<span class="number">1</span>,<span class="number">2</span>)
+</code></pre><p>12、var list=List(123), list::list的结果是：   List[Any] = List(List(1, 2, 3), 1, 2, 3)<br>        其中每个元素都是Any，失去了List或Int的属性</p>
 <pre><code>    list.sortWith<span class="function"><span class="params">((a,b) =&gt; a&gt;b)</span>  按元素降序排</span>
 </code></pre><p>13、import scala.collection.immutable.Set  与scala.collection.mutable.Set  (HashSet也一样)<br>        不可变：  s1+=1 其实是s1=s1+1, 这样就产生了新的set并赋给s1，原先的s1并没有变   var t=s1+=1，t是Unit的，因为s1=s1+1无返回值<br>        可变： s1+=1 其实是s1.+=(1), 是在原s1进行修改. 即var x=s1+1， 这时x和s1是一样的，以后改变任何一个，另一个也跟着变(其实就是改同一个)<br>        缺省是不可变的</p>
 <p>14、-&gt;是scala任何对象都有的，即变成Tuple，如1-&gt;”abc” 结果是(1,”abc”)</p>
@@ -115,7 +116,24 @@ val d3 = d1 zip d4</span>
 <p>29、 def hello(name:String=“abc”)={XXX}  //可以直接调用hello()时，会启用默认参数， 但hello不能用，因为hello其实是有参数的</p>
 <p>30、val (n,r)=(1,10)  可以这样赋值，后面就可以使用n和r</p>
 <p>31、 def hello(){“Hello”} //返回是Unit,  加上等号后结果就是String</p>
-<h2 id="类：">类：</h2>
+<p>32、集合List是在package.scala中定义的，val List=scala.collections.immulate.List</p>
+<p>33、val m = Map(1-&gt;2)   m(1)其实是m.get(1).get, m.get(1)的结果是Option[Int]=Some[Int], 后一个get其实是Some.get<br>    m(2)则会报错，因为m.get(2)的结果是Option[Int]=None, 而None没有get方法，所以会报错，改成m.get(2).getOrElse(3)，返回3，就能实现当key不存在时返回其他值</p>
+<p>34、<br>flatten</p>
+<pre><code>val d = <span class="keyword">List</span>(<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>),<span class="keyword">List</span>(<span class="number">3</span>,<span class="number">4</span>))
+d.flatten的结果是<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
+</code></pre><p>flatMap=flatten+map</p>
+<pre><code>d<span class="preprocessor">.flatMap</span>(_<span class="preprocessor">.map</span>(_+<span class="number">1</span>)) 结果是List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)
+</code></pre><p>partition:</p>
+<pre><code>val l = <span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
+val (x,y) = l.partition(_%<span class="number">2</span>==<span class="number">0</span>) 的结果是(<span class="keyword">List</span>(<span class="number">2</span>, <span class="number">4</span>),<span class="keyword">List</span>(<span class="number">1</span>, <span class="number">3</span>))  , x就是<span class="keyword">List</span>(<span class="number">2</span>,<span class="number">4</span>), y就是<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">3</span>)
+</code></pre><p>foreach ：方法声明是foreach<a href="f:Int=&gt;B">B</a>:Unit  这里先假设list是List[Int]</p>
+<pre><code>val d = <span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)  <span class="comment">//这里的d.foreach中B默认是Int,所以只能是返回Int, 使用Println时则要显示声明B为Unit</span>
+d.<span class="keyword">foreach</span>(println(_+<span class="number">1</span>)) <span class="comment">//错误</span>
+d.<span class="keyword">foreach</span>(x=&gt;println(x+<span class="number">1</span>)) <span class="comment">//错误</span>
+d.<span class="keyword">foreach</span>(x=&gt;x+<span class="number">1</span>) <span class="comment">//正确</span>
+d.<span class="keyword">foreach</span>[Unit](x=&gt;println(x+<span class="number">1</span>)) <span class="comment">//正确,显示声明B为Unit</span>
+val x = d.<span class="keyword">foreach</span>(_+<span class="number">1</span>)  <span class="comment">//x的结果是Unit，因为foreach返回值为Unit</span>
+</code></pre><h2 id="类：">类：</h2>
 <p>1、如果没有发现任何显式的返回语句,Scala 方法将返回方法中最后一个计<br>算得到的值。可以加上return<br>2、方法参数都是val的，不能被修改<br>3、var t = new MyClass 或new MyClass()都可以<br>   class Myclass{<br>  var x=0;  //默认是public, 可以加上private等修饰<br>        def sum(y:Int)=x+=y<br>              def getX()=x<br>    }<br>   如果方法无参数，则调用时可以把()省略，如t.getX<br>4、带有大括号但没有等号的,在本质上当作是显式定义结果类型为 Unit 的方法<br>      def test(){“abc”} 最后返回是()Unit<br>     目前已经不支持这样的语法：<br>    def test(){“abc”}或def test():Unit=“abc”都是不行的<br>5、<br>(1) A.add(1)  可以变成中间操作符： A add 1   </p>
 <p>两个参数的  A max (1,2,3) 要用()来括起参数</p>
 <p>(2) </p>
@@ -399,20 +417,37 @@ method logger <span class="keyword">in</span> trait ConsoleLogger <span class="k
 var <span class="built_in">line</span> = <span class="string">""</span>
 <span class="keyword">while</span> ((<span class="built_in">line</span> = readLine()) != <span class="string">""</span>)<span class="comment"> // 不起作用</span>
 println(<span class="string">"Read: "</span>+ <span class="built_in">line</span>)     
-</code></pre><p>4、match,即java的switch</p>
+</code></pre><p>4、模式匹配，match,即java的switch</p>
 <pre><code><span class="comment">//match也可以赋值</span>
 val t = x match{
   <span class="keyword">case</span> <span class="string">"abc"</span> =&gt; <span class="number">1</span> <span class="comment">//break被隐藏了</span>
   <span class="keyword">case</span> <span class="string">"b"</span> =&gt;<span class="number">2</span>
   <span class="keyword">case</span> _ =&gt; <span class="number">3</span> <span class="comment">//default</span>
 }
-</code></pre><p>   case中的都要是同一个类型的<br>5、scala中break和continue被取消，调整或多加if else 以及while的结果标识变量或使用递归可以达到相同的结果<br>6、val x=1<br>   val x=2是会报错的, 解释器里不会报错，因为实际上解释器创建了如下的shadow形式(val x=1  x=2，这样在解释器里也会报错)<br>但val x= 1<br>  {val x=2}是可以的，因为可以在内部遮蔽:shadow， 这时外部变量在内部范围不可见了<br> 但 val x=1<br>{x=2}是不行的</p>
+<span class="comment">//在match中加if</span>
+val a = <span class="number">1</span>
+val result = a match{
+  <span class="keyword">case</span> i <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span> =&gt; <span class="string">"EVE"</span>
+  <span class="keyword">case</span> i <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span> =&gt; <span class="string">"OOD"</span>
+  <span class="keyword">case</span> _=&gt;<span class="string">"Other"</span>
+}
+</code></pre><p>   case中的都要是同一个类型的</p>
+<p>   例外，用于判断对象类别<br>    //这时候就可以来判断不同类型<br>    def matchVal(obj:Any){<br>      obj match{<br>        case x : Int =&gt; println(“Int”)<br>        case x : String =&gt; println(“String”)<br>        case _ =&gt; println(“Other”)<br>      }<br>    }</p>
+<p>case class:</p>
+<pre><code><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Book</span> <span class="params">(name:String/*默认是val*/)</span></span>
+<span class="keyword">val</span> book = Book(<span class="string">"scala"</span>)  <span class="comment">//这里不需要用new,应用使用了object apply</span>
+book <span class="keyword">match</span>{
+  <span class="keyword">case</span> Book(name) =&gt; println(<span class="string">"This is a book"</span>)
+  <span class="keyword">case</span> _ =&gt; println(<span class="string">"Not a book."</span>)
+}
+</code></pre><p>5、scala中break和continue被取消，调整或多加if else 以及while的结果标识变量或使用递归可以达到相同的结果<br>6、val x=1<br>   val x=2是会报错的, 解释器里不会报错，因为实际上解释器创建了如下的shadow形式(val x=1  x=2，这样在解释器里也会报错)<br>但val x= 1<br>  {val x=2}是可以的，因为可以在内部遮蔽:shadow， 这时外部变量在内部范围不可见了<br> 但 val x=1<br>{x=2}是不行的</p>
 <p>7、方法一个参数时可以写在x(a)以及x{a}  ，x(a,b)两个参数时只能用小括号, 要改成使用{}的话，可以用curry</p>
 <pre><code>def test(name:<span class="built_in">String</span>)(func:<span class="built_in">String</span>=&gt;<span class="built_in">String</span>)=func(name)
     test(<span class="string">"scala"</span>){
       n =&gt; <span class="string">"Hello "</span> + n   <span class="comment">//可以改成"Hello " + _</span>
     }
-</code></pre><h2 id="异常：">异常：</h2>
+</code></pre><p>8、高阶函数 (x:Int)=&gt;x+2    (x)=&gt;x+2     _+2</p>
+<h2 id="异常：">异常：</h2>
 <pre><code><span class="keyword">try</span> {     
   val f = <span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>)     
   <span class="comment">// Use and close file</span>
@@ -424,11 +459,69 @@ thrown <span class="keyword">new</span> <span class="keyword">Exception</span>()
 
 def f(): Int = try { return 1 } finally { return 2 }   //返回2
 def g(): Int = try { 1 } finally { 2 } //返回1</span>
+</code></pre><h2 id="包">包</h2>
+<p>1、包嵌套</p>
+<pre><code><span class="package"><span class="keyword">package</span> <span class="title">com</span>.<span class="title">test</span>{</span>
+  <span class="comment">//这里不能直接访问hello中的数据，要import</span>
+  <span class="package"><span class="keyword">package</span> <span class="title">hello</span>{</span>
+    <span class="comment">//可以直接访问com.test中的数据</span>
+  }
+}
+</code></pre><p>2、可以在任何地方引入包import, 然后只在相应块的作用域中起作用<br>3、重命名与隐藏 </p>
+<pre><code>import com.test.{HashMap=&gt;HelloHashMap<span class="comment">/*重命名*/</span>, HashSet=&gt;_  <span class="comment">/*隐藏*/</span>}
+</code></pre><p>4、import com.test.<em>    </em>相当于*<br>5、包范围</p>
+<pre><code>package <span class="keyword">com</span><span class="preprocessor">.test</span><span class="preprocessor">.hello</span>
+private[hello] def hello=<span class="string">"Hello"</span> //只能在hello包中的可以访问hello方法，<span class="keyword">com</span><span class="preprocessor">.test</span>包的中都不能访问
+</code></pre><h2 id="隐式">隐式</h2>
+<p>隐式转换</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>
+<span class="class"><span class="keyword">class</span> <span class="title">RichA</span><span class="params">(a:A)</span>{</span>
+  <span class="keyword">def</span> hello{
+    println(<span class="string">"Hello"</span>)
+  }
+}
+<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
+  implicit <span class="keyword">def</span> a2RichA(a:A) = <span class="keyword">new</span> RichA(a)  <span class="comment">//这里的a2RichA可随便起，但参数一定要是转换的源，返回值是转换的目标</span>
+  <span class="keyword">val</span> a = <span class="keyword">new</span> A
+  a.hello  <span class="comment">//这里就可以调用RichA的方法了</span>
+}
+</code></pre><p>隐式参数</p>
+<pre><code>def hello(<span class="keyword">implicit</span> name:String){
+  println(name)
+}
+<span class="keyword">implicit</span> val xy = <span class="string">"Hell Scala"</span>  <span class="comment">//这里不一定要是name</span>
+hello   <span class="comment">//结果就是打印出Hello Scala, 即会自动把xy作为参数传进去</span>
+hello() <span class="comment">//报错</span>
+hello(<span class="string">"ABC"</span>) <span class="comment">//正常的参数调用</span>
+</code></pre><p>隐式类，可扩展相应的类型的方法</p>
+<pre><code><span class="comment">//扩展int添加add 方法</span>
+implicit <span class="class"><span class="keyword">class</span> <span class="title">Increase</span><span class="params">(x:Int)</span>{</span>
+  <span class="keyword">def</span> add(x:Int) = x + <span class="number">1</span>
+}
+println(<span class="number">1.</span>add(<span class="number">1</span>))  <span class="comment">//这里实际上就是Increase.add</span>
+<span class="comment">//note:如果Increate是在其他包中，则要import 进来</span>
+</code></pre><h2 id="泛型">泛型</h2>
+<pre><code>class Pair[<span class="link_label">K,V</span>](<span class="link_url">key:K, value : V</span>){// 类中泛型
+  def printKey=println(key)
+  def printValue=println(value)
+  def hello[<span class="link_label">B</span>](<span class="link_url">list:List[B]</span>){ //参数泛型
+<span class="code">    list.foreach(println)</span>
+  }
+}
+
+val p1 = new Pair(1,2)
+val p2 = new Pair(1,"abc")
+
+p1.printValue  //2
+p2.printValue  //abc
+
+p1.hello(List(1,2,3))  //这里List[Int]就决定了B是Int
+p1.hello(List("a","b","c"))
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="6b0rncxn6yjy6qi1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="aeyl4dj6wqo01qpp" class="article-share-link">Share</a>
       
       
     </footer>
