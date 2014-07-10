@@ -3,33 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>first | DataKnocker</title>
+  <title>Spark学习小记 | DataKnocker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="og:type" content="blog">
-<meta name="og:title" content="first">
-<meta name="og:url" content="http://yoursite.com/2014/04/01/first/">
-<meta name="og:image" content="img/y.jpg">
+<meta name="og:title" content="Spark学习小记">
+<meta name="og:url" content="http://yoursite.com/2014/04/21/spark学习小记/">
+<meta name="og:image">
 <meta name="og:site_name" content="DataKnocker">
-<meta name="og:description" content="我的第一个程序
-大概介绍
-
-这是我的第一个程序
-好好学习
-
-关于我
-我的其他博客
-我的代码
-class M(a:Int) {
-  val x = a
-  def +(that:M)= new M(this.x + that.x)
-  def *(that:M)= new M(this.x * that.x)
-}
-
-这是图片
-
-
-
-这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：这是">
+<meta name="og:description" content="1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错   即会在stage的边界上会进行备份 
+   取原始数据以及shuffle时会产生新stage
+2、reduce、join等方法都在PairRDDFunctions
+3、Block">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
@@ -80,10 +64,10 @@ class M(a:Int) {
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-first" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-spark学习小记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/04/01/first/" class="article-date">
-  <time datetime="2014-04-01T12:11:30.000Z" itemprop="datePublished">Apr 1 2014</time>
+    <a href="/2014/04/21/spark学习小记/" class="article-date">
+  <time datetime="2014-04-21T15:28:13.000Z" itemprop="datePublished">Apr 21 2014</time>
 </a>
     
   </div>
@@ -94,7 +78,7 @@ class M(a:Int) {
         
   
     <h1 class="article-title" itemprop="name">
-      first
+      Spark学习小记
     </h1>
   
 
@@ -102,33 +86,23 @@ class M(a:Int) {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="我的第一个程序">我的第一个程序</h1>
-<h2 id="大概介绍">大概介绍</h2>
-<ul>
-<li>这是我的第一个程序</li>
-<li>好好学习</li>
-</ul>
-<h2 id="关于我">关于我</h2>
-<p><a href="http://dataknocker.github.io" target="_blank">我的其他博客</a></p>
-<h1 id="我的代码">我的代码</h1>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
-  <span class="keyword">val</span> x = a
-  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
-  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
-}
-</code></pre><blockquote>
-<p>这是图片</p>
-</blockquote>
-<p><img src="img/y.jpg" alt="solr空间索引查询过程"></p>
-<blockquote>
-<p>这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：<br>这是很好的<br>还有以后会添加很多相应的例子</p>
-</blockquote>
-<p>&amp;copy wangzejie</p>
+        <p>1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据<br>   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错<br>   即会在stage的边界上会进行备份 </p>
+<p>   取原始数据以及shuffle时会产生新stage</p>
+<p>2、reduce、join等方法都在PairRDDFunctions</p>
+<p>3、Block Manager负责与HDFS进行通信,  Block Tracker</p>
+<p>4、rdd.map().filter().reduceByKey()  这样有可能使某些partition没数据或很少数据，造成浪费，可以使用repartition(其实用了coalesce)或coalesce</p>
+<p>5、rdd.recuce(5)，5就是reduce数，其实就是分区数</p>
+<p>6、A*B  join优化，其中A先groupbykey,然后B也利用相应的hashPartition归到A上</p>
+<p>7、使用Accumulator时需要 import SparkContext._</p>
+<p>8、用户的main方法相当于一个driver, 而一个sparkcontext就算一个application</p>
+<p>9、每个action都会生成一个job, 一个job中包括多个stage</p>
+<p>10、每个DAGScheduler submitJob时都会先生成个shuffleDep=None的 stage作为finalStage,然后以该stage向上找父stage即通过rdd的dependencies判断dependence是否是ShuffleDependence来判断是否是shuffleStage</p>
+<p>11、partition与blockid的关系： “rdd<em>“ + rdd.id + “</em>“ + split.index  (split即partition)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="ndz1jjxbtn7s16bn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="znlmy0r9736eblto" class="article-share-link">Share</a>
       
       
     </footer>
@@ -137,19 +111,19 @@ class M(a:Int) {
     
 <nav id="article-nav">
   
-    <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/05/15/machine-learning知识小记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          MapReduce在相似度计算中的应用及优化
+          machine learning知识小记
         
       </div>
     </a>
   
   
-    <a href="/2014/04/01/test/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/04/20/scala学习小记/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Test</div>
+      <div class="article-nav-title">scala学习小记</div>
     </a>
   
 </nav>

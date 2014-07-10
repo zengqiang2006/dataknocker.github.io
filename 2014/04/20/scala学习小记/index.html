@@ -517,11 +517,59 @@ p2.printValue  //abc
 
 p1.hello(List(1,2,3))  //这里List[Int]就决定了B是Int
 p1.hello(List("a","b","c"))
-</code></pre>
+</code></pre><h2 id="akka">akka</h2>
+<pre><code><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Greeting</span><span class="params">(who:String)</span></span>
+<span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Welcome</span><span class="params">(who:String)</span></span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">GreetingActor</span> <span class="keyword">extends</span> <span class="title">Actor</span>{</span>
+  <span class="keyword">def</span> receive = {
+    <span class="keyword">case</span> Greeting(who) =&gt; println(<span class="string">"Hello,"</span> + who)
+    <span class="keyword">case</span> _ =&gt; println(<span class="string">"UnCatchMsg!!!"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">Hello</span>{</span>
+  <span class="keyword">def</span> main(args:Array[String]){
+    <span class="keyword">val</span> system = ActorSystem(<span class="string">"GreetingActor"</span>)
+    <span class="keyword">val</span> greet = system.actorOf(Props[GreetingActor], name = <span class="string">"greeting"</span>)
+    greet ! Welcome(<span class="string">"Scala akka"</span>)
+  }
+}
+</code></pre><h2 id="格式化输出">格式化输出</h2>
+<pre><code>println(<span class="string">"<span class="variable">%s</span>\t<span class="variable">%s</span>"</span>.<span class="keyword">format</span>(<span class="string">"Hello"</span>,<span class="string">"Scala"</span>))
+println(<span class="string">"Percision\tRecall"</span>)
+println(<span class="string">"<span class="variable">%4</span>.3f\t<span class="variable">%4</span>.3f"</span>.<span class="keyword">format</span>(<span class="number">0</span>.<span class="number">16353</span>, <span class="number">0</span>.<span class="number">5236</span>))
+
+val height = <span class="number">1.9</span>d
+val name = <span class="string">"James"</span>
+println(f<span class="string">"<span class="variable">$name</span><span class="variable">%s</span> is <span class="variable">$height</span><span class="variable">%2</span>.2f meters tall"</span>)
+</code></pre><h2 id="break_continue">break continue</h2>
+<pre><code>java:
+public void match(double ip, EduIp[] eduIps){
+  EduIp eip = null;
+  <span class="keyword">for</span>(EduIp ei:eduIps){
+    <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp){
+      eip = ep;
+      <span class="keyword">break</span>;
+    }
+  }
+  //其他操作
+}
+
+scala:
+<span class="function"><span class="keyword">def</span> <span class="title">matchIp</span><span class="params">(ip: Double, eduIps: Array[EduIp], i : Int)</span> :</span> EduIp = { //这里一定要写返回类型
+  <span class="keyword">if</span>(i &gt;= eduIps.length) null
+  <span class="keyword">else</span> <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp) eduIps(i)
+  <span class="keyword">else</span> matchIp(ip, eduIps, i + <span class="number">1</span>)
+}
+</code></pre><p>  scala当然可以再添加一个isBreak的值来判断是否结束，但这样太恶心</p>
+<h2 id="其他学习资料">其他学习资料</h2>
+<p><a href="http://stackoverflow.com/questions/8000903/what-are-all-the-uses-of-an-underscore-in-scala" target="_blank">下划线的几个用途</a><br><a href="http://www.slideshare.net/normation/scala-dreaded" target="_blank">下划线</a><br><a href="http://www.drmaciver.com/2008/03/existential-types-in-scala/" target="_blank">Existential types in Scala</a><br><a href="http://stackoverflow.com/questions/1031042/difference-between-scalas-existential-types-and-javas-wildcard-by-example" target="_blank">Difference between Scala’s existential types and Java’s wildcard by example</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="aeyl4dj6wqo01qpp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="25nacfndyveuar59" class="article-share-link">Share</a>
       
       
     </footer>
@@ -529,6 +577,15 @@ p1.hello(List("a","b","c"))
   
     
 <nav id="article-nav">
+  
+    <a href="/2014/04/21/spark学习小记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Spark学习小记
+        
+      </div>
+    </a>
   
   
     <a href="/2014/04/14/spark安装及运行/" id="article-nav-older" class="article-nav-link-wrap">
@@ -555,7 +612,7 @@ p1.hello(List("a","b","c"))
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -567,23 +624,23 @@ p1.hello(List("a","b","c"))
       <ul>
         
           <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
             <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
           </li>
         
           <li>
             <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/first/">first</a>
           </li>
         
       </ul>

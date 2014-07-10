@@ -8,7 +8,7 @@
   <meta name="og:type" content="blog">
 <meta name="og:title" content="solr空间索引原理及源码分析">
 <meta name="og:url" content="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/">
-<meta name="og:image" content="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-TMrohJ9%2BDqj3I6dSenR346JpTYg%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=755260657&amp;size=c850_u580&amp;quality=100">
+<meta name="og:image" content="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1404964800&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-%2FTZgs6uGIxn3Nnh9vewtpzsoLTQ%3D&amp;rt=sh&amp;expires=2h&amp;r=289052895&amp;sharesign=unknown&amp;size=c710_u500&amp;quality=100">
 <meta name="og:site_name" content="DataKnocker">
 <meta name="og:description" content="solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。solr空">
 <meta name="twitter:card" content="summary">
@@ -84,7 +84,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。<br>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
-<p><img src="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-TMrohJ9%2BDqj3I6dSenR346JpTYg%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=755260657&amp;size=c850_u580&amp;quality=100" alt="四叉树分层"></p>
+<p><img src="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1404964800&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-%2FTZgs6uGIxn3Nnh9vewtpzsoLTQ%3D&amp;rt=sh&amp;expires=2h&amp;r=289052895&amp;sharesign=unknown&amp;size=c710_u500&amp;quality=100" alt="四叉树分层"></p>
 <h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
 <ul>
 <li>maxLevels不同：geohash的maxLevels为11，quad的maxLevels为26。</li>
@@ -193,7 +193,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="d46059rwgduepgt2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="b62on9o667qpjd8r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +236,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -248,23 +248,23 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       <ul>
         
           <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
             <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
           </li>
         
           <li>
             <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/first/">first</a>
           </li>
         
       </ul>

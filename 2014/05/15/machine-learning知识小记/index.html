@@ -3,33 +3,16 @@
 <head>
   <meta charset="utf-8">
   
-  <title>first | DataKnocker</title>
+  <title>machine learning知识小记 | DataKnocker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="og:type" content="blog">
-<meta name="og:title" content="first">
-<meta name="og:url" content="http://yoursite.com/2014/04/01/first/">
-<meta name="og:image" content="img/y.jpg">
+<meta name="og:title" content="machine learning知识小记">
+<meta name="og:url" content="http://yoursite.com/2014/05/15/machine-learning知识小记/">
+<meta name="og:image">
 <meta name="og:site_name" content="DataKnocker">
-<meta name="og:description" content="我的第一个程序
-大概介绍
-
-这是我的第一个程序
-好好学习
-
-关于我
-我的其他博客
-我的代码
-class M(a:Int) {
-  val x = a
-  def +(that:M)= new M(this.x + that.x)
-  def *(that:M)= new M(this.x * that.x)
-}
-
-这是图片
-
-
-
-这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：这是">
+<meta name="og:description" content="Naive Bayes
+Bernoulli
+各feature独立0/1: 只看出现与不出现, 整个feature集合在测试集中都生效，即某个样本就只有Fk,其含意是Fk=1以及Fn-k=0非0/1的，要计算P(f1=v1|cj)、P(f1=v2|cj)、P(f1=v3|cj)， 可以将其转化成0/1，即将Fi的每个取值都看成一个feature, 这样feature:Fi=vj的值就是出现或不出现即">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
@@ -80,10 +63,10 @@ class M(a:Int) {
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-first" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-machine-learning知识小记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/04/01/first/" class="article-date">
-  <time datetime="2014-04-01T12:11:30.000Z" itemprop="datePublished">Apr 1 2014</time>
+    <a href="/2014/05/15/machine-learning知识小记/" class="article-date">
+  <time datetime="2014-05-15T02:34:22.000Z" itemprop="datePublished">May 15 2014</time>
 </a>
     
   </div>
@@ -94,7 +77,7 @@ class M(a:Int) {
         
   
     <h1 class="article-title" itemprop="name">
-      first
+      machine learning知识小记
     </h1>
   
 
@@ -102,33 +85,24 @@ class M(a:Int) {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="我的第一个程序">我的第一个程序</h1>
-<h2 id="大概介绍">大概介绍</h2>
-<ul>
-<li>这是我的第一个程序</li>
-<li>好好学习</li>
-</ul>
-<h2 id="关于我">关于我</h2>
-<p><a href="http://dataknocker.github.io" target="_blank">我的其他博客</a></p>
-<h1 id="我的代码">我的代码</h1>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
-  <span class="keyword">val</span> x = a
-  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
-  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
-}
-</code></pre><blockquote>
-<p>这是图片</p>
-</blockquote>
-<p><img src="img/y.jpg" alt="solr空间索引查询过程"></p>
-<blockquote>
-<p>这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：<br>这是很好的<br>还有以后会添加很多相应的例子</p>
-</blockquote>
-<p>&amp;copy wangzejie</p>
+        <h2 id="Naive_Bayes">Naive Bayes</h2>
+<h3 id="Bernoulli">Bernoulli</h3>
+<p>各feature独立<br>0/1: 只看出现与不出现, 整个feature集合在测试集中都生效，即某个样本就只有Fk,其含意是Fk=1以及Fn-k=0<br>非0/1的，要计算P(f1=v1|cj)、P(f1=v2|cj)、P(f1=v3|cj)， 可以将其转化成0/1，即将Fi的每个取值都看成一个feature, 这样feature:Fi=vj的值就是出现或不出现即0/1</p>
+<h3 id="Multinormal:">Multinormal:</h3>
+<p>多项式：就一个feature,  该feature的值是各词，p(f=wi|cj)表示wi出现的概率，即各词出现频次/总频次</p>
+<p>模型预测的结果p(y=1|X1)=0.8, p(y=1|X2)=0.6.   在用这些数据时可以选择个阀值，比如&gt;0.7的才可信。</p>
+<h2 id="样本不均匀">样本不均匀</h2>
+<p>label=0 与 label=1的比例是1:9</p>
+<h3 id="将label=0_生成9份">将label=0 生成9份</h3>
+<p>在原来第一份的基础上，采用放回随机抽样，抽到某个x(i)样本后，将其features中随机找两个feature，变换其值(如原先是1的就变成0，0的就变成1)，作为噪音。以此类推，生成另外8份</p>
+<h3 id="将label=1的分成9份">将label=1的分成9份</h3>
+<p>每份都与label=0生成一个model, 然后预测时与这9个model都进行预测，然后对结果进行投票，即选出次数最多的label作为最后结果</p>
+<h3 id="svm的两个参数可以处理">svm的两个参数可以处理</h3>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="ndz1jjxbtn7s16bn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/15/machine-learning知识小记/" data-id="mldxleegq5n4jq67" class="article-share-link">Share</a>
       
       
     </footer>
@@ -137,19 +111,19 @@ class M(a:Int) {
     
 <nav id="article-nav">
   
-    <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/06/10/idea-sbt/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          MapReduce在相似度计算中的应用及优化
+          idea sbt
         
       </div>
     </a>
   
   
-    <a href="/2014/04/01/test/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/04/21/spark学习小记/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Test</div>
+      <div class="article-nav-title">Spark学习小记</div>
     </a>
   
 </nav>

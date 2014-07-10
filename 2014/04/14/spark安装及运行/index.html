@@ -118,10 +118,13 @@ DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop
 //本地文件要用file:///, 使用本地文件时要确保各机器相同路径下都要有相应的jar，否则会报找不到文件的错误
 ./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.HdfsTest</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test –c <span class="number">1</span>
 
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span>
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span></span>
+</code></pre><h2 id="这个才是正确的">这个才是正确的</h2>
+<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> -c <span class="number">24</span> -m <span class="number">8000</span> -v launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:///opt/spark/submit/sbttest_2<span class="number">.10</span>-<span class="number">1.0</span><span class="preprocessor">.jar</span> <span class="keyword">com</span><span class="preprocessor">.meituan</span><span class="preprocessor">.mobile</span><span class="preprocessor">.data</span><span class="preprocessor">.mllib</span><span class="preprocessor">.DiscreteNaiveBayes</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_train hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_test
+
 
 //所有可以将自己的jar放到hdfs上，让所有机器都可以访问到, 但这个在<span class="number">0.9</span><span class="number">.1</span>是个bug
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span></span>
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span>
 </code></pre><p><em>在examples/lib/加入自己的jar包后，程序会启不来，不管是Master还是Worker，报下面的错:</em></p>
 <pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="preprocessor">.lang</span><span class="preprocessor">.NoSuchMethodException</span>: akka<span class="preprocessor">.remote</span><span class="preprocessor">.RemoteActorRefProvider</span>.&lt;init&gt;(java<span class="preprocessor">.lang</span><span class="preprocessor">.String</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.ActorSystem</span>$Settings, akka<span class="preprocessor">.event</span><span class="preprocessor">.EventStream</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.Scheduler</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.DynamicAccess</span>)
 </code></pre><h2 id="application-jar-url_bug">application-jar-url bug</h2>
@@ -133,11 +136,17 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <h2 id="小记">小记</h2>
 <h3 id="reduceByKey">reduceByKey</h3>
 <p>reduceByKey不是RDD的方法，而是PairRDDFunctions的方法，需要import org.apache.spark.SparkContext._ 才能实现RDD隐式转成PairRDDFunctions的功能<br><a href="http://mail-archives.apache.org/mod_mbox/spark-user/201311.mbox/%3C527C02F2.6090606@oracle.com%3E" target="_blank">解决方法</a></p>
+<h2 id="user">user</h2>
+<p>./submit-job.sh sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes 2 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/root/test/test,hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/test2</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 5000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000034_0 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000035_0 6g</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client kill spark://jx-mobile-weibo01.jx.sankuai.com:7077 driver-20140425175451-0000</p>
+<p>scp wangzejie@home:/Users/wangzejie/Documents/sourcecode/SBTTest/target/scala-2.10/sbttest_2.10-1.0.jar ./</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 10000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.Main spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/weibo_test 2g 9 1</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="rj3orm7t54608s72" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="o8711u8z0z2ys593" class="article-share-link">Share</a>
       
       
     </footer>
@@ -180,7 +189,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -192,23 +201,23 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       <ul>
         
           <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
             <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
           </li>
         
           <li>
             <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/first/">first</a>
           </li>
         
       </ul>

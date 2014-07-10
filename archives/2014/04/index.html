@@ -63,6 +63,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-spark学习小记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/21/spark学习小记/" class="article-date">
+  <time datetime="2014-04-21T15:28:13.000Z" itemprop="datePublished">Apr 21 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据<br>   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错<br>   即会在stage的边界上会进行备份 </p>
+<p>   取原始数据以及shuffle时会产生新stage</p>
+<p>2、reduce、join等方法都在PairRDDFunctions</p>
+<p>3、Block Manager负责与HDFS进行通信,  Block Tracker</p>
+<p>4、rdd.map().filter().reduceByKey()  这样有可能使某些partition没数据或很少数据，造成浪费，可以使用repartition(其实用了coalesce)或coalesce</p>
+<p>5、rdd.recuce(5)，5就是reduce数，其实就是分区数</p>
+<p>6、A*B  join优化，其中A先groupbykey,然后B也利用相应的hashPartition归到A上</p>
+<p>7、使用Accumulator时需要 import SparkContext._</p>
+<p>8、用户的main方法相当于一个driver, 而一个sparkcontext就算一个application</p>
+<p>9、每个action都会生成一个job, 一个job中包括多个stage</p>
+<p>10、每个DAGScheduler submitJob时都会先生成个shuffleDep=None的 stage作为finalStage,然后以该stage向上找父stage即通过rdd的dependencies判断dependence是否是ShuffleDependence来判断是否是shuffleStage</p>
+<p>11、partition与blockid的关系： “rdd<em>“ + rdd.id + “</em>“ + split.index  (split即partition)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="znlmy0r9736eblto" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-scala学习小记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/04/20/scala学习小记/" class="article-date">
@@ -515,11 +563,59 @@ p2.printValue  //abc
 
 p1.hello(List(1,2,3))  //这里List[Int]就决定了B是Int
 p1.hello(List("a","b","c"))
-</code></pre>
+</code></pre><h2 id="akka">akka</h2>
+<pre><code><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Greeting</span><span class="params">(who:String)</span></span>
+<span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Welcome</span><span class="params">(who:String)</span></span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">GreetingActor</span> <span class="keyword">extends</span> <span class="title">Actor</span>{</span>
+  <span class="keyword">def</span> receive = {
+    <span class="keyword">case</span> Greeting(who) =&gt; println(<span class="string">"Hello,"</span> + who)
+    <span class="keyword">case</span> _ =&gt; println(<span class="string">"UnCatchMsg!!!"</span>)
+  }
+}
+
+<span class="class"><span class="keyword">object</span> <span class="title">Hello</span>{</span>
+  <span class="keyword">def</span> main(args:Array[String]){
+    <span class="keyword">val</span> system = ActorSystem(<span class="string">"GreetingActor"</span>)
+    <span class="keyword">val</span> greet = system.actorOf(Props[GreetingActor], name = <span class="string">"greeting"</span>)
+    greet ! Welcome(<span class="string">"Scala akka"</span>)
+  }
+}
+</code></pre><h2 id="格式化输出">格式化输出</h2>
+<pre><code>println(<span class="string">"<span class="variable">%s</span>\t<span class="variable">%s</span>"</span>.<span class="keyword">format</span>(<span class="string">"Hello"</span>,<span class="string">"Scala"</span>))
+println(<span class="string">"Percision\tRecall"</span>)
+println(<span class="string">"<span class="variable">%4</span>.3f\t<span class="variable">%4</span>.3f"</span>.<span class="keyword">format</span>(<span class="number">0</span>.<span class="number">16353</span>, <span class="number">0</span>.<span class="number">5236</span>))
+
+val height = <span class="number">1.9</span>d
+val name = <span class="string">"James"</span>
+println(f<span class="string">"<span class="variable">$name</span><span class="variable">%s</span> is <span class="variable">$height</span><span class="variable">%2</span>.2f meters tall"</span>)
+</code></pre><h2 id="break_continue">break continue</h2>
+<pre><code>java:
+public void match(double ip, EduIp[] eduIps){
+  EduIp eip = null;
+  <span class="keyword">for</span>(EduIp ei:eduIps){
+    <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp){
+      eip = ep;
+      <span class="keyword">break</span>;
+    }
+  }
+  //其他操作
+}
+
+scala:
+<span class="function"><span class="keyword">def</span> <span class="title">matchIp</span><span class="params">(ip: Double, eduIps: Array[EduIp], i : Int)</span> :</span> EduIp = { //这里一定要写返回类型
+  <span class="keyword">if</span>(i &gt;= eduIps.length) null
+  <span class="keyword">else</span> <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp) eduIps(i)
+  <span class="keyword">else</span> matchIp(ip, eduIps, i + <span class="number">1</span>)
+}
+</code></pre><p>  scala当然可以再添加一个isBreak的值来判断是否结束，但这样太恶心</p>
+<h2 id="其他学习资料">其他学习资料</h2>
+<p><a href="http://stackoverflow.com/questions/8000903/what-are-all-the-uses-of-an-underscore-in-scala" target="_blank">下划线的几个用途</a><br><a href="http://www.slideshare.net/normation/scala-dreaded" target="_blank">下划线</a><br><a href="http://www.drmaciver.com/2008/03/existential-types-in-scala/" target="_blank">Existential types in Scala</a><br><a href="http://stackoverflow.com/questions/1031042/difference-between-scalas-existential-types-and-javas-wildcard-by-example" target="_blank">Difference between Scala’s existential types and Java’s wildcard by example</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="aeyl4dj6wqo01qpp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="25nacfndyveuar59" class="article-share-link">Share</a>
       
       
     </footer>
@@ -581,10 +677,13 @@ DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop
 //本地文件要用file:///, 使用本地文件时要确保各机器相同路径下都要有相应的jar，否则会报找不到文件的错误
 ./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.HdfsTest</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test –c <span class="number">1</span>
 
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span>
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span></span>
+</code></pre><h2 id="这个才是正确的">这个才是正确的</h2>
+<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> -c <span class="number">24</span> -m <span class="number">8000</span> -v launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:///opt/spark/submit/sbttest_2<span class="number">.10</span>-<span class="number">1.0</span><span class="preprocessor">.jar</span> <span class="keyword">com</span><span class="preprocessor">.meituan</span><span class="preprocessor">.mobile</span><span class="preprocessor">.data</span><span class="preprocessor">.mllib</span><span class="preprocessor">.DiscreteNaiveBayes</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_train hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_test
+
 
 //所有可以将自己的jar放到hdfs上，让所有机器都可以访问到, 但这个在<span class="number">0.9</span><span class="number">.1</span>是个bug
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span></span>
+./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span>
 </code></pre><p><em>在examples/lib/加入自己的jar包后，程序会启不来，不管是Master还是Worker，报下面的错:</em></p>
 <pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="preprocessor">.lang</span><span class="preprocessor">.NoSuchMethodException</span>: akka<span class="preprocessor">.remote</span><span class="preprocessor">.RemoteActorRefProvider</span>.&lt;init&gt;(java<span class="preprocessor">.lang</span><span class="preprocessor">.String</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.ActorSystem</span>$Settings, akka<span class="preprocessor">.event</span><span class="preprocessor">.EventStream</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.Scheduler</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.DynamicAccess</span>)
 </code></pre><h2 id="application-jar-url_bug">application-jar-url bug</h2>
@@ -596,11 +695,17 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <h2 id="小记">小记</h2>
 <h3 id="reduceByKey">reduceByKey</h3>
 <p>reduceByKey不是RDD的方法，而是PairRDDFunctions的方法，需要import org.apache.spark.SparkContext._ 才能实现RDD隐式转成PairRDDFunctions的功能<br><a href="http://mail-archives.apache.org/mod_mbox/spark-user/201311.mbox/%3C527C02F2.6090606@oracle.com%3E" target="_blank">解决方法</a></p>
+<h2 id="user">user</h2>
+<p>./submit-job.sh sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes 2 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/root/test/test,hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/test2</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 5000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000034_0 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000035_0 6g</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client kill spark://jx-mobile-weibo01.jx.sankuai.com:7077 driver-20140425175451-0000</p>
+<p>scp wangzejie@home:/Users/wangzejie/Documents/sourcecode/SBTTest/target/scala-2.10/sbttest_2.10-1.0.jar ./</p>
+<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 10000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.Main spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/weibo_test 2g 9 1</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="rj3orm7t54608s72" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="o8711u8z0z2ys593" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,7 +738,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
     <div class="article-entry" itemprop="articleBody">
       
         <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。<br>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
-<p><img src="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-TMrohJ9%2BDqj3I6dSenR346JpTYg%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=755260657&amp;size=c850_u580&amp;quality=100" alt="四叉树分层"></p>
+<p><img src="http://d.pcs.baidu.com/thumbnail/fc69ed1978a2c3bec99b093f19180c42?fid=3809902540-250528-759937466026148&amp;time=1404964800&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-%2FTZgs6uGIxn3Nnh9vewtpzsoLTQ%3D&amp;rt=sh&amp;expires=2h&amp;r=289052895&amp;sharesign=unknown&amp;size=c710_u500&amp;quality=100" alt="四叉树分层"></p>
 <h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
 <ul>
 <li>maxLevels不同：geohash的maxLevels为11，quad的maxLevels为26。</li>
@@ -742,7 +847,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="d46059rwgduepgt2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="b62on9o667qpjd8r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -925,7 +1030,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="0fke70rqnwivm8ms" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="8rtv1b4o1bh2hh7m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -983,7 +1088,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="rffljtd4igw5qlra" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="ndz1jjxbtn7s16bn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1025,7 +1130,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="yzydk8awnk7civqk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="fa7vezt0aopuasgr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1062,7 +1167,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="3wr0v0so9ke2qasq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="yx7vfpz125c0lyav" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1087,7 +1192,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -1099,23 +1204,23 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       <ul>
         
           <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
             <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
           </li>
         
           <li>
             <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
-          </li>
-        
-          <li>
-            <a href="/2014/04/01/first/">first</a>
           </li>
         
       </ul>
