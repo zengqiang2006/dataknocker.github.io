@@ -1,1288 +1,678 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  
-  <title>DataKnocker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    
+    <title>DataKnocker</title>
     <meta name="author" content="wangzejie">
-  
-  
-  <meta name="og:type" content="blog">
-<meta name="og:title">
-<meta name="og:url" content="http://yoursite.com/">
-<meta name="og:image">
-<meta name="og:site_name" content="DataKnocker">
-<meta name="og:description">
-<meta name="twitter:card" content="summary">
-  
+    
+    <meta name="description" content="大数据架构以及数据分析与挖掘">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <meta property="og:site_name" content="DataKnocker"/>
+
     <link rel="alternate" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
-  
-  
+    <link rel="stylesheet" href="/css/lib/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/css/lib/normalize.css" type="text/css">
+    <link rel="stylesheet" href="/css/lib/furatto.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify_raytaylorism.css" type="text/css">
+        
+    
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/jquery.jpanelmenu.js"></script>
 </head>
 
-<body>
-  <div class="wrapper">
-    <header id="header">
-  <div class="title">
-    <h1><a href="/">DataKnocker</a></h1>
-    <p><a href="/">learn bigdata step by step</a></p>
-  </div>
-  <nav class="nav">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-      
-        <li><a href="/atom.xml">RSS</a></li>
-      
+
+<body class="container-fluid">
+    <header id="page-header">
+        <div class="navbar inverse-navbar">
+    <div class="navbar-inner">
+        <div class="container-center">
+            <a href="/index.html" class="menu-trigger" data-meteocon="M">
+                <i class="icon-reorder"></i>
+            </a>
+            <div class="nav-collapse navbar-responsive-collapse collapse">
+                <nav id="menu">
+                    <ul class="nav">
+                        <li><a class="brand" id="blog-title" href="/index.html">DataKnocker</a></li>
+                    </ul>
+                    <div class="pull-right nav" id="nav-button-group">
+                        
+                            <a href="/" class="menu-home btn btn-primary btn-large">
+                                <i class="icon-home icon-white"></i>
+                                首页
+                            </a>
+                        
+                            <a href="/archives" class="menu-archive btn btn-primary btn-large">
+                                <i class="icon-archive icon-white"></i>
+                                归档
+                            </a>
+                        
+                            <a href="javascript:void(0);" class="menu-category btn btn-primary btn-large">
+                                <i class="icon-archive icon-white"></i>
+                                分类
+                            </a>
+                        
+                            <a href="/reading" class="menu-reading btn btn-primary btn-large">
+                                <i class="icon-book icon-white"></i>
+                                读书
+                            </a>
+                        
+                            <a href="/about" class="menu-about btn btn-primary btn-large">
+                                <i class="icon-user icon-white"></i>
+                                关于
+                            </a>
+                        
+                    </div>
+                </nav>
+                <nav id="jPanelMenu-menu-side">
+    <ul class="nav main-menu">
+        <li><a class="brand" href="index.html">DataKnocker</a></li>
+        
+            <li>
+                <a href="/" class="menu-home">
+                    <i class="icon-home icon-white"></i>
+                    首页
+                </a>
+            </li>
+        
+            <li>
+                <a href="/archives" class="menu-archive">
+                    <i class="icon-archive icon-white"></i>
+                    归档
+                </a>
+            </li>
+        
+            <li>
+                <a href="javascript:void(0);" class="menu-category">
+                    <i class="icon-archive icon-white"></i>
+                    分类
+                </a>
+            </li>
+        
+            <li>
+                <a href="/reading" class="menu-reading">
+                    <i class="icon-book icon-white"></i>
+                    读书
+                </a>
+            </li>
+        
+            <li>
+                <a href="/about" class="menu-about">
+                    <i class="icon-user icon-white"></i>
+                    关于
+                </a>
+            </li>
+        
     </ul>
-    <div class="clearfix"></div>
-  </nav>
-  <div class="clearfix"></div>
-</header>
-    <div class="content">
 
+    <ul class="nav category-menu hide">
+        <li>
+            <span><a class="brand" href="javascript:void(0);">分类目录</a></span>
+            <span><a class="btn-back brand pull-right" href="javascript:void(0);">
+                <i class="icon-arrow-left"></i>
+            </a></span>
+        </li>
 
+        
 
+        
 
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/06/10/idea-sbt/">
-  <time datetime="2014-06-10T03:49:41.000Z">
-    Jun 10 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/06/10/idea-sbt/">idea sbt</a></h1>
-  
+            
 
-  </header>
-  
-  <div class="entry">
-    
-      <p>在idea在创建sbt项目，其会自动下载导入sbt相关的插件, 然后在项目的Module中加入Scala,并配置scala compile</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/05/15/machine-learning知识小记/">
-  <time datetime="2014-05-15T02:34:22.000Z">
-    May 15 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <h2 id="Naive_Bayes">Naive Bayes</h2>
-<h3 id="Bernoulli">Bernoulli</h3>
-<p>各feature独立<br>0/1: 只看出现与不出现, 整个feature集合在测试集中都生效，即某个样本就只有Fk,其含意是Fk=1以及Fn-k=0<br>非0/1的，要计算P(f1=v1|cj)、P(f1=v2|cj)、P(f1=v3|cj)， 可以将其转化成0/1，即将Fi的每个取值都看成一个feature, 这样feature:Fi=vj的值就是出现或不出现即0/1</p>
-<h3 id="Multinormal:">Multinormal:</h3>
-<p>多项式：就一个feature,  该feature的值是各词，p(f=wi|cj)表示wi出现的概率，即各词出现频次/总频次</p>
-<p>模型预测的结果p(y=1|X1)=0.8, p(y=1|X2)=0.6.   在用这些数据时可以选择个阀值，比如&gt;0.7的才可信。</p>
-<h2 id="样本不均匀">样本不均匀</h2>
-<p>label=0 与 label=1的比例是1:9</p>
-<h3 id="将label=0_生成9份">将label=0 生成9份</h3>
-<p>在原来第一份的基础上，采用放回随机抽样，抽到某个x(i)样本后，将其features中随机找两个feature，变换其值(如原先是1的就变成0，0的就变成1)，作为噪音。以此类推，生成另外8份</p>
-<h3 id="将label=1的分成9份">将label=1的分成9份</h3>
-<p>每份都与label=0生成一个model, 然后预测时与这9个model都进行预测，然后对结果进行投票，即选出次数最多的label作为最后结果</p>
-<h3 id="svm的两个参数可以处理">svm的两个参数可以处理</h3>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/21/spark学习小记/">
-  <time datetime="2014-04-21T15:28:13.000Z">
-    Apr 21 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/21/spark学习小记/">Spark学习小记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据<br>   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错<br>   即会在stage的边界上会进行备份 </p>
-<p>   取原始数据以及shuffle时会产生新stage</p>
-<p>2、reduce、join等方法都在PairRDDFunctions</p>
-<p>3、Block Manager负责与HDFS进行通信,  Block Tracker</p>
-<p>4、rdd.map().filter().reduceByKey()  这样有可能使某些partition没数据或很少数据，造成浪费，可以使用repartition(其实用了coalesce)或coalesce</p>
-<p>5、rdd.recuce(5)，5就是reduce数，其实就是分区数</p>
-<p>6、A*B  join优化，其中A先groupbykey,然后B也利用相应的hashPartition归到A上</p>
-<p>7、使用Accumulator时需要 import SparkContext._</p>
-<p>8、用户的main方法相当于一个driver, 而一个sparkcontext就算一个application</p>
-<p>9、每个action都会生成一个job, 一个job中包括多个stage</p>
-<p>10、每个DAGScheduler submitJob时都会先生成个shuffleDep=None的 stage作为finalStage,然后以该stage向上找父stage即通过rdd的dependencies判断dependence是否是ShuffleDependence来判断是否是shuffleStage</p>
-<p>11、partition与blockid的关系： “rdd<em>“ + rdd.id + “</em>“ + split.index  (split即partition)</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/20/scala学习小记/">
-  <time datetime="2014-04-20T08:57:21.000Z">
-    Apr 20 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/20/scala学习小记/">scala学习小记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <h2 id="问题：">问题：</h2>
-<p>1、统一访问原则，方法可以不带()<br>2、闭包概念<br>3、单例对象 object</p>
-<p>var x=1<br>x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”</p>
-<h2 id="基本">基本</h2>
-<p>1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)<br>2、for(d&lt;-datas) print(d)<br>3、1+2   (1).+(2)<br>4、1::2::3::Nil 生成List(1,2,3)<br>5、1::list，将1添加到List的头<br>6、list1:::list2 将两个list合并<br>7、list.mkString(“,”)变成1,2,3<br>8、data.foreach(d=&gt;println(d))   data.foreach(println(<em>))  data.foreach(println)<br>9、array(0)即array.apply(0)  array(0)=1即array.update(0,1)<br>      Array(1,2,3)  即Array.apply(1,2,3)<br>10、List中的元素值是不可变的，即list(0)=1是会出错的，无update方法<br>       list.init()去掉头元素后的，tail()去掉尾元素， drop(2)去掉前2个等操作都不会改变原List，而是产生新list<br>       list.map(</em>+1) 每个结果都加1，也是产生新list<br>       list.foreach(println)</p>
-<p>11、Tuple:   var d = (1,”3”,”abc”) 即x: (Int, String) = (1,abc)<br>         d._1  d._2 d._3</p>
-<pre><code><span class="number">1</span>-&gt;<span class="number">2</span> 的结果是(<span class="number">1</span>,<span class="number">2</span>)
-</code></pre><p>12、var list=List(123), list::list的结果是：   List[Any] = List(List(1, 2, 3), 1, 2, 3)<br>        其中每个元素都是Any，失去了List或Int的属性</p>
-<pre><code>    list.sortWith<span class="function"><span class="params">((a,b) =&gt; a&gt;b)</span>  按元素降序排</span>
-</code></pre><p>13、import scala.collection.immutable.Set  与scala.collection.mutable.Set  (HashSet也一样)<br>        不可变：  s1+=1 其实是s1=s1+1, 这样就产生了新的set并赋给s1，原先的s1并没有变   var t=s1+=1，t是Unit的，因为s1=s1+1无返回值<br>        可变： s1+=1 其实是s1.+=(1), 是在原s1进行修改. 即var x=s1+1， 这时x和s1是一样的，以后改变任何一个，另一个也跟着变(其实就是改同一个)<br>        缺省是不可变的</p>
-<p>14、-&gt;是scala任何对象都有的，即变成Tuple，如1-&gt;”abc” 结果是(1,”abc”)</p>
-<p>15、var m=Map<a href="">Int,String</a> 默认是不可变的，用HashMap时要import<br>        m+=(1-&gt;”abc”)    m(1)获得值即m.apply(1)<br>        m+=(1,”abc”)这样是不行的。。。<br>        可以这样初始化：var t=Map(1-&gt;”abc”,2-&gt;”cde”)<br>        可变与不可变与Set的一样</p>
-<pre><code>     可变时可以用map(1)=“abc”  来赋值即x.<span class="operator"><span class="keyword">update</span>(<span class="number">1</span>,”abc”)， 而不可变时则不能用，其没有<span class="keyword">update</span></span>
-</code></pre><p>16、指令式是使用var, 如while var i=1 等，  而函数式就是不用var，如for(d&lt;-data)<br>       def echo(name:String)=print(name)  可以不用指定结果<br>       但有递归时就要有返回值： def fin(n:Int):Int=if(n&lt;=0) 0 else n + fin(n-1)</p>
-<p>17、var t=“abc”*2 结果是abcabc</p>
-<p>18、Source.fromFile(“/Users/wangzejie/t1.txt”).getLines.toList<br>val longestLine = lines.reduceLeft(<br>  (a, b) =&gt; if (a.length &gt; b.length) a else b<br>)<br>得到lines中长度最大的元素<br>19、var d = “””  Hello World   “good” yes“”” 中间可以不用转义<br>20、var d=‘abc  结果是Symbol类，  d.name可以得到abc String<br>21、var d= !true    =后一定要有空格，不然会变成换行后面还要加内容<br>22、== 是看是否是null,不是的话就进行equal比较，和java的不一样<br>23、1 min 5    -1 abs<br>24、var x<em>:=1是不行的， var x</em>:加空格=1,则变量名是x<em>:<br>        var x</em>空格:Int=1才Ok…<br>25、Scala 的惯例是常数也用驼峰式风格,如 XOffset<br>26、如果使用了scala的保留字，如声明了for的方法，可以用<code>` ，如def</code>for<code>()=“abc” ,调用时</code>for`()<br>27、val x = if(!true) “abc” else 1   这样是可以的，x会根据返回的结果来决定用什么类型</p>
-<p>28、</p>
-<pre><code><span class="keyword">val</span> d1 = Array(<span class="string">"s"</span>,<span class="string">"b"</span>)
-<span class="keyword">val</span> d2 = Array(<span class="string">"n"</span>,<span class="string">"c"</span>)
-<span class="keyword">val</span> d3 = d1 zip d2
-</code></pre><p>d3的结果是Array((s,n),(b,c))</p>
-<p>如果两个操作数组的其中一个比另一个长,zip 将舍弃余下的元素</p>
-<pre><code><span class="keyword">val</span> d1 = Array(<span class="string">"s"</span>,<span class="string">"b"</span>)
-<span class="keyword">val</span> d4 = “a<span class="string">"
-val d3 = d1 zip d4</span>
-</code></pre><p>d3的结果是Array((s,a))</p>
-<p>29、 def hello(name:String=“abc”)={XXX}  //可以直接调用hello()时，会启用默认参数， 但hello不能用，因为hello其实是有参数的</p>
-<p>30、val (n,r)=(1,10)  可以这样赋值，后面就可以使用n和r</p>
-<p>31、 def hello(){“Hello”} //返回是Unit,  加上等号后结果就是String</p>
-<p>32、集合List是在package.scala中定义的，val List=scala.collections.immulate.List</p>
-<p>33、val m = Map(1-&gt;2)   m(1)其实是m.get(1).get, m.get(1)的结果是Option[Int]=Some[Int], 后一个get其实是Some.get<br>    m(2)则会报错，因为m.get(2)的结果是Option[Int]=None, 而None没有get方法，所以会报错，改成m.get(2).getOrElse(3)，返回3，就能实现当key不存在时返回其他值</p>
-<p>34、<br>flatten</p>
-<pre><code>val d = <span class="keyword">List</span>(<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>),<span class="keyword">List</span>(<span class="number">3</span>,<span class="number">4</span>))
-d.flatten的结果是<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
-</code></pre><p>flatMap=flatten+map</p>
-<pre><code>d<span class="preprocessor">.flatMap</span>(_<span class="preprocessor">.map</span>(_+<span class="number">1</span>)) 结果是List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)
-</code></pre><p>partition:</p>
-<pre><code>val l = <span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
-val (x,y) = l.partition(_%<span class="number">2</span>==<span class="number">0</span>) 的结果是(<span class="keyword">List</span>(<span class="number">2</span>, <span class="number">4</span>),<span class="keyword">List</span>(<span class="number">1</span>, <span class="number">3</span>))  , x就是<span class="keyword">List</span>(<span class="number">2</span>,<span class="number">4</span>), y就是<span class="keyword">List</span>(<span class="number">1</span>,<span class="number">3</span>)
-</code></pre><p>foreach ：方法声明是foreach<a href="f:Int=&gt;B">B</a>:Unit  这里先假设list是List[Int]</p>
-<pre><code>val d = <span class="keyword">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)  <span class="comment">//这里的d.foreach中B默认是Int,所以只能是返回Int, 使用Println时则要显示声明B为Unit</span>
-d.<span class="keyword">foreach</span>(println(_+<span class="number">1</span>)) <span class="comment">//错误</span>
-d.<span class="keyword">foreach</span>(x=&gt;println(x+<span class="number">1</span>)) <span class="comment">//错误</span>
-d.<span class="keyword">foreach</span>(x=&gt;x+<span class="number">1</span>) <span class="comment">//正确</span>
-d.<span class="keyword">foreach</span>[Unit](x=&gt;println(x+<span class="number">1</span>)) <span class="comment">//正确,显示声明B为Unit</span>
-val x = d.<span class="keyword">foreach</span>(_+<span class="number">1</span>)  <span class="comment">//x的结果是Unit，因为foreach返回值为Unit</span>
-</code></pre><h2 id="类：">类：</h2>
-<p>1、如果没有发现任何显式的返回语句,Scala 方法将返回方法中最后一个计<br>算得到的值。可以加上return<br>2、方法参数都是val的，不能被修改<br>3、var t = new MyClass 或new MyClass()都可以<br>   class Myclass{<br>  var x=0;  //默认是public, 可以加上private等修饰<br>        def sum(y:Int)=x+=y<br>              def getX()=x<br>    }<br>   如果方法无参数，则调用时可以把()省略，如t.getX<br>4、带有大括号但没有等号的,在本质上当作是显式定义结果类型为 Unit 的方法<br>      def test(){“abc”} 最后返回是()Unit<br>     目前已经不支持这样的语法：<br>    def test(){“abc”}或def test():Unit=“abc”都是不行的<br>5、<br>(1) A.add(1)  可以变成中间操作符： A add 1   </p>
-<p>两个参数的  A max (1,2,3) 要用()来括起参数</p>
-<p>(2) </p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyTest</span>{</span>
-
-  <span class="function"><span class="keyword">def</span> </span>unary<span class="number">_</span>-()=<span class="string">"abc"</span>
-
-  }
-</code></pre><p>则可以使用  var d=new MyTest      -d的结果就是abc, 这样的前缀操作符</p>
-<p>前缀操作符目前只支持+ - ! ~ </p>
-<p>(3) 后缀操作符</p>
-<p>方法没有参数，A.toLowerCase()  可以用A.toLowerCase以及 A toLowerCase     </p>
-<p>6、class Test(a:Int){ println(a)}   在类内部可以使用a，但外部不能调用test.a，用的话还要是</p>
-<p>  class Test(a:Int){ val x:Int=a}  这样后才可以test.x来调</p>
-<p>7、</p>
-<pre><code>  class Test(<span class="operator">a</span>:Int){
-
-       def <span class="built_in">add</span>(b:Int)=<span class="operator">a</span>+b  <span class="comment"> //结果有return a+b</span>
-
-       def <span class="built_in">add</span>(b:Int)={<span class="operator">a</span>+b}  <span class="comment"> //结果有return a+b</span>
-
-       def <span class="built_in">add</span>(b:Int){<span class="operator">a</span>+b}  <span class="comment"> //结果是Unit， 其中使用return a+b是不行   只用return是可以的</span>
-
-  }
-</code></pre><p>8、this和java的用法一样</p>
-<p>9、方法或类中可以加 require(d != 0)  来规定参数一定要是非0</p>
-<p>10、</p>
-<pre><code><span class="keyword">def</span> toString=“abc”  没有参数的方法可以省略(),  toString是父类已经有的，重载它必须写<span class="keyword">override</span>
-
-<span class="keyword">def</span> hello=“Hello”  调用hello没问题，但调用hello()报错
-
-<span class="keyword">def</span> hello()=“Hello” 则两个都可以
-</code></pre><p>11、从构造器：最终都会调用到主构造器上</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">(a:Int)</span>{</span><span class="comment">//主构造器</span>
-
-  <span class="keyword">def</span> <span class="keyword">this</span>()=<span class="keyword">this</span>(<span class="number">1</span>) <span class="comment">//从构造器</span>
-
-  <span class="keyword">def</span> value()=a
-
-  }
-</code></pre><p>12、</p>
-<pre><code><span class="class"><span class="keyword">object</span> <span class="title">MyClass</span>{</span>
-
-   <span class="keyword">def</span> main(args:Array[String]){ xxxx}       
-
-}   
-</code></pre><p>这样才能执行main,  如果object改成class，则该main方法无效</p>
-<p>13、类中定义了+ <em>后，也存在操作符优先级，即t1 + t2 </em> t3 也是先*再+</p>
-<p>14、</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
-
-  <span class="keyword">val</span> x = a
-
-  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
-
-  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
-
- }
-</code></pre><p>  implicit def intToM(a : Int)=new M(a) 可以将int隐式转成M</p>
-<p>  即val t=new M(1)     t+1 或1+t的结果是M(2),   </p>
-<p>15、var t = <em> + 1   t(2)这样也是不行的，要改成var t = (</em> : Int) + 1</p>
-<pre><code>去掉:Int 只能在<span class="operator">a</span>.<span class="built_in">filter</span>(x=&gt;x+<span class="number">1</span>)  <span class="operator">a</span>.<span class="built_in">filter</span>(_+<span class="number">1</span>)这样的方法中
-</code></pre><p>16、偏应用函数</p>
-<pre><code>def <span class="built_in">sum</span>(<span class="operator">a</span>:Int, b:Int, c:Int)=<span class="operator">a</span>+b+c
-
-val s = <span class="built_in">sum</span> _
-
-s(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)
-
-val s1 = <span class="built_in">sum</span>(<span class="number">1</span>,_ : Int,<span class="number">3</span>)
-
-val s2 = <span class="built_in">sum</span>(<span class="number">8</span>,_ : Int,<span class="number">3</span>)
-
-println(s1(<span class="number">9</span>))
-
-println(s2(<span class="number">9</span>))
-</code></pre><p>17、闭包  </p>
-<pre><code>val more=<span class="number">1</span>
-
-val f1 = x<span class="function"> =&gt;</span> x+more    <span class="regexp">//</span>这样是不行的，要改成val <span class="function"><span class="title">f1</span> = <span class="params">(x :Int)</span> =&gt;</span> x+more
-
-def test<span class="function"><span class="params">(more:Int)</span>=<span class="params">(x:Int)</span>=&gt;</span>x+more
-
-val t1 = test(<span class="number">10</span>)
-
-val t2 = test(<span class="number">5</span>)
-
-println(t1(<span class="number">1</span>)) <span class="regexp">//</span><span class="number">11</span>
-
-println(t2(<span class="number">1</span>)) <span class="regexp">//</span><span class="number">6</span>
-</code></pre><p>18、重复参数  参数后加*</p>
-<pre><code>def test(args:<span class="keyword">String</span>*)<span class="list">{
-
-  args.foreach(println)
-
-}</span>
-
-test(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c”)</span>
-</code></pre><p>但不能传入Array，要传入Array就要改成args:_* ，编译器会把args的每个元素当成参数</p>
-<pre><code>def test(args:<span class="keyword">String</span>*)<span class="list">{
-
-  args.foreach(println)
-
-}</span>
-
-val t = <span class="keyword">Array</span>(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>)
-
-test(t:_*)
-</code></pre><p>  test(“ABC”,t:_*,”ABC”)是不行的</p>
-<p>19、</p>
-<p>def x=1   </p>
-<p>println(x) 这样也是可以的，但println(x())不行</p>
-<p>def x()=1 时println(x)和println(x())都可以</p>
-<p>20、直接参数化字段</p>
-<pre><code><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MyObject</span>{</span>
-
-  <span class="keyword">def</span> hello : String
-
-}
-
-<span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(val hello: String)</span> <span class="keyword">extends</span> <span class="title">MyObject</span>{</span>
-
-}
-</code></pre><p>21、字段和方法是一类的，不能同名</p>
-<p>22、</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> {</span>
-
-  <span class="keyword">val</span> dangerous = <span class="keyword">false</span>
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Tiger</span><span class="params">(
-  override val dangerous: Boolean,
-  private var age: Int
-)</span> <span class="keyword">extends</span> <span class="title">Cat</span></span>
-</code></pre><p>Tiger 的定义是以下包括重载成员 dangerous 和 private 成员 age 的类定义替代写法的简写:</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Tiger</span><span class="params">(param1: Boolean, param2: Int)</span> <span class="keyword">extends</span> <span class="title">Cat</span> {</span>
-  <span class="keyword">override</span> <span class="keyword">val</span> dangerous = param1
-  <span class="keyword">private</span> <span class="keyword">var</span> age = param2
-}
-</code></pre><p>23、final修饰使类不可被继承、方法不可被override</p>
-<p>24、Array a1, Array a2</p>
-<pre><code>    a1+a2报错， a1++a2，则将两个数组合并
-
-    <span class="keyword">Array</span> <span class="keyword">foreach</span>(println)时最后都有个()即Unit，但算长度等时不算这个值
-</code></pre><p>25、class A{ var name:String=_  //生成getter和setter,     val age=10  //只生成getter}</p>
-<p>26、</p>
-<pre><code><span class="keyword">class</span> A(val name:<span class="keyword">String</span>, val age:<span class="keyword">String</span>)<span class="comment">{//主构造器，其中的参数会被编译成参数
-
-        println(“Hello”)  //方法中的语句都会被执行一次
-
-}</span>
-
-   <span class="keyword">class</span> A(name:<span class="keyword">String</span>)<span class="comment">{// 没有val或var的话，相当于private[this] name，只在类内部可以使用
-
- }</span>
-
-
-
-<span class="keyword">class</span> Person(<span class="keyword">var</span> name:<span class="keyword">String</span>, val age:Int)<span class="comment">{//声明成val后，就不能进行修改，如p.age=10，就报错
-
-  println("this is primary constructor.”)
-
-  age = 10 //这里报错
-
-  var gender : String = _   
-
-  def this(name:String, age:Int, gender:String){
-
-    this(name, age)  //一定要先调
-
-    this.gender = gender  //如果gender是val, 这里也编译不过去
-
-  }</span>
-
-}
-
-<span class="keyword">class</span> Student(name:<span class="keyword">String</span>,
-              age:Int<span class="comment">//这里不能加val，要加的话只能加override val, override var不行，要和父类的val一样</span>
-              val major:<span class="keyword">String</span>) extends Person(name, age)<span class="comment">{
-
-  println("this is a child constructor.")
-
-}</span>
-</code></pre><p>27、子类声明和父类一样的方法或属性时一定要加override</p>
-<p>28、object和静态类一样，里面的每一个属性方法都是静态的<br>单例的apply</p>
-<pre><code><span class="comment">//单实例对象</span>
-<span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span> <span class="title">private</span>{</span>  <span class="comment">//private使主构造器成为私有， class SingleInstance private(val name:String)</span>
-}
-
-<span class="class"><span class="keyword">object</span> <span class="title">SingleInstance</span> {</span>
-  <span class="keyword">private</span> <span class="keyword">val</span> instance = <span class="keyword">new</span> SingleInstance
-  <span class="keyword">def</span> apply() = instance  <span class="comment">//apply方法</span>
-}
-
-<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
-  <span class="keyword">val</span> x = SingleInstance <span class="comment">//其实就是静态类</span>
-  <span class="keyword">val</span> a = SingleInstance() <span class="comment">//加()号会调用apply方法</span>
-  <span class="keyword">val</span> b = SingleInstance()
-  <span class="comment">//a和b是一样的</span>
-  println(a)
-  println(b)
-}
-</code></pre><p>类的apply</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span>{</span>
-  <span class="keyword">def</span> apply()=<span class="string">"Hello"</span>
-}  
-
-<span class="keyword">val</span> a = <span class="keyword">new</span>  SingleInstance
-a() <span class="comment">//此时调用的就是apply</span>
-</code></pre><h2 id="特质trait">特质trait</h2>
-<p>1、</p>
-<pre><code><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span>{</span>
-  <span class="keyword">def</span> logger{
-    println(<span class="string">"Logger"</span>)
-  }
-}
-
-<span class="class"><span class="keyword">trait</span> <span class="title">ConsoleLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
-  <span class="keyword">override</span> <span class="keyword">def</span> logger{ <span class="comment">//因为Logger已经实现了，所以要加override，否则不用加</span>
-    println(<span class="string">"ConsoleLogger"</span>)
-  }
-}
-
-<span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
-}
-
-<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
-  <span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger  <span class="comment">//物质混入对象</span>
-  c.logger  <span class="comment">//调用ConsoleLogger</span>
-  <span class="keyword">val</span> x = <span class="keyword">new</span> MyTest <span class="keyword">with</span> Logger 
-  x.logger  <span class="comment">//调用ConsoleLogger，不会用Logger的，这里应该也会用子特质的</span>
-  <span class="keyword">val</span> d = <span class="keyword">new</span> MyTest   
-  d.logger   <span class="comment">//调用Logger</span>
-}
-</code></pre><p>如果类混入了某个特质X，有方法A，则对象混入另一个拥有方法A的特质Y时会报错，因为是方法冲突，除非X和Y有继承关系，或者X ext Y，或者Y ext X</p>
-<pre><code><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span>{</span>
-  <span class="keyword">def</span> logger{
-    println(<span class="string">"Logger"</span>)
-  }
-}
-
-<span class="class"><span class="keyword">trait</span> <span class="title">ConsoleLogger</span>{</span>
-  <span class="keyword">def</span> logger{
-    println(<span class="string">"ConsoleLogger"</span>)
-  }
-}
-
-<span class="class"><span class="keyword">class</span> <span class="title">MyTest</span> <span class="keyword">extends</span> <span class="title">Logger</span>{</span>
-}
-
-<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
-  <span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger
-  c.logger
-}
-</code></pre><p>报错：</p>
-<pre><code><span class="comment">//方法冲突</span>
-anonymous <span class="keyword">class</span> $anon inherits conflicting members:
-method logger <span class="keyword">in</span> trait Logger <span class="keyword">of</span> <span class="class"><span class="keyword">type</span> =</span>&gt; Unit  <span class="keyword">and</span>
-method logger <span class="keyword">in</span> trait ConsoleLogger <span class="keyword">of</span> <span class="class"><span class="keyword">type</span> =</span>&gt; Unit
-(Note: this can be resolved by declaring an <span class="keyword">override</span> <span class="keyword">in</span> anonymous <span class="keyword">class</span> $anon.)
-<span class="keyword">val</span> c = <span class="keyword">new</span> MyTest <span class="keyword">with</span> ConsoleLogger
-          ^
-</code></pre><p>如果Logger和ConsoleLogger的方法不一样，就不会有这个问题</p>
-<h2 id="控制语句：">控制语句：</h2>
-<p>1、if是有返回值的 val a=if(a&gt;b) a else b</p>
-<p>2、for(d&lt;-data if(d %2==0)) println(d)   可以直接在for中加条件进行过滤</p>
-<pre><code><span class="keyword">for</span> (
-      <span class="keyword">file</span> &lt;- filesHere
-      <span class="keyword">if</span> <span class="keyword">file</span>.isFile;
-      <span class="keyword">if</span> <span class="keyword">file</span>.getName.<span class="keyword">endsWith</span>(<span class="string">".scala"</span>)
-) println(<span class="keyword">file</span>)   
-</code></pre><p>for()换成for{}也是可以的。 使用()，这里面的要加; 使用{}则用换行，不需要;<br>嵌套循环：</p>
-<pre><code><span class="title">for</span>(d&lt;-<span class="typedef"><span class="keyword">data</span>;x&lt;-<span class="keyword">data</span> if<span class="container">(<span class="title">x</span>%2==1)</span>) println<span class="container">(<span class="title">d</span>*<span class="title">x</span>)</span></span>
-</code></pre><p>流间变量:</p>
-<pre><code><span class="title">for</span>(d&lt;-<span class="typedef"><span class="keyword">data</span>;x&lt;-<span class="keyword">data</span> if<span class="container">(<span class="title">x</span>%2==1)</span>;t=d+":") println<span class="container">(<span class="title">t</span> + <span class="title">d</span>*<span class="title">x</span>)</span>    //这里可以直接使用t</span>
-</code></pre><p>创建新集合： val t=for {子句} yield {循环体}    这样返回的是循环体中各元素产生的集合</p>
-<pre><code><span class="keyword">var</span> data=<span class="built_in">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>) ,  则val t=<span class="keyword">for</span>(d&lt;-data) <span class="keyword">yield</span> {d+<span class="number">1</span>} ， t的结果是<span class="built_in">Array</span>(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)
-
-<span class="keyword">for</span> (file &lt;-filesHere <span class="keyword">if</span> file.getName.endsWith(<span class="string">".scala"</span>)) { <span class="keyword">yield</span> file <span class="comment">// 语法错误!}  这样的语法是错的</span>
-</code></pre><p>3、 (line = readLine()) != “”的坑</p>
-<pre><code>//这里再赋值时返回的是Unit，值 是(),  ()!=“”返回是<span class="constant">true</span>，将进入死循环
-var <span class="built_in">line</span> = <span class="string">""</span>
-<span class="keyword">while</span> ((<span class="built_in">line</span> = readLine()) != <span class="string">""</span>)<span class="comment"> // 不起作用</span>
-println(<span class="string">"Read: "</span>+ <span class="built_in">line</span>)     
-</code></pre><p>4、模式匹配，match,即java的switch</p>
-<pre><code><span class="comment">//match也可以赋值</span>
-val t = x match{
-  <span class="keyword">case</span> <span class="string">"abc"</span> =&gt; <span class="number">1</span> <span class="comment">//break被隐藏了</span>
-  <span class="keyword">case</span> <span class="string">"b"</span> =&gt;<span class="number">2</span>
-  <span class="keyword">case</span> _ =&gt; <span class="number">3</span> <span class="comment">//default</span>
-}
-<span class="comment">//在match中加if</span>
-val a = <span class="number">1</span>
-val result = a match{
-  <span class="keyword">case</span> i <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span> =&gt; <span class="string">"EVE"</span>
-  <span class="keyword">case</span> i <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span> =&gt; <span class="string">"OOD"</span>
-  <span class="keyword">case</span> _=&gt;<span class="string">"Other"</span>
-}
-</code></pre><p>   case中的都要是同一个类型的</p>
-<p>   例外，用于判断对象类别<br>    //这时候就可以来判断不同类型<br>    def matchVal(obj:Any){<br>      obj match{<br>        case x : Int =&gt; println(“Int”)<br>        case x : String =&gt; println(“String”)<br>        case _ =&gt; println(“Other”)<br>      }<br>    }</p>
-<p>case class:</p>
-<pre><code><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Book</span> <span class="params">(name:String/*默认是val*/)</span></span>
-<span class="keyword">val</span> book = Book(<span class="string">"scala"</span>)  <span class="comment">//这里不需要用new,应用使用了object apply</span>
-book <span class="keyword">match</span>{
-  <span class="keyword">case</span> Book(name) =&gt; println(<span class="string">"This is a book"</span>)
-  <span class="keyword">case</span> _ =&gt; println(<span class="string">"Not a book."</span>)
-}
-</code></pre><p>5、scala中break和continue被取消，调整或多加if else 以及while的结果标识变量或使用递归可以达到相同的结果<br>6、val x=1<br>   val x=2是会报错的, 解释器里不会报错，因为实际上解释器创建了如下的shadow形式(val x=1  x=2，这样在解释器里也会报错)<br>但val x= 1<br>  {val x=2}是可以的，因为可以在内部遮蔽:shadow， 这时外部变量在内部范围不可见了<br> 但 val x=1<br>{x=2}是不行的</p>
-<p>7、方法一个参数时可以写在x(a)以及x{a}  ，x(a,b)两个参数时只能用小括号, 要改成使用{}的话，可以用curry</p>
-<pre><code>def test(name:<span class="built_in">String</span>)(func:<span class="built_in">String</span>=&gt;<span class="built_in">String</span>)=func(name)
-    test(<span class="string">"scala"</span>){
-      n =&gt; <span class="string">"Hello "</span> + n   <span class="comment">//可以改成"Hello " + _</span>
-    }
-</code></pre><p>8、高阶函数 (x:Int)=&gt;x+2    (x)=&gt;x+2     _+2</p>
-<h2 id="异常：">异常：</h2>
-<pre><code><span class="keyword">try</span> {     
-  val f = <span class="keyword">new</span> FileReader(<span class="string">"input.txt"</span>)     
-  <span class="comment">// Use and close file</span>
-thrown <span class="keyword">new</span> <span class="keyword">Exception</span>()
-} <span class="keyword">catch</span> {
-  <span class="keyword">case</span> ex: FileNotFoundException =&gt; println(“Hello<span class="string">") // Handle missing file
-  case ex: IOException =&gt; // Handle other I/O error
-｝finally{}      
-
-def f(): Int = try { return 1 } finally { return 2 }   //返回2
-def g(): Int = try { 1 } finally { 2 } //返回1</span>
-</code></pre><h2 id="包">包</h2>
-<p>1、包嵌套</p>
-<pre><code><span class="package"><span class="keyword">package</span> <span class="title">com</span>.<span class="title">test</span>{</span>
-  <span class="comment">//这里不能直接访问hello中的数据，要import</span>
-  <span class="package"><span class="keyword">package</span> <span class="title">hello</span>{</span>
-    <span class="comment">//可以直接访问com.test中的数据</span>
-  }
-}
-</code></pre><p>2、可以在任何地方引入包import, 然后只在相应块的作用域中起作用<br>3、重命名与隐藏 </p>
-<pre><code>import com.test.{HashMap=&gt;HelloHashMap<span class="comment">/*重命名*/</span>, HashSet=&gt;_  <span class="comment">/*隐藏*/</span>}
-</code></pre><p>4、import com.test.<em>    </em>相当于*<br>5、包范围</p>
-<pre><code>package <span class="keyword">com</span><span class="preprocessor">.test</span><span class="preprocessor">.hello</span>
-private[hello] def hello=<span class="string">"Hello"</span> //只能在hello包中的可以访问hello方法，<span class="keyword">com</span><span class="preprocessor">.test</span>包的中都不能访问
-</code></pre><h2 id="隐式">隐式</h2>
-<p>隐式转换</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>
-<span class="class"><span class="keyword">class</span> <span class="title">RichA</span><span class="params">(a:A)</span>{</span>
-  <span class="keyword">def</span> hello{
-    println(<span class="string">"Hello"</span>)
-  }
-}
-<span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span>{</span>
-  implicit <span class="keyword">def</span> a2RichA(a:A) = <span class="keyword">new</span> RichA(a)  <span class="comment">//这里的a2RichA可随便起，但参数一定要是转换的源，返回值是转换的目标</span>
-  <span class="keyword">val</span> a = <span class="keyword">new</span> A
-  a.hello  <span class="comment">//这里就可以调用RichA的方法了</span>
-}
-</code></pre><p>隐式参数</p>
-<pre><code>def hello(<span class="keyword">implicit</span> name:String){
-  println(name)
-}
-<span class="keyword">implicit</span> val xy = <span class="string">"Hell Scala"</span>  <span class="comment">//这里不一定要是name</span>
-hello   <span class="comment">//结果就是打印出Hello Scala, 即会自动把xy作为参数传进去</span>
-hello() <span class="comment">//报错</span>
-hello(<span class="string">"ABC"</span>) <span class="comment">//正常的参数调用</span>
-</code></pre><p>隐式类，可扩展相应的类型的方法</p>
-<pre><code><span class="comment">//扩展int添加add 方法</span>
-implicit <span class="class"><span class="keyword">class</span> <span class="title">Increase</span><span class="params">(x:Int)</span>{</span>
-  <span class="keyword">def</span> add(x:Int) = x + <span class="number">1</span>
-}
-println(<span class="number">1.</span>add(<span class="number">1</span>))  <span class="comment">//这里实际上就是Increase.add</span>
-<span class="comment">//note:如果Increate是在其他包中，则要import 进来</span>
-</code></pre><h2 id="泛型">泛型</h2>
-<pre><code>class Pair[<span class="link_label">K,V</span>](<span class="link_url">key:K, value : V</span>){// 类中泛型
-  def printKey=println(key)
-  def printValue=println(value)
-  def hello[<span class="link_label">B</span>](<span class="link_url">list:List[B]</span>){ //参数泛型
-<span class="code">    list.foreach(println)</span>
-  }
-}
-
-val p1 = new Pair(1,2)
-val p2 = new Pair(1,"abc")
-
-p1.printValue  //2
-p2.printValue  //abc
-
-p1.hello(List(1,2,3))  //这里List[Int]就决定了B是Int
-p1.hello(List("a","b","c"))
-</code></pre><h2 id="akka">akka</h2>
-<pre><code><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Greeting</span><span class="params">(who:String)</span></span>
-<span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Welcome</span><span class="params">(who:String)</span></span>
-
-<span class="class"><span class="keyword">class</span> <span class="title">GreetingActor</span> <span class="keyword">extends</span> <span class="title">Actor</span>{</span>
-  <span class="keyword">def</span> receive = {
-    <span class="keyword">case</span> Greeting(who) =&gt; println(<span class="string">"Hello,"</span> + who)
-    <span class="keyword">case</span> _ =&gt; println(<span class="string">"UnCatchMsg!!!"</span>)
-  }
-}
-
-<span class="class"><span class="keyword">object</span> <span class="title">Hello</span>{</span>
-  <span class="keyword">def</span> main(args:Array[String]){
-    <span class="keyword">val</span> system = ActorSystem(<span class="string">"GreetingActor"</span>)
-    <span class="keyword">val</span> greet = system.actorOf(Props[GreetingActor], name = <span class="string">"greeting"</span>)
-    greet ! Welcome(<span class="string">"Scala akka"</span>)
-  }
-}
-</code></pre><h2 id="格式化输出">格式化输出</h2>
-<pre><code>println(<span class="string">"<span class="variable">%s</span>\t<span class="variable">%s</span>"</span>.<span class="keyword">format</span>(<span class="string">"Hello"</span>,<span class="string">"Scala"</span>))
-println(<span class="string">"Percision\tRecall"</span>)
-println(<span class="string">"<span class="variable">%4</span>.3f\t<span class="variable">%4</span>.3f"</span>.<span class="keyword">format</span>(<span class="number">0</span>.<span class="number">16353</span>, <span class="number">0</span>.<span class="number">5236</span>))
-
-val height = <span class="number">1.9</span>d
-val name = <span class="string">"James"</span>
-println(f<span class="string">"<span class="variable">$name</span><span class="variable">%s</span> is <span class="variable">$height</span><span class="variable">%2</span>.2f meters tall"</span>)
-</code></pre><h2 id="break_continue">break continue</h2>
-<pre><code>java:
-public void match(double ip, EduIp[] eduIps){
-  EduIp eip = null;
-  <span class="keyword">for</span>(EduIp ei:eduIps){
-    <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp){
-      eip = ep;
-      <span class="keyword">break</span>;
-    }
-  }
-  //其他操作
-}
-
-scala:
-<span class="function"><span class="keyword">def</span> <span class="title">matchIp</span><span class="params">(ip: Double, eduIps: Array[EduIp], i : Int)</span> :</span> EduIp = { //这里一定要写返回类型
-  <span class="keyword">if</span>(i &gt;= eduIps.length) null
-  <span class="keyword">else</span> <span class="keyword">if</span>(ip &gt;= eduIps(i).startIp &amp;&amp; ip &lt;= eduIps(i).endIp) eduIps(i)
-  <span class="keyword">else</span> matchIp(ip, eduIps, i + <span class="number">1</span>)
-}
-</code></pre><p>  scala当然可以再添加一个isBreak的值来判断是否结束，但这样太恶心</p>
-<h2 id="其他学习资料">其他学习资料</h2>
-<p><a href="http://stackoverflow.com/questions/8000903/what-are-all-the-uses-of-an-underscore-in-scala" target="_blank">下划线的几个用途</a><br><a href="http://www.slideshare.net/normation/scala-dreaded" target="_blank">下划线</a><br><a href="http://www.drmaciver.com/2008/03/existential-types-in-scala/" target="_blank">Existential types in Scala</a><br><a href="http://stackoverflow.com/questions/1031042/difference-between-scalas-existential-types-and-javas-wildcard-by-example" target="_blank">Difference between Scala’s existential types and Java’s wildcard by example</a></p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/14/spark安装及运行/">
-  <time datetime="2014-04-14T08:20:17.000Z">
-    Apr 14 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/14/spark安装及运行/">spark安装及运行</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <h2 id="安装">安装</h2>
-<p>-编辑 SPARK/etc/spark/conf/spark-env.sh:</p>
-<pre><code>STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>
-DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop 
-</code></pre><p>-将 SPARK/etc/spark/conf 拷到其他结点上.</p>
-<p>-启动master:</p>
-<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/sbin/<span class="operator"><span class="keyword">start</span>-master.sh</span>
-</code></pre><p>-如果可以共同ssh的话，可以执行</p>
-<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/sbin/<span class="operator"><span class="keyword">start</span>-slaves.sh</span>
-</code></pre><p>否则就要在各workers上启动：</p>
-<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.worker</span><span class="preprocessor">.Worker</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span>
-</code></pre><h2 id="spark_example">spark example</h2>
-<p>spark跑任务命令<br>    ./bin/spark-class org.apache.spark.deploy.Client launch<br>    [client-options] \<br>    <cluster-url> <application-jar-url> <main-class> \<br>    [application-options]</p>
-<pre><code><span class="attribute">cluster-url</span>: <span class="string">The URL of the master node.</span>
-<span class="attribute">application-jar-url</span>: <span class="string">Path to a bundled jar including your application and all dependencies. Currently, the URL must be globally visible inside of your cluster, for instance, an `hdfs://` path or a `file://` path that is present on all nodes. </span>
-<span class="attribute">main-class</span>: <span class="string">The entry point for your application.</span>
-
-<span class="avrasm">Client Options:
-  --memory &lt;count&gt; (amount of memory, <span class="keyword">in</span> MB, allocated for your driver program)
-  --cores &lt;count&gt; (number of cores allocated for your driver program)
-  --supervise (whether to automatically restart your driver on application <span class="keyword">or</span> node failure)
-  --verbose (prints increased logging output)
-    ./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.JavaSparkPi</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> –c <span class="number">1</span>
-
-
-//官方文档: application-jar-url: Path to a bundled jar including your application <span class="keyword">and</span> all dependencies. Currently, the URL must be globally visible inside of your cluster, for instance, an `hdfs://` path <span class="keyword">or</span> a `file://` path that is present on all nodes.
-
-//本地文件要用file:///, 使用本地文件时要确保各机器相同路径下都要有相应的jar，否则会报找不到文件的错误
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////opt/cloudera/parcels/SPARK/lib/spark/examples/lib/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.HdfsTest</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test –c <span class="number">1</span>
-
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:////root/wangzejie/sparktest/MySpark<span class="preprocessor">.jar</span> WordCount spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/test/test3 –c <span class="number">1</span></span>
-</code></pre><h2 id="这个才是正确的">这个才是正确的</h2>
-<pre><code>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> -c <span class="number">24</span> -m <span class="number">8000</span> -v launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> file:///opt/spark/submit/sbttest_2<span class="number">.10</span>-<span class="number">1.0</span><span class="preprocessor">.jar</span> <span class="keyword">com</span><span class="preprocessor">.meituan</span><span class="preprocessor">.mobile</span><span class="preprocessor">.data</span><span class="preprocessor">.mllib</span><span class="preprocessor">.DiscreteNaiveBayes</span> spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_train hdfs://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/sankuai/weibo/weibo_test
-
-
-//所有可以将自己的jar放到hdfs上，让所有机器都可以访问到, 但这个在<span class="number">0.9</span><span class="number">.1</span>是个bug
-./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span>
-</code></pre><p><em>在examples/lib/加入自己的jar包后，程序会启不来，不管是Master还是Worker，报下面的错:</em></p>
-<pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="preprocessor">.lang</span><span class="preprocessor">.NoSuchMethodException</span>: akka<span class="preprocessor">.remote</span><span class="preprocessor">.RemoteActorRefProvider</span>.&lt;init&gt;(java<span class="preprocessor">.lang</span><span class="preprocessor">.String</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.ActorSystem</span>$Settings, akka<span class="preprocessor">.event</span><span class="preprocessor">.EventStream</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.Scheduler</span>, akka<span class="preprocessor">.actor</span><span class="preprocessor">.DynamicAccess</span>)
-</code></pre><h2 id="application-jar-url_bug">application-jar-url bug</h2>
-<pre><code>./bin/spark-class org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.deploy</span><span class="preprocessor">.Client</span> launch spark://jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">7077</span> hdfs:///jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>:<span class="number">8020</span>/user/root/spark-examples_2<span class="number">.10</span>-<span class="number">0.9</span><span class="number">.0</span>-cdh4<span class="number">.6</span><span class="number">.0</span><span class="preprocessor">.jar</span> org<span class="preprocessor">.apache</span><span class="preprocessor">.spark</span><span class="preprocessor">.examples</span><span class="preprocessor">.LocalPi</span> –c <span class="number">1</span>
-</code></pre><p>异常：</p>
-<pre><code>Jar url <span class="string">'hdfs:///jx-mobile-weibo01.jx.sankuai.com:8020/user/root/spark-examples_2.10-0.9.0-cdh4.6.0.jar'</span> is <span class="operator">not</span> <span class="operator">a</span> valid <span class="built_in">URL</span>.
-Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <span class="built_in">format</span> (e.g. hdfs://XX, <span class="built_in">file</span>://XX)
-</code></pre><p><a href="http://apache-spark-user-list.1001560.n3.nabble.com/Unable-to-submit-an-application-to-standalone-cluster-which-on-hdfs-td1730.html" target="_blank">关于jar_url是hdfs://时的讨论</a><br><a href="https://github.com/cloudera/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/ClientArguments.scala" target="_blank">cloudear/spark上的bug源码</a><br><a href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/deploy/ClientArguments.scala" target="_blank">apache/spark上的修改源码</a></p>
-<h2 id="小记">小记</h2>
-<h3 id="reduceByKey">reduceByKey</h3>
-<p>reduceByKey不是RDD的方法，而是PairRDDFunctions的方法，需要import org.apache.spark.SparkContext._ 才能实现RDD隐式转成PairRDDFunctions的功能<br><a href="http://mail-archives.apache.org/mod_mbox/spark-user/201311.mbox/%3C527C02F2.6090606@oracle.com%3E" target="_blank">解决方法</a></p>
-<h2 id="user">user</h2>
-<p>./submit-job.sh sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes 2 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/root/test/test,hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/test2</p>
-<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 5000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.DiscreteNaiveBayes spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000034_0 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train/000035_0 6g</p>
-<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client kill spark://jx-mobile-weibo01.jx.sankuai.com:7077 driver-20140425175451-0000</p>
-<p>scp wangzejie@home:/Users/wangzejie/Documents/sourcecode/SBTTest/target/scala-2.10/sbttest_2.10-1.0.jar ./</p>
-<p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 10000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.Main spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/weibo_test 2g 9 1</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/11/solr空间索引原理及源码分析/">
-  <time datetime="2014-04-11T05:17:04.000Z">
-    Apr 11 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
-<p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。</p>
-<p>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
-<p><img src="../../../../img/solrspatial/四叉树.png" alt="四叉树分层"></p>
-<h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
-<ul>
-<li>maxLevels不同：geohash的maxLevels为11，quad的maxLevels为26。</li>
-<li>通过distance获得相应的detailLevel不同</li>
-<li>获得子Cell不同：geohash下一层有32个子Cell(编码为0-z), quad下一层有4个子Cell(编码为ABCD。A:左上，B：右上，C:左下，D:右下)</li>
-</ul>
-<p>由于两种方法的大致思想一致，所以下文重点介绍geohash。</p>
-<h2 id="重要属性">重要属性</h2>
-<p>schema.xml中的空间索引类型的配置：</p>
-<pre><code>&lt;fieldType <span class="property">name</span>=<span class="string">"location_jts"</span>   <span class="type">class</span>=<span class="string">"solr.SpatialRecursivePrefixTreeFieldType"</span>
-           spatialContextFactory=<span class="string">"com.spatial4j.core.context.jts.JtsSpatialContextFactory"</span>
-           distErrPct=<span class="string">"0.025"</span>
-           maxDistErr=<span class="string">"0.000009"</span>
-           units=<span class="string">"degrees"</span>/&gt;
-</code></pre><ul>
-<li>SpatialRecursivePrefixTreeFieldType</li>
-</ul>
-<p>用于深度遍历前缀树的FieldType，主要用于获得基于Lucene中的RecursivePrefixTreeStrategy。</p>
-<ul>
-<li>JtsSpatialContextFactory<br>当有Polygon多边形时会使用jts(需要把jts.jar放到solr服务的lib下)。基本形状使用SpatialContext (spatial4j的类)。</li>
-<li><p>distErrPct<br>定义非Point图形的精度，范围在0-0.5之间，默认0.025。该值决定了非Point的图形索引或查询时的level(如geohash模式时就是geohash的长度)。当为0时取maxLevels，即精度最大。计算level的方法是 Shape中心到其外包矩形的最远corner的距离 * distErrPct (这块理论依据还没研究…)。实现代码如下SpatialArgs.calcDistanceFromErrPct()返回distErr：</p>
-<p>  public static double calcDistanceFromErrPct(Shape shape, double distErrPct, SpatialContext ctx) {</p>
-<pre><code>  <span class="keyword">if</span> (distErrPct &lt; <span class="number">0</span> || distErrPct &gt; <span class="number">0.5</span>) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"distErrPct "</span> + distErrPct + <span class="string">" must be between [0 to 0.5]"</span>);
-  }
-  <span class="keyword">if</span> (distErrPct == <span class="number">0</span> || shape <span class="keyword">instanceof</span> Point) {
-    <span class="keyword">return</span> <span class="number">0</span>;
-  }
-  Rectangle bbox = shape.getBoundingBox();
-  <span class="comment">//Compute the distance from the center to a corner.  Because the distance</span>
-  <span class="comment">// to a bottom corner vs a top corner can vary in a geospatial scenario,</span>
-  <span class="comment">// take the closest one (greater precision).</span>
-  Point ctr = bbox.getCenter();
-  <span class="keyword">double</span> y = (ctr.getY() &gt;= <span class="number">0</span> ? bbox.getMaxY() : bbox.getMinY());
-  <span class="keyword">double</span> diagonalDist = ctx.getDistCalc().distance(ctr, bbox.getMaxX(), y);
-  <span class="keyword">return</span> diagonalDist * distErrPct;
-}
-</code></pre></li>
-</ul>
-<p>然后由GeohashPrefixTree.getLevelForDistantce(distErr)来求得geohash精度。</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLevelForDistance</span>(<span class="keyword">double</span> dist) {
-    <span class="keyword">if</span> (dist == <span class="number">0</span>) <span class="comment">//Point时dist=0</span>
-      <span class="keyword">return</span> maxLevels;<span class="comment">//short circuit</span>
-    <span class="keyword">final</span> <span class="keyword">int</span> level = GeohashUtils.lookupHashLenForWidthHeight(dist, dist);
-    <span class="keyword">return</span> Math.max(Math.min(level, maxLevels), <span class="number">1</span>);
-  }
-</code></pre><ul>
-<li>maxDistErr/maxLevels</li>
-</ul>
-<p>定义索引数据的最高层maxLevels，默认是0.000009即1米(geohash11位)，直接决定了Point索引的term数。<br>maxLevels优先级高于maxDistErr,即有maxLevels的话maxDistErr失效。详见SpatialPrefixTreeFactory.init()方法。<br>不过一般使用maxDistErr。</p>
-<ul>
-<li>worldBounds<br>世界坐标值：”minX minY maxX maxY”。 geo=true即geohash模式时，该值默认为”-180 -90 180 90”。geo=false即quad时，该值为Java double类型的正负边界，此时需要指定该值，设置成”-180 -90 180 90”。<h3 id="Solr_spatial的类框架图">Solr spatial的类框架图</h3>
-<img src="../../../../img/solrspatial/solr spatial类图.png" alt="solr spatial类图"></li>
-</ul>
-<h3 id="各类作用说明：">各类作用说明：</h3>
-<h4 id="lucene实现的：">lucene实现的：</h4>
-<ul>
-<li>SpatialStrategy: 空间索引的核心，用来创建 索引域 以及 查询Query、查询Filter，以及用于score=distance等的打分策略(DistanceValueSource)。</li>
-<li>SpatialPrefixTree: 其子类为GeohashPrefixTree和QuadPrefixTree。其主要用于获得索引Level、深度遍历获得与目标Shape相交的Cell，以及将token字符串与Cell间的相互转换。GeohashPrefix.GhCell (下层32个子结点，因为geohash每位代表5bit，2^5=32, 经度3bit，纬度2bit)和QuadPrefixTree.QuadCell(下层4个子结点)均是用于获得与目标Shape相交的下一层子cell。</li>
-<li>SpatialPrefixTreeFactory:初始化maxLevels, 通过makeSPT()方法创建SpatialPrefixTree对象(grid)</li>
-</ul>
-<h4 id="spatial4j/jts实现的：">spatial4j/jts实现的：</h4>
-<ul>
-<li>SpatialContext: 用于获得距离计算Calculator以及解析形状等。其属于spatial4j包中，该包中还有各种Shape及判断各Shape间的相交情况。JtsSpatialContext(jts包)用于处理多边形等情况。</li>
-</ul>
-<h4 id="solr实现的：">solr实现的：</h4>
-<ul>
-<li>AbstractSpatialFieldType:用于获得相应的Strategy，获得相应的索引域、查询Query。</li>
-</ul>
-<h2 id="创建空间索引">创建空间索引</h2>
-<h3 id="索引结构">索引结构</h3>
-<p>geohash模式的索引结构分成Point和非Point。下图为索引结构示意图(为方便起见只画了6层, 蓝色为Point，黄色为非Point)：<br>note: d=5的未画出的其他分支…</p>
-<p><img src="../../../../img/solrspatial/solr Spatial索引结构.jpg" alt="solr Spatial索引结构"></p>
-<ul>
-<li>Point<br>如经纬度41.79452,123.41555，对应的geohash为wxrvb2kqexu(maxLevels=11), 则其对应的term有11个(如w、wx、wxr、wxrv…，存储了前缀，牺牲索引加快查询速度)。</li>
-<li>非Point<br>如Polygon。非Point的索引中有leaf叶子结点的概念，比如wtxrvb包含在Polygon中，则该cell为leaf，生成term时会有wtxrvb与wtxrvb+(+是leaf的标志)。</li>
-</ul>
-<h3 id="空间索引创建流程">空间索引创建流程</h3>
-<p><img src="../../../../img/solrspatial/空间索引创建过程.png" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="../../../../img/solrspatial/空间索引过程示意图2.jpg" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
-<h2 id="空间索引查询">空间索引查询</h2>
-<h3 id="查询语法">查询语法</h3>
-<pre><code><span class="setting">q=<span class="value">{!geofilt pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
-<span class="setting">q=<span class="value">{!bbox pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
-<span class="setting">q=<span class="value">geo:<span class="string">"Intersects(-74.093 41.042 -69.347 44.558)"</span></span></span>
-<span class="setting">q=<span class="value">geo:<span class="string">"Intersects(POLYGON((-10 30, -40 40, -10 -20, 40 20, 0 0, -10 30)))"</span></span></span>
-</code></pre><h3 id="查询方法">查询方法</h3>
-<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="../../../../img/solrspatial/solr空间查询策略.png" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="../../../../img/solrspatial/solr空间索引查询示意图.jpg" alt="solr空间索引查询示意图"></p>
-<h3 id="空间索引查询流程">空间索引查询流程</h3>
-<p><img src="../../../../img/solrspatial/空间索引查询流程.png" alt="空间索引查询流程"><br>上图以geofilt查询为例，其中分成有score=distance和无score=distance两种情况。</p>
-<ul>
-<li>先介绍不需要score的情况：<br>1、解析查询，生成Query树：获得相应的QParse, 对geofilt进行语法解析，获得geofilt的各个参数，并且获得相应的查询Query(ConstantScoreQuery)包括相应的Filter(IntersectsPrefixTreeFilter)，其中也计算了查询Shape的一些属性，如最大索引长度detailLevel。<br>2、查询：SolrIndexSearch.search()进行创建Weight树和Score树。利用IntersectsPrefixTreeFilter得到符合条件的docIdSet(调用了前面的VistorTemplate深度遍历策略)。由于不需要score，所以Score返回的是ConstantScorer。</li>
-<li>需要score的情况(大坑，要缓存所有term对应的docId及对应的geohash中心点)，只说明score=distance,score=recipDistance图中已经说明：<br>基本流程和上面一致。说明下主要不同的地方：</li>
-<li>Query对象：其创建的是FilteredQuery，其中有几个属性关系到打分：<pre><code>a、ShapeFieldCacheDistanceValueSource: 用于生成FuncitonValues对象来给各个doc打分，只用于计算<span class="keyword">Point</span>类的doc，非<span class="keyword">Point</span>类的doc都打<span class="number">180</span>分(即非<span class="keyword">Point</span>都是最近的)。其主要属性PointPrefixTreeFieldCacheProvider缓存了所有<span class="keyword">Point</span>类doc的docId–&gt;point所在geohash的中心点(大坑之所在)。
-b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等主要用于空间索引的打分操作。
-</code></pre></li>
-<li>Scorer.score()调用的是AllScorer.score(): 解析出符合条件的docId，然后通过ShapeFieldCacheDistanceValueSource生成的FunctionValues得到docId对应的中心点，计算与查询Shape中心的距离来作为score。再放到优先队列中进行排序，从而实现按score排序的功能。</li>
-</ul>
-<h3 id="一些主要类说明：">一些主要类说明：</h3>
-<ul>
-<li>FunctionValues: 其floatVal(docId)用于计算两点距离(非Point默认最近)，调用provider的cache来获得各个docId的中心点坐标。</li>
-<li>ShapeFieldCacheDistanceValueSource: 生成的FunctionWeight。</li>
-<li>ShapeFieldCache(大坑,文档里说以后会替换这块):缓存了docId—&gt;其term对应的Cell的中心点。cache[docId]=ArrayList。</li>
-<li>PointPrefixTreeFieldCacheProvider:管理ShapeFieldCache。(只支持Point)</li>
-</ul>
-<h2 id="其他">其他</h2>
-<p>在研究solr及lucene时所画的一些图</p>
-<h3 id="solr_update流程">solr update流程</h3>
-<p><img src="../../../../img/solrspatial/solr创建索引流程.png" alt="solr创建索引流程"></p>
-<h3 id="solr空间查询类图">solr空间查询类图</h3>
-<p><img src="../../../../img/solrspatial/solr空间索引查询类图.png" alt="solr空间索引查询类图"></p>
-<h3 id="lucene_write类图">lucene write类图</h3>
-<p><img src="../../../../img/solrspatial/lucene write的类图.png" alt="lucene write的类图"></p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">
-  <time datetime="2014-04-11T03:36:54.000Z">
-    Apr 11 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>需求：计算用户的相似度，有用户列表U和特征列表F以及用户和特征的关系<U,F>。 根据<U1,Fn> ∩ <U2, Fm>的交集数来判断U1和U2的相似度。<br>解决方法：</p>
-<h2 id="一、用户维度的Join">一、用户维度的Join</h2>
-<p>最暴力低效的方法，因为用户量一般很大，所以join效率极低。一般不考虑。</p>
-<h2 id="二、特征维度">二、特征维度</h2>
-<p>将用户对特征的矩阵转成特征对用户的矩阵。</p>
-<h3 id="1、转成特征对用户的矩阵：F1-&gt;U1…Un">1、转成特征对用户的矩阵：F1-&gt;U1…Un</h3>
-<pre><code><span class="attribute">map</span>: <span class="string">context.write(F, U)</span>
-<span class="attribute">reduce</span>: <span class="string">context.write(F,List&lt;U&gt;)</span>
-</code></pre><h3 id="2、计算相似度">2、计算相似度</h3>
-<p>各种解决方案如下：</p>
-<h4 id="(1)直接输出UxUy_pair(IO密集型)">(1)直接输出UxUy pair(IO密集型)</h4>
-<p>map:  将user list拆成各user pair对并输出，具体如下所示范例(代码只是伪码)：</p>
-<pre><code>String data[] = value.toSting().<span class="keyword">split</span>(<span class="string">"\t"</span>);
-String users[] = data[<span class="number">1</span>].<span class="keyword">split</span>(<span class="string">","</span>);<span class="regexp">//user</span>间以,分隔
-<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; users.<span class="keyword">length</span>; i ++){
-   <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; users.<span class="keyword">length</span>; j ++){
-        <span class="regexp">//</span>判断users[i]与users[j]的大小 
-      context.<span class="keyword">write</span>(users[i]+<span class="string">"_"</span>+users[j], <span class="number">1</span>);<span class="regexp">//</span>这里要加上users[i]与users[j]大小的判断，小放前，大放后，便于后面的操作
-    }
-}
-</code></pre><p>reduce: 对每个user pair的value list进行求和，即是这两个用户的相似度<br>缺点：map端输出的user pair很多(O(N*N))，使reducer的shuffle成为瓶颈</p>
-<h4 id="(2)按各user进行聚合(计算密集型)">(2)按各user进行聚合(计算密集型)</h4>
-<p><u1,u3,u5,u2>，按(1)的输出是<u1_u3-->1&gt;,  <u1_u5-->1&gt;,  <u1_u2-->1&gt;, <u3_u5-->1&gt;, <u3_u2-->1&gt;,<u5_u2-->1&gt;。  (1是次数)<br>按user聚合的结果是：<u1-->u2,u3,u5&gt; ,<u2-->u3,u5&gt;,<u3-->u5&gt;，输出数为N(U)-1。<br>该方案需要对user list进行排序，便于后面reduce进行按userid聚合，如一个user list输出的是<u1-->u2,u3,u5&gt;，另一个是<u1-->u3,u5&gt;,这样reduce时就是u1-&gt;u2,u3,u5,u3,u5。<br>而如果不排序的话就需要再弄一个job进行操作：如<u1-->u2,u3,u5&gt;, <u2-->u1,u3,u5&gt; 。 这样会得到<u1_u2>与<u2_u1>，还需要job进行一次合并求和处理。<br>mapper:</p>
-<pre><code>StringBuilder uuidListStr = new StringBuilder();
-String data[] = value.toString().<span class="keyword">split</span>(<span class="string">"\t"</span>);
-String uuidArr[] = data[<span class="number">1</span>].<span class="keyword">split</span>(<span class="string">","</span>);
-Arrays.<span class="keyword">sort</span>(uuidArr);
-<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; uuidArr.<span class="keyword">length</span>; i ++){
-    <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; uuidArr.<span class="keyword">length</span>; j ++){
-        uuidListStr.append(uuidArr[j]).append(<span class="string">","</span>);
-    }
-    <span class="keyword">if</span>(uuidListStr.<span class="keyword">length</span>() &gt; <span class="number">0</span>){
-        uuidListStr.deleteCharAt(uuidListStr.<span class="keyword">length</span>() - <span class="number">1</span>);
-        context.<span class="keyword">write</span>(new Text(uuidArr[i]), new Text(uuidListStr.toString()));
-        uuidListStr = new StringBuilder();
-    }
-}        
-</code></pre><p>reduce: 会得到u1-&gt;u2,u3,u5,u3,u5,  计算values中各用户出现的个数<ux,count>, 然后输出count&gt;即可</p>
-<pre><code><span class="comment">//利用hashMap来管理各user的次数</span>
-Map&lt;<span class="built_in">String</span>, Integer&gt; countMap = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, Integer&gt;();
-<span class="keyword">for</span> (Text v : values) { <span class="comment">//每个v都是u1,u2,u3这样的形式</span>
-    uuids = v.toString().split(<span class="string">","</span>);
-    <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; uuids.length; i++) {
-        uuid = uuids[i];
-        tmp = countMap.get(uuid);
-        <span class="keyword">if</span> (<span class="literal">null</span> == tmp) {
-            countMap.put(uuid, <span class="keyword">new</span> Integer(<span class="number">1</span>));
-        } <span class="keyword">else</span> {
-            countMap.put(uuid, tmp + <span class="number">1</span>);
-        }
-    }
-}
-<span class="keyword">for</span> (Map.Entry&lt;<span class="built_in">String</span>, Integer&gt; entry : countMap.entrySet()) {
-    context.write(<span class="keyword">new</span> Text(key.toString() + <span class="string">"_"</span> + entry.getKey()), <span class="keyword">new</span> IntWritable(entry.getValue()));
-}
-</code></pre><p>该方案有个瓶颈是map中自己实现的排序，可能某个F下用户数特别大，会造成数据倾斜，有的user list特别大，排序花费时间长，导致整个任务变慢(计算密集型)。一种思路是将splitSize变小，如从默认的64M变成8M，这样InputSplit数将变多，即Mapper变多，各个Mapper处理的数据量变小，充分发挥并行的优势。<br>具体设置splitSize的代码：</p>
-<pre><code>//splitSize = max(minSize, min(maxSize, blockSize))
-conf.<span class="operator"><span class="keyword">set</span>(<span class="string">"mapred.min.split.size"</span>, <span class="number">8</span> * <span class="number">1024</span> * <span class="number">1024</span> + <span class="string">""</span>);</span>
-conf.<span class="operator"><span class="keyword">set</span>(<span class="string">"mapred.max.split.size"</span>, <span class="number">8</span> * <span class="number">1024</span> * <span class="number">1024</span> + <span class="string">""</span>);</span>
-</code></pre><h4 id="(3)排序放到Reducer端">(3)排序放到Reducer端</h4>
-<p>在转置特征对用户的矩阵的job中reduce已经得到了各F的user list，则可以直接对user list进行排序并输出按user聚合的结果。</p>
-<h5 id="a、reduce方法中对user_list进行排序">a、reduce方法中对user list进行排序</h5>
-<p>会遇到和(2)方案中一样的数据倾斜问题，且无法像(2)那样减少splitSize来减少各Mapper的处理数据量，增大Mapper数。 该方案一般会作死，数据量大时不用考虑。</p>
-<h5 id="b、利用Reducer的Sort功能">b、利用Reducer的Sort功能</h5>
-<p>需要覆盖的类：<br>MapOutputKey：其中的compareTo用于map/reduce各阶段进行排序的依据<br>Partitioner: 用于partition分到哪个区<br>GroupingComparator：用于reduce的sort—&gt;reduce中 key迭代时的分组。<br>Reducer的各阶段为：Shuffle/Merge,  Sort, Reduce, Output。其中Sort与Reduce是并行的。Sort迭代遍历得到的记录会进行grouping,从而得到reduce方法中的values。<br>Sort会将各文件按Key(MapOutputKey)的大小建最小堆，每取一个最小Key的记录, 都会到GroupingComparator进行判断(具体源码没研究，不过这里面的实现应该是会保存上一个记录的Key, 如果当前记录与上一Key 通过GroupingComparator方法得到的结果是一样的话，则把当前记录加到group的记录列表中，该列表元素顺序是按插入顺序的；如果不一样的话，就将Key以前列表的数据传到reduce方法，并清空group的记录列表)<br>我们可以创建自己的MapOutputKey</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> GeoMapOutputKey implements Writable,WritableComparable&lt;GeoMapOutputKey&gt; {
-    <span class="keyword">private</span> Text geohash = <span class="keyword">new</span> Text();<span class="comment">//相当于Feature</span>
-    <span class="keyword">private</span> Text uuid = <span class="keyword">new</span> Text();  <span class="comment">//相当于user</span>
-    <span class="keyword">public</span> <span class="title">GeoMapOutputKey</span>(){}
-    <span class="keyword">public</span> <span class="title">GeoMapOutputKey</span>(String geohash, String uuid){
-        <span class="keyword">this</span>.geohash.<span class="keyword">set</span>(geohash);
-        <span class="keyword">this</span>.uuid.<span class="keyword">set</span>(uuid);
-    }
-    <span class="keyword">public</span> Text <span class="title">getGeohash</span>() {
-        <span class="keyword">return</span> geohash;
-    }
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGeohash</span>(Text geohash) {
-        <span class="keyword">this</span>.geohash = geohash;
-    }
-    <span class="keyword">public</span> Text <span class="title">getUuid</span>() {
-        <span class="keyword">return</span> uuid;
-    }
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUuid</span>(Text uuid) {
-        <span class="keyword">this</span>.uuid = uuid;
-    }
-    @Override
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span>(DataOutput dataOutput) throws IOException {
-        geohash.write(dataOutput);
-        uuid.write(dataOutput);
-    }
-    @Override
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span>(DataInput dataInput) throws IOException {
-        geohash.readFields(dataInput);
-        uuid.readFields(dataInput);
-    }
-    @Override
-    <span class="comment">//重点是这个compareTo方法，会先根据geohash进行排序，再根据uuid进行排序</span>
-    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span>(GeoMapOutputKey o) {
-        <span class="keyword">int</span> compareValue = <span class="keyword">this</span>.geohash.compareTo(o.geohash);
-        <span class="keyword">if</span>(compareValue == <span class="number">0</span>){
-            compareValue = <span class="keyword">this</span>.uuid.compareTo(o.uuid);
-        }
-        <span class="keyword">return</span> compareValue;
-    }
-    @Override
-    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span>() {
-        <span class="keyword">return</span> geohash.hashCode() * <span class="number">163</span> + uuid.hashCode() * <span class="number">163</span>;
-    }
-    @Override
-    <span class="keyword">public</span> boolean <span class="title">equals</span>(Object o) {
-        <span class="keyword">if</span> (o instanceof GeoMapOutputKey) {
-            GeoMapOutputKey ok = (GeoMapOutputKey) o;
-            <span class="keyword">return</span> geohash.equals(ok.getGeohash()) &amp;&amp; uuid.equals(ok.getUuid());
-        }
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-    @Override
-    <span class="keyword">public</span> String <span class="title">toString</span>() {
-        <span class="keyword">return</span> geohash + <span class="string">"\t"</span> + uuid;
-    }
-}
-</code></pre><p>通过这个GeoMapOutputKey，就可以保存先按Feature进行排序，再按user进行排序。(map输出有N行记录，Reducer默认情况下也要对这N行记录进行compare，所以性能没有什么影响)。<br>Mapper的map阶段的输出会调用Partitioner方法进行决定分区，默认情况下会按feature+user进行分区，我们需要按Feature进行分区，所以要覆盖：</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeoPartitioner</span> <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">Partitioner</span>&lt;<span class="title">GeoMapOutputKey</span>, <span class="title">Text</span>&gt; {</span>
-    @Override
-    <span class="keyword">public</span> <span class="keyword">int</span> getPartition(GeoMapOutputKey geoMapOutputKey, Text text, <span class="keyword">int</span> numPartitions) {
-   <span class="comment">//这里的geohash就是feature</span>
-        <span class="keyword">return</span> Math.abs(geoMapOutputKey.getGeohash().hashCode()) % numPartitions;
-    }
-}
-</code></pre><p>默认情况下Reducer的GroupingComparator会按Key进行grouping聚合操作，这样reduce方法中的key就是feature_u1这样的，没多大帮助，所以我们要自定义GroupingComparator，让相同feature的聚合在一起，即reduce方法中的key是feature。</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GeoGroupingComparator</span> <span class="keyword">extends</span> <span class="title">WritableComparator</span> {</span>
-    <span class="keyword">protected</span> <span class="title">GeoGroupingComparator</span>() {
-        <span class="keyword">super</span>(GeoMapOutputKey.class, <span class="keyword">true</span>);
-    }
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span>(WritableComparable a, WritableComparable b) {
-        GeoMapOutputKey ok1 = (GeoMapOutputKey) a;
-        GeoMapOutputKey ok2 = (GeoMapOutputKey) b;
-        <span class="comment">//这里只对feature进行比较，即会按feature进行grouping聚合</span>
-        <span class="keyword">return</span> ok1.getGeohash().compareTo(ok2.getGeohash());
-    }
-}
-</code></pre><p>设置这两个类的代码：</p>
-<pre><code>job<span class="preprocessor">.setMapOutputKeyClass</span>(GeoMapOutputKey<span class="preprocessor">.class</span>)<span class="comment">;</span>
-job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComparator<span class="preprocessor">.class</span>)<span class="comment">;</span>
-</code></pre><p>通过这样的设置，就可以实现Sort最小堆是按先feature再user进行排序，而聚合时又是按feature进行聚合。<br>reduce中的key是<F,u1>,<F,u2>,<F,u5>中的某一个(第一个?)，value是<u1,u2,u5><br>这个job的输出是U1–&gt;u2,u3,u5这样的形式。<br>下一个job的mapper只要context(“u1”,”u2,u3,u5”)，而reducer和(2)中的reducer操作一样。</p>
-<p>第(3)种方案是最优的，处理速度比前面的高效很多。</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/first/">
-  <time datetime="2014-04-01T12:11:30.000Z">
-    Apr 1 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/01/first/">first</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <h1 id="我的第一个程序">我的第一个程序</h1>
-<h2 id="大概介绍">大概介绍</h2>
-<ul>
-<li>这是我的第一个程序</li>
-<li>好好学习</li>
-</ul>
-<h2 id="关于我">关于我</h2>
-<p><a href="http://dataknocker.github.io" target="_blank">我的其他博客</a></p>
-<h1 id="我的代码">我的代码</h1>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">M</span><span class="params">(a:Int)</span> {</span>
-  <span class="keyword">val</span> x = a
-  <span class="keyword">def</span> +(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x + that.x)
-  <span class="keyword">def</span> *(that:M)= <span class="keyword">new</span> M(<span class="keyword">this</span>.x * that.x)
-}
-</code></pre><blockquote>
-<p>这是图片</p>
-</blockquote>
-<p><img src="img/y.jpg" alt="solr空间索引查询过程"></p>
-<blockquote>
-<p>这是我的第一程序，学的是scala,很好用，推荐大家使用，比如：<br>这是很好的<br>还有以后会添加很多相应的例子</p>
-</blockquote>
-<p>&amp;copy wangzejie</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/test/">
-  <time datetime="2014-04-01T12:04:34.000Z">
-    Apr 1 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/01/test/">Test</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <blockquote>
-<h1 id="MapReduce在相似度计算中的应用及优化">MapReduce在相似度计算中的应用及优化</h1>
-</blockquote>
-<p>map: context.write(F, U)<br>reduce: context.write(F, List(U))</p>
-<h3 id="1、计算相似度">1、计算相似度</h3>
-<p>各种解决方案如下：</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/hello-world/">
-  <time datetime="2014-04-01T12:03:44.000Z">
-    Apr 1 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/04/01/hello-world/">Hello World</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
+        
+    </ul>
 </nav>
-
+            </div>
+        </div>
+    </div>
 </div>
-  </div>
-  <footer id="footer"><div class="copyright">
-  
-  &copy; 2014 <a href="/">wangzejie</a>
-  
-</div>
-<div class="theme-copyright">
-  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
-   | 
-  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
-</div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="/js/scale.fix.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
+    </header>
+    <div id="content-wrapper">
+        <div class="container-center">
+        <div id="article-list">
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-06-10T03:49:41.000Z">Jun 10 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/06/10/idea-sbt/">idea sbt</a></h1>
+    
 
-<script type="text/javascript">
-  var duoshuoQuery = { short_name: 'dataknocker' };
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';
-    ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-05-15T02:34:22.000Z">May 15 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-21T15:28:13.000Z">Apr 21 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/21/spark学习小记/">Spark学习小记</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-20T08:57:21.000Z">Apr 20 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/20/scala学习小记/">scala学习小记</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-14T08:20:17.000Z">Apr 14 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/14/spark安装及运行/">spark安装及运行</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-11T05:17:04.000Z">Apr 11 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-11T03:36:54.000Z">Apr 11 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-01T12:11:30.000Z">Apr 1 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/01/first/">first</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-01T12:04:34.000Z">Apr 1 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/01/test/">Test</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+        <article>
+    <div class="row">
+        <div class="col-2 date-tags">
+            <div class="date-row">
+                <time datetime="2014-04-01T12:03:44.000Z">Apr 1 2014</time>
+            </div>
+            
+                <div class="tags-row">
+                
+                </div>
+            
+        </div>
+        <div class="col-10">
+            <div class="article-title simple-article-title">
+                
+    
+        <h1><a href="/2014/04/01/hello-world/">Hello World</a></h1>
+    
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="split-line"></div>
+</article>
+
+    
+</div>
+<div>
+    <a class="btn btn-funky btn-xlarge btn-block btn-loadmore" href="javascript:void(0)">点击加载更多</a>
+</div>
+
+<script>
+    (function($) {
+        //当内容区内容不够长时，设置内容区域的高度使footer沉底
+        var resizeContentWrapper = function() {
+            var contentHeight = Math.floor($('#content-wrapper .container-center').height()),
+                headerHeight = Math.floor($('#page-header').height()),
+                footerHeight = Math.floor($('#page-footer').height()),
+                minHeight = Math.floor($(window).height() - headerHeight - footerHeight);
+            if(contentHeight < minHeight) {
+                $('#content-wrapper').height(minHeight);
+            } else {
+                $('#content-wrapper').css({height: 'auto'});
+            }
+        };
+
+        //按一定数目显示博文条目
+        var pagination = function() {
+            var PER_PAGE_NUM = showNum = 6,
+                i,
+                initHeight = 0,
+                outerHeightList = [],
+                articleList = $('#content-wrapper article'),
+                articleNum = articleList.length;
+
+            for(i = 0; i < articleList.length; i++) {
+                outerHeightList.push($(articleList[i]).outerHeight());
+                if(i >= PER_PAGE_NUM) {
+                    $(articleList[i]).hide();
+                }
+            }
+
+            $('.btn-loadmore').click(function() {
+                var deltaH = 0,
+                    toShowList = [],
+                    duration = 1000;
+                for(i = showNum, showNum += PER_PAGE_NUM; i < showNum; i++) {
+                    if(i >= articleList.length) {
+                        $('.btn-loadmore').html("已经到底啦");
+                        break;
+                    }
+                    toShowList.push($(articleList[i]));
+                    deltaH += outerHeightList[i];
+                }
+                
+                //执行文章列表高度加大动画
+                $('#article-list').animate({
+                    height: "+=" + deltaH,
+                    scrollTop: "+=" + deltaH
+                }, duration, function() {
+                    //执行完毕后，每篇文章淡入动画
+                    for(i = 0; i < toShowList.length; i++) {
+                        toShowList[i].css({opacity: 0});
+                        toShowList[i].show();
+                        toShowList[i].animate({
+                            opacity: 1
+                        }, duration);
+                    }
+                    
+                });
+                //滚动条滚动动画
+                $('body, html').animate({
+                    scrollTop: "+=" + deltaH / 2
+                }, duration);
+            });
+            resizeContentWrapper();
+        };
+
+        $(document).ready(pagination);
+    })(jQuery);
+</script>
+
+<!-- 新功能导航 -->
+<div class="feature-guide-container">
+    <div class="shadow-container"></div>
+    <div class="feature-box">
+        <p class="feature-description"></p>
+        <a class="btn btn-i-know pull-right" href="javascript:void(0);">我知道了</a>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script>
+    (function($){
+        //检测是否有新的功能，并提示用户
+        var checkNewFeature = function() {
+            //设置本地存储
+            var setStorage = 
+            (typeof window.localStorage !== 'undefined') && (typeof window.localStorage !== 'unknown') ?
+                //若支持HTML5的localStorage则使用localStorage
+                function(key, value) {
+                    window.localStorage[key] = value;
+                } : 
+                //否则使用cookie存储
+                function(key, value){
+                    var exdate = new Date(),
+                        expireDays = 15;    //cookie过期时间15天
+                    exdate.setDate(exdate.getDate() + expireDays);
+                    document.cookie = key + '=' + escape(value) + ';expires=' + exdate.toGMTString();
+                };
+            //获取本地存储
+            var getStorage = 
+            (typeof window.localStorage !== 'undefined') && (typeof window.localStorage !== 'unknown') ?
+                function(key) {
+                    return window.localStorage[key] || null;
+                } :
+                function(key) {
+                    if (document.cookie.length > 0) {
+                        var start = document.cookie.indexOf(key + '='),
+                            end;
+                        if (start !== -1) {
+                            start = start + key.length + 1;
+                            end = document.cookie.indexOf(';', start);
+                            if (end === -1) {
+                                end = document.cookie.length;
+                            }
+                            return unescape(document.cookie.substring(start, end));
+                        } else {
+                            return null;
+                        }
+                    }
+                    return null;
+                };
+
+            
+        };
+
+        $(document).ready(checkNewFeature);
+    })(jQuery);
+</script>
+
+        </div>
+    </div>
+    <footer id="page-footer"><div class="footer-content">
+    <div class="container-center">
+        <div class="footer-text pull-left">
+            <div class="copyright">
+                
+                Copyright &copy; 2014 <a href="/">wangzejie</a>
+                
+            </div>
+            <div class="theme-copyright">
+                <span>Blog powered by <a href="http://zespia.tw/hexo/zh-CN/">hexo</a></span>
+                Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a> desgined by <strong>Nix</strong>
+            </div>
+        </div>
+        <div class="social-group pull-right">
+            
+            <a href="https://github.com/raytaylorlin" target="_blank" title="github"><i class="icon-github"></i></a>
+            
+            
+            <a href="http://weibo.com/1956184117" target="_blank" title="新浪微博"><i class="icon-weibo"></i></a>
+            
+            
+            <a href="http://www.renren.com/309069699" target="_blank" title="人人网"><i class="icon-renren"></i></a>
+            
+            
+            <a href="https://plus.google.com/113216251417550089742?rel=author" target="_blank" title="Google+"><i class="icon-google-plus-sign"></i></a>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-43460643-1', 'raytaylorlin.com');
+    ga('send', 'pageview');
+
 </script>
 
 
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/js/prettify.js"></script>
 <script type="text/javascript">
-  (function($){
-    $('.fancybox').fancybox();
-  })(jQuery);
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
 </script>
 
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script>
+    (function($) {
+        //当内容区内容不够长时，设置内容区域的高度使footer沉底
+        var resizeContentWrapper = function() {
+            //HACK: 用延时的方法使计算高度时候更加准确，会有一闪的情况
+            setTimeout(function() {
+                var contentHeight = Math.floor($('#content-wrapper .container-center').height()),
+                headerHeight = Math.floor($('#page-header').height()),
+                footerHeight = Math.floor($('#page-footer').height()),
+                minHeight = Math.floor($(window).height() - headerHeight - footerHeight);
+                if(contentHeight < minHeight) {
+                    $('#content-wrapper').css({height: minHeight});                    
+                } else {
+                    $('#content-wrapper').css({height: 'auto'});
+                }
+            },500);
+        };
+
+        //响应式侧边栏
+        var initJPanelMenu = function() {
+            var jPM = $.jPanelMenu({
+                menu: '#jPanelMenu-menu-side',
+                duration: 500
+            });
+            jPM.on();
+        };
+
+        //初始化目录按钮事件绑定
+        var initCategory = function() {
+            function showMainMenu() {
+                var $jPanelMenu = $('#jPanelMenu-menu');
+                $jPanelMenu.find('ul.category-menu').hide();
+                $jPanelMenu.find('ul.main-menu').fadeIn();
+            }
+
+            function showCategoryMenu() {
+                var $jPanelMenu = $('#jPanelMenu-menu');
+                $jPanelMenu.find('ul.main-menu').hide();
+                $jPanelMenu.find('ul.category-menu').fadeIn();
+            }
+
+            $('.menu-category').click(function() {
+                var jPM = $.jPanelMenu({
+                    duration: 500,
+                    beforeOpen: function() {
+                        showCategoryMenu();
+                    },
+                    afterClose: function() {
+                        showMainMenu();
+                    }
+                });
+                if(jPM.isOpen()) {
+                    showCategoryMenu();
+                } else {
+                    jPM.open();
+                }
+            });
+
+            $('.category-menu').on('click', '.btn-back', function() {
+                showMainMenu();
+            });
+        };
+
+        $(document).ready(resizeContentWrapper);
+        $(document).ready(initJPanelMenu);
+        $(document).ready(initCategory);
+        
+        $(window).resize(resizeContentWrapper);
+    })(jQuery);
+</script>
 </body>
 </html>
