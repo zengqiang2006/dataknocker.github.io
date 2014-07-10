@@ -1,21 +1,10 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>scala学习小记 | DataKnocker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  
-    <meta name="author" content="wangzejie">
-  
-  
-    <meta name="description" content="问题：
-1、统一访问原则，方法可以不带()2、闭包概念3、单例对象 object
-var x=1x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”
-基本
-1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)2、for(d&lt;-datas) print(d)3、1+2   (1)">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="og:type" content="blog">
 <meta name="og:title" content="scala学习小记">
 <meta name="og:url" content="http://yoursite.com/2014/04/20/scala学习小记/">
@@ -28,58 +17,77 @@ var x=1x=“abc”这样是不行的，因为编译器已经认为x是Int了，�
 1、0 to 10 相当于(0).to(10), 结果Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)2、for(d&lt;-datas) print(d)3、1+2   (1)">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
   
   
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.png">
   
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 </head>
-
 <body>
-  <div class="wrapper">
-    <header id="header">
-  <div class="title">
-    <h1><a href="/">DataKnocker</a></h1>
-    <p><a href="/">learn bigdata step by step</a></p>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">DataKnocker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">learn bigdata step by step</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+      </div>
+    </div>
   </div>
-  <nav class="nav">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-      
-        <li><a href="/atom.xml">RSS</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
-  <div class="clearfix"></div>
 </header>
-    <div class="content"><article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/20/scala学习小记/">
-  <time datetime="2014-04-20T08:57:21.000Z">
-    Apr 20 2014
-  </time>
+      <div class="outer">
+        <section id="main"><article id="post-scala学习小记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/20/scala学习小记/" class="article-date">
+  <time datetime="2014-04-20T08:57:21.000Z" itemprop="datePublished">Apr 20 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title">scala学习小记</h1>
+    <h1 class="article-title" itemprop="name">
+      scala学习小记
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <h2 id="问题：">问题：</h2>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题：">问题：</h2>
 <p>1、统一访问原则，方法可以不带()<br>2、闭包概念<br>3、单例对象 object</p>
 <p>var x=1<br>x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”</p>
 <h2 id="基本">基本</h2>
@@ -558,63 +566,118 @@ scala:
 <h2 id="其他学习资料">其他学习资料</h2>
 <p><a href="http://stackoverflow.com/questions/8000903/what-are-all-the-uses-of-an-underscore-in-scala" target="_blank">下划线的几个用途</a><br><a href="http://www.slideshare.net/normation/scala-dreaded" target="_blank">下划线</a><br><a href="http://www.drmaciver.com/2008/03/existential-types-in-scala/" target="_blank">Existential types in Scala</a><br><a href="http://stackoverflow.com/questions/1031042/difference-between-scalas-existential-types-and-javas-wildcard-by-example" target="_blank">Difference between Scala’s existential types and Java’s wildcard by example</a></p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="87i67v0wwka2q8rv" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer>
+  
     
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+<nav id="article-nav">
+  
+    <a href="/2014/04/21/spark学习小记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Spark学习小记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/14/spark安装及运行/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">spark安装及运行</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-<section id="comment">
-  <h1 class="title">Comments</h1>
-  <div class="ds-thread" data-title="scala学习小记">
-  </div>
 </section>
-</div>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
+    </div>
   </div>
-  <footer id="footer"><div class="copyright">
+
   
-  &copy; 2014 <a href="/">wangzejie</a>
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
   
-</div>
-<div class="theme-copyright">
-  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
-   | 
-  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
-</div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="/js/scale.fix.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 wangzejie<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
 
-
-<script type="text/javascript">
-  var duoshuoQuery = { short_name: 'dataknocker' };
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';
-    ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-  (function($){
-    $('.fancybox').fancybox();
-  })(jQuery);
-</script>
 
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
 </body>
 </html>

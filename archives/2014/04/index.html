@@ -1,15 +1,10 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>Archives: 2014/4 | DataKnocker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  
-    <meta name="author" content="wangzejie">
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="og:type" content="blog">
 <meta name="og:title">
 <meta name="og:url" content="http://yoursite.com/archives/2014/04/">
@@ -18,66 +13,79 @@
 <meta name="og:description">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
   
   
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.png">
   
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   
 </head>
-
 <body>
-  <div class="wrapper">
-    <header id="header">
-  <div class="title">
-    <h1><a href="/">DataKnocker</a></h1>
-    <p><a href="/">learn bigdata step by step</a></p>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">DataKnocker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">learn bigdata step by step</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+      </div>
+    </div>
   </div>
-  <nav class="nav">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-      
-        <li><a href="/atom.xml">RSS</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
-  <div class="clearfix"></div>
 </header>
-    <div class="content">
-
-
-<h2 class="archives-title"><span>2014</span></h2>
-
-
-
+      <div class="outer">
+        <section id="main">
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/21/spark学习小记/">
-  <time datetime="2014-04-21T15:28:13.000Z">
-    Apr 21 2014
-  </time>
+    <article id="post-spark学习小记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/21/spark学习小记/" class="article-date">
+  <time datetime="2014-04-21T15:28:13.000Z" itemprop="datePublished">Apr 21 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/21/spark学习小记/">Spark学习小记</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <p>1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据<br>   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错<br>   即会在stage的边界上会进行备份 </p>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、Narrow Dependencive 时不会自动存到磁盘，因为其只依赖一部分数据<br>   Wide Dependencive (shuffle)时会将shuffle结果放到disk,因为其依赖很多RDD，为了容错<br>   即会在stage的边界上会进行备份 </p>
 <p>   取原始数据以及shuffle时会产生新stage</p>
 <p>2、reduce、join等方法都在PairRDDFunctions</p>
 <p>3、Block Manager负责与HDFS进行通信,  Block Tracker</p>
@@ -90,39 +98,42 @@
 <p>10、每个DAGScheduler submitJob时都会先生成个shuffleDep=None的 stage作为finalStage,然后以该stage向上找父stage即通过rdd的dependencies判断dependence是否是ShuffleDependence来判断是否是shuffleStage</p>
 <p>11、partition与blockid的关系： “rdd<em>“ + rdd.id + “</em>“ + split.index  (split即partition)</p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="cp7fq0lqsjc8ji6q" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/20/scala学习小记/">
-  <time datetime="2014-04-20T08:57:21.000Z">
-    Apr 20 2014
-  </time>
+    <article id="post-scala学习小记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/20/scala学习小记/" class="article-date">
+  <time datetime="2014-04-20T08:57:21.000Z" itemprop="datePublished">Apr 20 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/20/scala学习小记/">scala学习小记</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/20/scala学习小记/">scala学习小记</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <h2 id="问题：">问题：</h2>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题：">问题：</h2>
 <p>1、统一访问原则，方法可以不带()<br>2、闭包概念<br>3、单例对象 object</p>
 <p>var x=1<br>x=“abc”这样是不行的，因为编译器已经认为x是Int了，要改成var x=“abc”</p>
 <h2 id="基本">基本</h2>
@@ -601,39 +612,42 @@ scala:
 <h2 id="其他学习资料">其他学习资料</h2>
 <p><a href="http://stackoverflow.com/questions/8000903/what-are-all-the-uses-of-an-underscore-in-scala" target="_blank">下划线的几个用途</a><br><a href="http://www.slideshare.net/normation/scala-dreaded" target="_blank">下划线</a><br><a href="http://www.drmaciver.com/2008/03/existential-types-in-scala/" target="_blank">Existential types in Scala</a><br><a href="http://stackoverflow.com/questions/1031042/difference-between-scalas-existential-types-and-javas-wildcard-by-example" target="_blank">Difference between Scala’s existential types and Java’s wildcard by example</a></p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="87i67v0wwka2q8rv" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/14/spark安装及运行/">
-  <time datetime="2014-04-14T08:20:17.000Z">
-    Apr 14 2014
-  </time>
+    <article id="post-spark安装及运行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/14/spark安装及运行/" class="article-date">
+  <time datetime="2014-04-14T08:20:17.000Z" itemprop="datePublished">Apr 14 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/14/spark安装及运行/">spark安装及运行</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <h2 id="安装">安装</h2>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装">安装</h2>
 <p>-编辑 SPARK/etc/spark/conf/spark-env.sh:</p>
 <pre><code>STANDALONE_SPARK_MASTER_HOST=jx-mobile-weibo01<span class="preprocessor">.jx</span><span class="preprocessor">.sankuai</span><span class="preprocessor">.com</span>
 DEFAULT_HADOOP_HOME=/opt/cloudera/parcels/CDH/lib/hadoop 
@@ -688,39 +702,42 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <p>scp wangzejie@home:/Users/wangzejie/Documents/sourcecode/SBTTest/target/scala-2.10/sbttest_2.10-1.0.jar ./</p>
 <p>/opt/cloudera/parcels/SPARK/lib/spark/bin/spark-class org.apache.spark.deploy.Client -c 1 -m 10000 -v launch spark://jx-mobile-weibo01.jx.sankuai.com:7077 file:///opt/spark/submit/sbttest_2.10-1.0.jar com.meituan.mobile.data.mllib.Main spark://jx-mobile-weibo01.jx.sankuai.com:7077 hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/test/weibo_train hdfs://jx-mobile-weibo01.jx.sankuai.com:8020/user/sankuai/weibo/weibo_test 2g 9 1</p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="cvpc593easfqgwsp" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/11/solr空间索引原理及源码分析/">
-  <time datetime="2014-04-11T05:17:04.000Z">
-    Apr 11 2014
-  </time>
+    <article id="post-solr空间索引原理及源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/11/solr空间索引原理及源码分析/" class="article-date">
+  <time datetime="2014-04-11T05:17:04.000Z" itemprop="datePublished">Apr 11 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/11/solr空间索引原理及源码分析/">solr空间索引原理及源码分析</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
 <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。</p>
 <p>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
 <p><img src="../../../../img/solrspatial/四叉树.png" alt="四叉树分层"></p>
@@ -837,39 +854,42 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
 <h3 id="lucene_write类图">lucene write类图</h3>
 <p><img src="../../../../img/solrspatial/lucene write的类图.png" alt="lucene write的类图"></p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="q0yd6q48cv6r8jff" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">
-  <time datetime="2014-04-11T03:36:54.000Z">
-    Apr 11 2014
-  </time>
+    <article id="post-mapreduce在相似度计算中的应用及优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/" class="article-date">
+  <time datetime="2014-04-11T03:36:54.000Z" itemprop="datePublished">Apr 11 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/11/mapreduce在相似度计算中的应用及优化/">MapReduce在相似度计算中的应用及优化</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <p>需求：计算用户的相似度，有用户列表U和特征列表F以及用户和特征的关系<U,F>。 根据<U1,Fn> ∩ <U2, Fm>的交集数来判断U1和U2的相似度。<br>解决方法：</p>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>需求：计算用户的相似度，有用户列表U和特征列表F以及用户和特征的关系<U,F>。 根据<U1,Fn> ∩ <U2, Fm>的交集数来判断U1和U2的相似度。<br>解决方法：</p>
 <h2 id="一、用户维度的Join">一、用户维度的Join</h2>
 <p>最暴力低效的方法，因为用户量一般很大，所以join效率极低。一般不考虑。</p>
 <h2 id="二、特征维度">二、特征维度</h2>
@@ -1017,39 +1037,42 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
 </code></pre><p>通过这样的设置，就可以实现Sort最小堆是按先feature再user进行排序，而聚合时又是按feature进行聚合。<br>reduce中的key是<F,u1>,<F,u2>,<F,u5>中的某一个(第一个?)，value是<u1,u2,u5><br>这个job的输出是U1–&gt;u2,u3,u5这样的形式。<br>下一个job的mapper只要context(“u1”,”u2,u3,u5”)，而reducer和(2)中的reducer操作一样。</p>
 <p>第(3)种方案是最优的，处理速度比前面的高效很多。</p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="qvrkeldvw3mdk9oy" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/first/">
-  <time datetime="2014-04-01T12:11:30.000Z">
-    Apr 1 2014
-  </time>
+    <article id="post-first" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/01/first/" class="article-date">
+  <time datetime="2014-04-01T12:11:30.000Z" itemprop="datePublished">Apr 1 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/01/first/">first</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/01/first/">first</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <h1 id="我的第一个程序">我的第一个程序</h1>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="我的第一个程序">我的第一个程序</h1>
 <h2 id="大概介绍">大概介绍</h2>
 <ul>
 <li>这是我的第一个程序</li>
@@ -1072,139 +1095,179 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
 </blockquote>
 <p>&amp;copy wangzejie</p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="picpccm1j5hd05bw" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/test/">
-  <time datetime="2014-04-01T12:04:34.000Z">
-    Apr 1 2014
-  </time>
+    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/01/test/" class="article-date">
+  <time datetime="2014-04-01T12:04:34.000Z" itemprop="datePublished">Apr 1 2014</time>
 </a>
     
+  </div>
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
   
-    <h1 class="title"><a href="/2014/04/01/test/">Test</a></h1>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/01/test/">Test</a>
+    </h1>
   
 
-  </header>
-  
-  <div class="entry">
+      </header>
     
-      <blockquote>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
 <h1 id="MapReduce在相似度计算中的应用及优化">MapReduce在相似度计算中的应用及优化</h1>
 </blockquote>
 <p>map: context.write(F, U)<br>reduce: context.write(F, List(U))</p>
 <h3 id="1、计算相似度">1、计算相似度</h3>
 <p>各种解决方案如下：</p>
 
-    
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="8p3pugi0j87dn3v6" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
+  
 </article>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/04/01/hello-world/">
-  <time datetime="2014-04-01T12:03:44.000Z">
-    Apr 1 2014
-  </time>
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/04/01/hello-world/" class="article-date">
+  <time datetime="2014-04-01T12:03:44.000Z" itemprop="datePublished">Apr 1 2014</time>
 </a>
     
-    
-  
-    <h1 class="title"><a href="/2014/04/01/hello-world/">Hello World</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
-
-    
   </div>
-  <footer class="end-sep">
+  <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/01/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="f7scpnduyi4fc74d" class="article-share-link">Share</a>
       
       
-    
-    <div class="clearfix"></div>
-  </footer>
+    </footer>
+  </div>
+  
 </article>
 
 
   
-
-  <nav id="pagination">
   
+</section>
+        
+          <aside id="sidebar">
   
-  <div class="clearfix"></div>
-</nav>
-
-</div>
+    
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
+    </div>
   </div>
-  <footer id="footer"><div class="copyright">
+
   
-  &copy; 2014 <a href="/">wangzejie</a>
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/10/idea-sbt/">idea sbt</a>
+          </li>
+        
+          <li>
+            <a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/21/spark学习小记/">Spark学习小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/20/scala学习小记/">scala学习小记</a>
+          </li>
+        
+          <li>
+            <a href="/2014/04/14/spark安装及运行/">spark安装及运行</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
   
-</div>
-<div class="theme-copyright">
-  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
-   | 
-  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
-</div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="/js/scale.fix.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 wangzejie<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
 
-
-<script type="text/javascript">
-  var duoshuoQuery = { short_name: 'dataknocker' };
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';
-    ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-  (function($){
-    $('.fancybox').fancybox();
-  })(jQuery);
-</script>
 
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
 </body>
 </html>
