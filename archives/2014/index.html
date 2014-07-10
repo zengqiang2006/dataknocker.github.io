@@ -90,7 +90,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/06/10/idea-sbt/" data-id="cd5dxk83b1e8cps5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/06/10/idea-sbt/" data-id="tyn3j05d67xrvj5h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,7 +139,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/15/machine-learning知识小记/" data-id="p85ibq8pe560mky1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/15/machine-learning知识小记/" data-id="ywgjpabibc917w4n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="y1yn1auz4za0ut98" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="i05g5jx2ver81nul" class="article-share-link">Share</a>
       
       
     </footer>
@@ -701,7 +701,7 @@ scala:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="428bzltvyy9onewi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="bqecn6hlllv2ouf6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -791,7 +791,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="q37rawpapzoglcav" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="sng7u5djei6xgaxf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -911,7 +911,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <span class="setting">q=<span class="value">geo:<span class="string">"Intersects(-74.093 41.042 -69.347 44.558)"</span></span></span>
 <span class="setting">q=<span class="value">geo:<span class="string">"Intersects(POLYGON((-10 30, -40 40, -10 -20, 40 20, 0 0, -10 30)))"</span></span></span>
 </code></pre><h3 id="查询方法">查询方法</h3>
-<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="../../../../img/solrspatial/solr空间查询策略.png" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="../../../../img/solrspatial/solr空间索引查询示意图.png" alt="solr空间索引查询示意图"></p>
+<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="../../../../img/solrspatial/solr空间查询策略.png" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="../../../../img/solrspatial/solr空间索引查询示意图.jpg" alt="solr空间索引查询示意图"></p>
 <h3 id="空间索引查询流程">空间索引查询流程</h3>
 <p><img src="../../../../img/solrspatial/空间索引查询流程.png" alt="空间索引查询流程"><br>上图以geofilt查询为例，其中分成有score=distance和无score=distance两种情况。</p>
 <ul>
@@ -933,7 +933,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="twahvyehbl4tk3tz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="6999iytxprislm9e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1116,7 +1116,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="4h9a4u1ecmrd71vl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="jlu90olcpvxjum64" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1174,7 +1174,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="dphgw9xpf0o8oy94" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="s8p1kdcf85is4ban" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1216,7 +1216,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="646evo8jnjt9310r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="1za5a743wwoq7j14" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1253,7 +1253,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="68zm40r932d0z4e3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="pkr08kmuhb9sygm5" class="article-share-link">Share</a>
       
       
     </footer>
