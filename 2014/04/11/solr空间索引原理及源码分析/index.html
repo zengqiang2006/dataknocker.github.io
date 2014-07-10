@@ -1,160 +1,79 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    
-    <title>solr空间索引原理及源码分析 | DataKnocker</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>solr空间索引原理及源码分析 | DataKnocker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
     <meta name="author" content="wangzejie">
-    
-    <meta name="description" content="大数据架构以及数据分析与挖掘">
-    
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-    <meta property="og:title" content="solr空间索引原理及源码分析"/>
-    <meta property="og:site_name" content="DataKnocker"/>
-
+  
+  
+    <meta name="description" content="note:图片请右键 在新页签打开，可以放大看
+solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些">
+  
+  <meta name="og:type" content="blog">
+<meta name="og:title" content="solr空间索引原理及源码分析">
+<meta name="og:url" content="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/">
+<meta name="og:image" content="../../../../img/solrspatial/四叉树.png">
+<meta name="og:site_name" content="DataKnocker">
+<meta name="og:description" content="note:图片请右键 在新页签打开，可以放大看
+solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些">
+<meta name="twitter:card" content="summary">
+  
     <link rel="alternate" href="/atom.xml" title="DataKnocker" type="application/atom+xml">
-    <link rel="stylesheet" href="/css/lib/font-awesome.css" type="text/css">
-    <link rel="stylesheet" href="/css/lib/normalize.css" type="text/css">
-    <link rel="stylesheet" href="/css/lib/furatto.css" type="text/css">
-    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-
-    
-        <link rel="stylesheet" href="/css/lib/prettify_raytaylorism.css" type="text/css">
-        
-    
+  
+  
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <script src="/js/jquery-1.10.2.min.js"></script>
-    <script src="/js/jquery.jpanelmenu.js"></script>
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
 </head>
 
-
-<body class="container-fluid">
-    <header id="page-header">
-        <div class="navbar inverse-navbar">
-    <div class="navbar-inner">
-        <div class="container-center">
-            <a href="/index.html" class="menu-trigger" data-meteocon="M">
-                <i class="icon-reorder"></i>
-            </a>
-            <div class="nav-collapse navbar-responsive-collapse collapse">
-                <nav id="menu">
-                    <ul class="nav">
-                        <li><a class="brand" id="blog-title" href="/index.html">DataKnocker</a></li>
-                    </ul>
-                    <div class="pull-right nav" id="nav-button-group">
-                        
-                            <a href="/" class="menu-home btn btn-primary btn-large">
-                                <i class="icon-home icon-white"></i>
-                                首页
-                            </a>
-                        
-                            <a href="/archives" class="menu-archive btn btn-primary btn-large">
-                                <i class="icon-archive icon-white"></i>
-                                归档
-                            </a>
-                        
-                            <a href="javascript:void(0);" class="menu-category btn btn-primary btn-large">
-                                <i class="icon-archive icon-white"></i>
-                                分类
-                            </a>
-                        
-                            <a href="/reading" class="menu-reading btn btn-primary btn-large">
-                                <i class="icon-book icon-white"></i>
-                                读书
-                            </a>
-                        
-                            <a href="/about" class="menu-about btn btn-primary btn-large">
-                                <i class="icon-user icon-white"></i>
-                                关于
-                            </a>
-                        
-                    </div>
-                </nav>
-                <nav id="jPanelMenu-menu-side">
-    <ul class="nav main-menu">
-        <li><a class="brand" href="index.html">DataKnocker</a></li>
-        
-            <li>
-                <a href="/" class="menu-home">
-                    <i class="icon-home icon-white"></i>
-                    首页
-                </a>
-            </li>
-        
-            <li>
-                <a href="/archives" class="menu-archive">
-                    <i class="icon-archive icon-white"></i>
-                    归档
-                </a>
-            </li>
-        
-            <li>
-                <a href="javascript:void(0);" class="menu-category">
-                    <i class="icon-archive icon-white"></i>
-                    分类
-                </a>
-            </li>
-        
-            <li>
-                <a href="/reading" class="menu-reading">
-                    <i class="icon-book icon-white"></i>
-                    读书
-                </a>
-            </li>
-        
-            <li>
-                <a href="/about" class="menu-about">
-                    <i class="icon-user icon-white"></i>
-                    关于
-                </a>
-            </li>
-        
+<body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">DataKnocker</a></h1>
+    <p><a href="/">learn bigdata step by step</a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
     </ul>
-
-    <ul class="nav category-menu hide">
-        <li>
-            <span><a class="brand" href="javascript:void(0);">分类目录</a></span>
-            <span><a class="btn-back brand pull-right" href="javascript:void(0);">
-                <i class="icon-arrow-left"></i>
-            </a></span>
-        </li>
-
-        
-
-        
-
-            
-
-        
-    </ul>
-</nav>
-            </div>
-        </div>
-    </div>
-</div>
-
-    </header>
-    <div id="content-wrapper">
-        <div class="container-center">
-        <article class="post">
-    <div class="article-title article-title-big">
-        
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
     
-        <h1>solr空间索引原理及源码分析</h1>
+      <div class="icon"></div>
+      <a href="/2014/04/11/solr空间索引原理及源码分析/">
+  <time datetime="2014-04-11T05:17:04.000Z">
+    Apr 11 2014
+  </time>
+</a>
     
+    
+  
+    <h1 class="title">solr空间索引原理及源码分析</h1>
+  
 
-    </div>
-
-    <div class="date-row ">
-        <time datetime="2014-04-11T05:17:04.000Z">Apr 11 2014</time>
-    </div>
-
-    <div class="entry">
-        <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
+  </header>
+  
+  <div class="entry">
+    
+      <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
 <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。</p>
 <p>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
 <p><img src="../../../../img/solrspatial/四叉树.png" alt="四叉树分层"></p>
@@ -271,147 +190,63 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
 <h3 id="lucene_write类图">lucene write类图</h3>
 <p><img src="../../../../img/solrspatial/lucene write的类图.png" alt="lucene write的类图"></p>
 
-    </div>
     
-    <footer >
-        
-            
-            
-        
-        <div class="clearfix"></div>
-    </footer>
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
 </article>
 
 
-
-
-        </div>
-    </div>
-    <footer id="page-footer"><div class="footer-content">
-    <div class="container-center">
-        <div class="footer-text pull-left">
-            <div class="copyright">
-                
-                Copyright &copy; 2014 <a href="/">wangzejie</a>
-                
-            </div>
-            <div class="theme-copyright">
-                <span>Blog powered by <a href="http://zespia.tw/hexo/zh-CN/">hexo</a></span>
-                Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a> desgined by <strong>Nix</strong>
-            </div>
-        </div>
-        <div class="social-group pull-right">
-            
-            <a href="https://github.com/raytaylorlin" target="_blank" title="github"><i class="icon-github"></i></a>
-            
-            
-            <a href="http://weibo.com/1956184117" target="_blank" title="新浪微博"><i class="icon-weibo"></i></a>
-            
-            
-            <a href="http://www.renren.com/309069699" target="_blank" title="人人网"><i class="icon-renren"></i></a>
-            
-            
-            <a href="https://plus.google.com/113216251417550089742?rel=author" target="_blank" title="Google+"><i class="icon-google-plus-sign"></i></a>
-            
-        </div>
-        <div class="clearfix"></div>
-    </div>
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="solr空间索引原理及源码分析">
+  </div>
+</section>
 </div>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2014 <a href="/">wangzejie</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
-    ga('create', 'UA-43460643-1', 'raytaylorlin.com');
-    ga('send', 'pageview');
 
-</script>
-
-
-<script src="/js/prettify.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("pre").addClass("prettyprint");
-        prettyPrint();
-    });
+  var duoshuoQuery = { short_name: 'dataknocker' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
 </script>
 
-<script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
 </script>
 
-<script>
-    (function($) {
-        //当内容区内容不够长时，设置内容区域的高度使footer沉底
-        var resizeContentWrapper = function() {
-            //HACK: 用延时的方法使计算高度时候更加准确，会有一闪的情况
-            setTimeout(function() {
-                var contentHeight = Math.floor($('#content-wrapper .container-center').height()),
-                headerHeight = Math.floor($('#page-header').height()),
-                footerHeight = Math.floor($('#page-footer').height()),
-                minHeight = Math.floor($(window).height() - headerHeight - footerHeight);
-                if(contentHeight < minHeight) {
-                    $('#content-wrapper').css({height: minHeight});                    
-                } else {
-                    $('#content-wrapper').css({height: 'auto'});
-                }
-            },500);
-        };
-
-        //响应式侧边栏
-        var initJPanelMenu = function() {
-            var jPM = $.jPanelMenu({
-                menu: '#jPanelMenu-menu-side',
-                duration: 500
-            });
-            jPM.on();
-        };
-
-        //初始化目录按钮事件绑定
-        var initCategory = function() {
-            function showMainMenu() {
-                var $jPanelMenu = $('#jPanelMenu-menu');
-                $jPanelMenu.find('ul.category-menu').hide();
-                $jPanelMenu.find('ul.main-menu').fadeIn();
-            }
-
-            function showCategoryMenu() {
-                var $jPanelMenu = $('#jPanelMenu-menu');
-                $jPanelMenu.find('ul.main-menu').hide();
-                $jPanelMenu.find('ul.category-menu').fadeIn();
-            }
-
-            $('.menu-category').click(function() {
-                var jPM = $.jPanelMenu({
-                    duration: 500,
-                    beforeOpen: function() {
-                        showCategoryMenu();
-                    },
-                    afterClose: function() {
-                        showMainMenu();
-                    }
-                });
-                if(jPM.isOpen()) {
-                    showCategoryMenu();
-                } else {
-                    jPM.open();
-                }
-            });
-
-            $('.category-menu').on('click', '.btn-back', function() {
-                showMainMenu();
-            });
-        };
-
-        $(document).ready(resizeContentWrapper);
-        $(document).ready(initJPanelMenu);
-        $(document).ready(initCategory);
-        
-        $(window).resize(resizeContentWrapper);
-    })(jQuery);
-</script>
 </body>
 </html>
