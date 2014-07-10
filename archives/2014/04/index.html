@@ -101,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="sd3iovgz5h55y5rk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="y1yn1auz4za0ut98" class="article-share-link">Share</a>
       
       
     </footer>
@@ -615,7 +615,7 @@ scala:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="t63yy29vy3lkdtay" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="428bzltvyy9onewi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -705,7 +705,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="3bx0j43hlnemumbc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="q37rawpapzoglcav" class="article-share-link">Share</a>
       
       
     </footer>
@@ -738,7 +738,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
     <div class="article-entry" itemprop="articleBody">
       
         <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。<br>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
-<p><img src="../../../../img/solrspatial/空间索引查询流程.png" alt="四叉树分层"></p>
+<p><img src="../../../../img/solrspatial/四叉树.png" alt="四叉树分层"></p>
 <h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
 <ul>
 <li>maxLevels不同：geohash的maxLevels为11，quad的maxLevels为26。</li>
@@ -791,7 +791,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <p>定义索引数据的最高层maxLevels，默认是0.000009即1米(geohash11位)，直接决定了Point索引的term数。<br>maxLevels优先级高于maxDistErr,即有maxLevels的话maxDistErr失效。详见SpatialPrefixTreeFactory.init()方法。<br>不过一般使用maxDistErr。</p>
 <ul>
 <li>worldBounds<br>世界坐标值：”minX minY maxX maxY”。 geo=true即geohash模式时，该值默认为”-180 -90 180 90”。geo=false即quad时，该值为Java double类型的正负边界，此时需要指定该值，设置成”-180 -90 180 90”。<h3 id="Solr_spatial的类框架图">Solr spatial的类框架图</h3>
-<img src="http://d.pcs.baidu.com/thumbnail/525b414d616cd5d8bb0570ece9f1b70c?fid=3809902540-250528-656032329766340&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-5sT4%2F9jcrqWxSCjd2waLZcdb4T8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=935693678&amp;size=c850_u580&amp;quality=100" alt="solr spatial类图"></li>
+<img src="../../../../img/solrspatial/solr spatial类图.png" alt="solr spatial类图"></li>
 </ul>
 <h3 id="各类作用说明：">各类作用说明：</h3>
 <h4 id="lucene实现的：">lucene实现的：</h4>
@@ -811,13 +811,13 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <h2 id="创建空间索引">创建空间索引</h2>
 <h3 id="索引结构">索引结构</h3>
 <p>geohash模式的索引结构分成Point和非Point。下图为索引结构示意图(为方便起见只画了6层, 蓝色为Point，黄色为非Point)：<br>note: d=5的未画出的其他分支…</p>
-<p><img src="http://d.pcs.baidu.com/thumbnail/1f8fc467533002558a5ffe94b146f7d1?fid=3809902540-250528-559740344400821&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-GSW7UAxe1I7MQycZAFCuSWVZa7M%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=887575405&amp;size=c850_u580&amp;quality=100" alt="solr Spatial索引结构"></p>
+<p><img src="../../../../img/solrspatial/solr Spatial索引结构.jpg" alt="solr Spatial索引结构"></p>
 <ul>
 <li>Point<br>如经纬度41.79452,123.41555，对应的geohash为wxrvb2kqexu(maxLevels=11), 则其对应的term有11个(如w、wx、wxr、wxrv…，存储了前缀，牺牲索引加快查询速度)。</li>
 <li>非Point<br>如Polygon。非Point的索引中有leaf叶子结点的概念，比如wtxrvb包含在Polygon中，则该cell为leaf，生成term时会有wtxrvb与wtxrvb+(+是leaf的标志)。</li>
 </ul>
 <h3 id="空间索引创建流程">空间索引创建流程</h3>
-<p><img src="http://d.pcs.baidu.com/thumbnail/fdefa9d009fd03de1aa56dd72941ae99?fid=3809902540-250528-316561493786033&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-rjLwzQdZVlxZFPerHths5VJwJTc%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=310846834&amp;size=c850_u580&amp;quality=100" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="http://d.pcs.baidu.com/thumbnail/1081205675f505e44a5da8506a78e60e?fid=3809902540-250528-83708255641820&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-8oE1Ll2aE6NED2YsZbu0E6vNNd8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=935556342&amp;size=c850_u580&amp;quality=100" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
+<p><img src="../../../../img/solrspatial/空间索引创建过程.png" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="../../../../img/solrspatial/空间索引过程示意图.png" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
 <h2 id="空间索引查询">空间索引查询</h2>
 <h3 id="查询语法">查询语法</h3>
 <pre><code><span class="setting">q=<span class="value">{!geofilt pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
@@ -825,9 +825,9 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <span class="setting">q=<span class="value">geo:<span class="string">"Intersects(-74.093 41.042 -69.347 44.558)"</span></span></span>
 <span class="setting">q=<span class="value">geo:<span class="string">"Intersects(POLYGON((-10 30, -40 40, -10 -20, 40 20, 0 0, -10 30)))"</span></span></span>
 </code></pre><h3 id="查询方法">查询方法</h3>
-<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="http://d.pcs.baidu.com/thumbnail/aee1561e1cf81f90167e9e89fce14688?fid=3809902540-250528-66230369459728&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-4QG4vKd8NplRMQSZN6CbzkXz68M%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=440662057&amp;size=c850_u580&amp;quality=100" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="http://d.pcs.baidu.com/thumbnail/0d3e4c4b23dedb01d9b54a31183bd81b?fid=3809902540-250528-125366649033453&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-qQqwAg9D9sSZ3RjYgzpiPRC52X8%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=773115614&amp;size=c850_u580&amp;quality=100" alt="solr空间索引查询示意图"></p>
+<p>我们可以像创建空间索引的方法那样得到与查询Shape相交的所有子Cell，然后再与term进行匹配，但这有两个问题：一是很多没有数据的区域也会被深度遍历，二是得到的子Cell与term进行匹配比较麻烦(比如一个精度很大的多边形查询，其获得了很多前缀，不知道该拿哪些前缀去匹配相应的term从而获得docId)。<br>solr的查询策略：利用了索引term的字典有序可以有效地对上面的深度遍历进行剪枝，term的顺序和深度遍历的Cell的顺序是一致的。具体流程如下图：<br><img src="../../../../img/solrspatial/solr空间查询策略.png" alt="solr空间查询策略"><br>说明：<br>1、获得空间索引域的第一个域，深度遍历root=WorldCell开始，找到与查询Shape相交的子Cell。<br>2、开始深度遍历, 找到遍历的下一个结点，判断当前Cell与当前term的大小关系：<br>      a、当前Cell &lt; term : 则跳过该Cell， 因为term是按字典序顺序取的，在当前term之前的Cell对应不到数据。<br>      b、当前Cell &gt; term : 当前term已经匹配完成(因为以后遍历的Cell肯定都比当前term大)，定位到下一个&gt;=Cell的最小term，继续遍历Cell。<br>      c、当前Cell = term : 判断当前Cell是否还要继续深度遍历，即如果Cell包含在查询Shape内，或者Cell已经达到了查询Shape的detailLevel层时，则当前Cell遍历结束，将当前term上的docId都取出来；否则继续深度遍历获得当前Cell的与查询Shape相交的子Cell。同时取下一个term。这里有个特殊情况是当term是以+结尾即leaf结点时且Cell长度和term长度一样长时(长度比较不包括+)，说明该数据是非Point索引时的叶结点，再深度遍历已经也对应不上相应的term，所以就把该term对应的非Point docId都取出来，然后取下一个term。<br>不断重复第2步直到term取完或者所有树结点都被遍历完。<br>下图是查询策略的示意图：<br><img src="../../../../img/solrspatial/solr空间索引查询示意图.png" alt="solr空间索引查询示意图"></p>
 <h3 id="空间索引查询流程">空间索引查询流程</h3>
-<p><img src="http://d.pcs.baidu.com/thumbnail/29133b025bac876352fafff305016e65?fid=3809902540-250528-143007737502964&amp;time=1397193616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-oOHNL2Ejlv9BLPB9TW222CMBFns%3D&amp;expires=8h&amp;prisign=RK9dhfZlTqV5TuwkO5ihMSi9urWA6/WDVOZJjW161c97pPFvBnDjJvo8Gcuo6pQpxHtaOuRoCzn27k9J0e2dzkmye5j3Whl2FUBatugDm4Hnjds9K4Te4F7rrSoMdSR+fM/YKEORv7zOuOwy0sc8eTTA+AMDzBOvN0fBGRIdEQImVDevvKfjRDlDZ5A8/SpsBV0kJzJEDGqVFhLOY+LAdmgZcQq7wosI2gPCvQDKzgg/a4gIOX4ynx10/48OZTJTOvNQBhWcmfM=&amp;r=698951542&amp;size=c850_u580&amp;quality=100" alt="空间索引查询流程"><br>上图以geofilt查询为例，其中分成有score=distance和无score=distance两种情况。</p>
+<p><img src="../../../../img/solrspatial/空间索引查询流程.png" alt="空间索引查询流程"><br>上图以geofilt查询为例，其中分成有score=distance和无score=distance两种情况。</p>
 <ul>
 <li>先介绍不需要score的情况：<br>1、解析查询，生成Query树：获得相应的QParse, 对geofilt进行语法解析，获得geofilt的各个参数，并且获得相应的查询Query(ConstantScoreQuery)包括相应的Filter(IntersectsPrefixTreeFilter)，其中也计算了查询Shape的一些属性，如最大索引长度detailLevel。<br>2、查询：SolrIndexSearch.search()进行创建Weight树和Score树。利用IntersectsPrefixTreeFilter得到符合条件的docIdSet(调用了前面的VistorTemplate深度遍历策略)。由于不需要score，所以Score返回的是ConstantScorer。</li>
 <li>需要score的情况(大坑，要缓存所有term对应的docId及对应的geohash中心点)，只说明score=distance,score=recipDistance图中已经说明：<br>基本流程和上面一致。说明下主要不同的地方：</li>
@@ -847,7 +847,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="b709mts5yltsstfw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="twahvyehbl4tk3tz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1030,7 +1030,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="u0r6zukoacq83ie4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="4h9a4u1ecmrd71vl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1088,7 +1088,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="80fkgvmp30dhjpgw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="dphgw9xpf0o8oy94" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1130,7 +1130,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="7l8jklhylgywz9dj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="646evo8jnjt9310r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1167,7 +1167,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="lk5w6g6hw4pirdby" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="68zm40r932d0z4e3" class="article-share-link">Share</a>
       
       
     </footer>
