@@ -90,7 +90,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/06/10/idea-sbt/" data-id="1jznvos84qogrhnx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/06/10/idea-sbt/" data-id="10abxvfu5x642hux" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,7 +139,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/15/machine-learning知识小记/" data-id="63cyduv85rtqpgvv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/15/machine-learning知识小记/" data-id="lo7ehyz18k5jlbic" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="2imd13awx72bpi2w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="cpj762fzeffiuhn0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -701,7 +701,7 @@ scala:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="xxsanv2aa698baea" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="r3m5wevndkhtrf4n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -791,7 +791,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="s9r1d1okxp5h380f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="rh6uhqghbq40tq4l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -903,7 +903,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 <li>非Point<br>如Polygon。非Point的索引中有leaf叶子结点的概念，比如wtxrvb包含在Polygon中，则该cell为leaf，生成term时会有wtxrvb与wtxrvb+(+是leaf的标志)。</li>
 </ul>
 <h3 id="空间索引创建流程">空间索引创建流程</h3>
-<p><img src="../../../../img/solrspatial/空间索引创建过程.png" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="../../../../img/solrspatial/空间索引过程示意图.jpg" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
+<p><img src="../../../../img/solrspatial/空间索引创建过程.png" alt="空间索引创建过程"><br>说明：Point的term就是把其geohash:wtxrvb变成w、wt、wtx、wtxr、wtxrv、wtxrvb，Point的索引Level为maxLevels(即11位)。下面主要说明非Point的term创建过程。<br>1、将空间索引域的shapeStr解析成相应的Shape(复杂Shape如Polygon要使用JTS中的WTKReader来解析)，以下拿Polygon为例。<br>2、计算目标Polygon的索引Level,即根据Polygon的外包矩形以及distErrPct算出distErr，再调用SpatialPrefixTree.getLevelForDistance(distErr)得到索引detaiLlevel。<br>3、得到与目标Polygon相交(即有交集或在Polygon内)的所有子Cell。主要做法是从root=WorldCell开始进行深度遍历并对各子树进行前枝：每下一层有32个子结点，然后判断各子结点与Polygon的相交情况。判断相交时简单的可以用spatial4j包来计算，复杂的需要用JTS。判断相交主要是先与Polygon的外包矩形判断是否相交(提高效率)，如果相交，再与Polygon进行进一步相交判断。<br>     a、不相交的则舍弃该Cell(其子Cell也不会被遍历到)。<br>     b、包含在目标Polygon中，则设置该Cell为叶结点(term末尾加+)， 添加到result中，其子Cell不再遍历。<br>     c、intersect以及contain Polygon: 将Cell添加到result中，然后继续深度遍历其子Cell，获得更精确的Cell。<br>     d、当cell的token长度达到detailLevel时，则到达最底层，标记为叶结点，添加到result中，停止该Cell的遍历。如果某个Cell的32个子Cell都是叶结点，则删除这32个子结点，把该Cell设置成叶结点。(这里直接影响了查询时的误差，会多取数据。即查询到detailLevel的geohash时，其实不包括该多边形，但也把多边形算进去了)<br>4、得到Filed，得到的Cell列表都放在CellTokenStream中。<br>5、存储索引域与存储域。<br>下图为判断相交的示意图：<br><img src="../../../../img/solrspatial/空间索引过程示意图2.jpg" alt="空间索引过程示意图"><br>多边形索引一般会得到几百上千个term，大大增加了索引大小与创建时间，哎，一切都是为了查询…</p>
 <h2 id="空间索引查询">空间索引查询</h2>
 <h3 id="查询语法">查询语法</h3>
 <pre><code><span class="setting">q=<span class="value">{!geofilt pt=<span class="number">45.15</span>,-<span class="number">93.85</span> sfield=geo d=<span class="number">5</span> score=distance}</span></span>
@@ -933,7 +933,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="fipe6zdmgvidi9xu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="ph2sd0zsuee6butt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1116,7 +1116,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="dk3m2ksio1rp2ag6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="5mxris8k4pdxwjfv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1174,7 +1174,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="ualh1hk4gta1z4aw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="99jjffkixd7qin1s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1216,7 +1216,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="6mbyf73movefecbi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="eyr61wyogfsv0s9z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1253,7 +1253,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="wp7xws99fgqekj10" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="5qjvqy7564js8yf2" class="article-share-link">Share</a>
       
       
     </footer>
