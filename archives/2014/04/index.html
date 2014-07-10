@@ -101,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="0juvazopup66hqyl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/21/spark学习小记/" data-id="vb3jv4qx61xmu3ik" class="article-share-link">Share</a>
       
       
     </footer>
@@ -615,7 +615,7 @@ scala:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="u0eo3ko1rtn9y7lm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/20/scala学习小记/" data-id="lqx3msr9zi2ihxor" class="article-share-link">Share</a>
       
       
     </footer>
@@ -705,7 +705,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="gmkf89udp77dewhs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/14/spark安装及运行/" data-id="j53mywlumtimg812" class="article-share-link">Share</a>
       
       
     </footer>
@@ -737,7 +737,8 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。</p>
+        <p><em>note:图片请右键 在新页签打开，可以放大看</em></p>
+<p>solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用IntersectsPrefixTreeFilter(继承于AbstractVisitingPrefixTreeFilter)。4.2版本开始使用IntersectsPrefixTreeFilter。4.2和4.3及以后的区别好像只是小改了一些，比如把Node对象换成Cell对象。</p>
 <p>solr空间索引主要有两类GeohashPrefixTree(Geohash)与QuadPrefixTree(四叉树，对应笛卡尔分层策略)。分层其实取的就是前缀。<br>4.3开始geohash也引入了分层查询策略(这个有些不严谨，4.0-4.2虽然没使用IntersectsPrefixTreeFilter，但具体策略我还没有研究)，总体效果应该优于Quad(拿了一个多边形，geohash只要203个term，而quad要488个, 对于点来说geohash只要11个term，而quad要26个term)。应该是4.3开始作者按照quad优化了geohash。</p>
 <p><img src="../../../../img/solrspatial/四叉树.png" alt="四叉树分层"></p>
 <h4 id="GeohashPrefixTree与QuadPrefixTree的主要不同:">GeohashPrefixTree与QuadPrefixTree的主要不同:</h4>
@@ -748,7 +749,7 @@ Jar must be <span class="operator">in</span> <span class="built_in">URL</span> <
 </ul>
 <p>由于两种方法的大致思想一致，所以下文重点介绍geohash。</p>
 <h2 id="重要属性">重要属性</h2>
-<p>schema.xml中的空间索引类型的配置：</p>
+<p><code>public static void main()</code><br>schema.xml中的空间索引类型的配置：</p>
 <pre><code>&lt;fieldType <span class="property">name</span>=<span class="string">"location_jts"</span>   <span class="type">class</span>=<span class="string">"solr.SpatialRecursivePrefixTreeFieldType"</span>
            spatialContextFactory=<span class="string">"com.spatial4j.core.context.jts.JtsSpatialContextFactory"</span>
            distErrPct=<span class="string">"0.025"</span>
@@ -856,7 +857,7 @@ b、FunctionQuery:其中包括了FunctionWeight、AllScorer、FunctionValues等�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="u1rso9hlhsoqx51f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/solr空间索引原理及源码分析/" data-id="619jh2fm4hedbur1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1039,7 +1040,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="6mzczjp7axhrcw1h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/11/mapreduce在相似度计算中的应用及优化/" data-id="9do0sfos4icjygo1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1097,7 +1098,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="nrp4gfi328y64x4k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/first/" data-id="dk59jp8nqz080b7t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1139,7 +1140,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="fnv2iu2r3n0ddrmz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/test/" data-id="bgnmp8f2l12kqrc3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1176,7 +1177,7 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="vzup2q34t3tukfz1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/04/01/hello-world/" data-id="e9gu42u300yq4pb8" class="article-share-link">Share</a>
       
       
     </footer>
