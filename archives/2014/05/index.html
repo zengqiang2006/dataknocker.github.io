@@ -1,154 +1,166 @@
-<!DOCTYPE HTML>
-<html>
+
+  <!DOCTYPE HTML>
+<html >
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta charset="UTF-8">
   
-  <title>Archives: 2014/5 | DataKnocker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  
+    <title>Archives: 2014/5 | DataKnocker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
     <meta name="author" content="wangzejie">
-  
-  
-  <meta name="og:type" content="blog">
-<meta name="og:title">
-<meta name="og:url" content="http://yoursite.com/archives/2014/05/">
-<meta name="og:image">
-<meta name="og:site_name" content="DataKnocker">
-<meta name="og:description">
-<meta name="twitter:card" content="summary">
-  
-  
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
+    
+    <meta name="description" content="大数据架构以及数据分析与挖掘">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
-<body>
-  <div class="wrapper">
-    <header id="header">
-  <div class="title">
-    <h1><a href="/">DataKnocker</a></h1>
-    <p><a href="/">learn bigdata step by step</a></p>
-  </div>
-  <nav class="nav">
-    <ul>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-        <li><a href="/reading">Reading</a></li>
-      
-        <li><a href="/about">About</a></li>
-      
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
-  <div class="clearfix"></div>
-</header>
-    <div class="content">
-
-
-<h2 class="archives-title"><span>2014</span></h2>
-
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <a href="/2014/05/15/machine-learning知识小记/">
-  <time datetime="2014-05-15T02:34:22.000Z">
-    May 15 2014
-  </time>
-</a>
-    
-    
-  
-    <h1 class="title"><a href="/2014/05/15/machine-learning知识小记/">machine learning知识小记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <h2 id="Naive_Bayes">Naive Bayes</h2>
-<h3 id="Bernoulli">Bernoulli</h3>
-<p>各feature独立<br>0/1: 只看出现与不出现, 整个feature集合在测试集中都生效，即某个样本就只有Fk,其含意是Fk=1以及Fn-k=0<br>非0/1的，要计算P(f1=v1|cj)、P(f1=v2|cj)、P(f1=v3|cj)， 可以将其转化成0/1，即将Fi的每个取值都看成一个feature, 这样feature:Fi=vj的值就是出现或不出现即0/1</p>
-<h3 id="Multinormal:">Multinormal:</h3>
-<p>多项式：就一个feature,  该feature的值是各词，p(f=wi|cj)表示wi出现的概率，即各词出现频次/总频次</p>
-<p>模型预测的结果p(y=1|X1)=0.8, p(y=1|X2)=0.6.   在用这些数据时可以选择个阀值，比如&gt;0.7的才可信。</p>
-<h2 id="样本不均匀">样本不均匀</h2>
-<p>label=0 与 label=1的比例是1:9</p>
-<h3 id="将label=0_生成9份">将label=0 生成9份</h3>
-<p>在原来第一份的基础上，采用放回随机抽样，抽到某个x(i)样本后，将其features中随机找两个feature，变换其值(如原先是1的就变成0，0的就变成1)，作为噪音。以此类推，生成另外8份</p>
-<h3 id="将label=1的分成9份">将label=1的分成9份</h3>
-<p>每份都与label=0生成一个model, 然后预测时与这9个model都进行预测，然后对结果进行投票，即选出次数最多的label作为最后结果</p>
-<h3 id="svm的两个参数可以处理">svm的两个参数可以处理</h3>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
-
+    <body>
+      <header>
+        <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="DataKnocker" title="DataKnocker"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DataKnocker">DataKnocker</a></h1>
+				<h2 class="blog-motto">learn bigdata step by step</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
 </div>
-  </div>
-  <footer id="footer"><div class="copyright">
+
+      </header>
+      <div id="container">
+        
+
+<div class="archive-title" >
+  <h2 class="archive-icon">2014/5</h2>
   
-  &copy; 2014 <a href="/">wangzejie</a>
+  <div class="archiveslist archive-float clearfix">
+   <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">April 2014</a><span class="archive-list-count">8</span></li></ul>
+ </div>
   
 </div>
-<div class="theme-copyright">
-  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
-   | 
-  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+<div id="main" class="archive-part clearfix">
+  <div id="archive-page">
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2014/05/15/machine-learning知识小记/" title="machine learning知识小记" itemprop="url">
+  
+    <h1 itemprop="name">machine learning知识小记</h1>
+    
+    <time datetime="2014-05-15T02:34:22.000Z" itemprop="datePublished">May 15 2014</time>
+  </a>
+</section>
+
+
+  </div>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="/js/scale.fix.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
-
+      </div>
+      <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="wangzejie">wangzejie</a>
+		
+		</p>
+</div>
+</footer>
+      <script src="/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
-  var duoshuoQuery = { short_name: 'dataknocker' };
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';
-    ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
 </script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-  (function($){
-    $('.fancybox').fancybox();
-  })(jQuery);
-</script>
 
-</body>
-</html>
+
+
+
+    </body>
+   </html>
