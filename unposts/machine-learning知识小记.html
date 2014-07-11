@@ -1,15 +1,16 @@
 
- <!DOCTYPE HTML>
+  
+    <!DOCTYPE HTML>
 <html >
 <head>
   <meta charset="UTF-8">
   
-    <title>idea sbt | DataKnocker</title>
+    <title>machine learning知识小记 | DataKnocker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="wangzejie">
     
-    <meta name="description" content="在idea在创建sbt项目，其会自动下载导入sbt相关的插件, 然后在项目的Module中加入Scala,并配置scala compile">
+    <meta name="description" content="大数据架构以及数据分析与挖掘">
     
     
     
@@ -24,9 +25,9 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
-  <body>
-    <header>
-      <div>
+      <body>
+        <header>
+          <div>
 		
 			<div id="imglogo">
 				<a href="/"><img src="/img/logo.svg" alt="DataKnocker" title="DataKnocker"/></a>
@@ -59,34 +60,41 @@
 			</nav>			
 </div>
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
+        </header>
+        <div id="container">
+          <div id="main" class="page" itemscope itemprop="blogPost">
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/06/10/idea-sbt/" title="idea sbt" itemprop="url">idea sbt</a>
+      <a href="/unposts/machine-learning知识小记.html" title="machine learning知识小记" itemprop="url">machine learning知识小记</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="wangzejie">wangzejie</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-06-10T03:49:41.000Z" itemprop="datePublished">Jun 10 2014</time>
-    Updated:<time datetime="2014-06-10T03:50:43.000Z" itemprop="dateModified">Jun 10 2014</time>
+    <time datetime="2014-05-15T02:34:22.000Z" itemprop="datePublished">May 15 2014</time>
+    Updated:<time datetime="2014-05-16T06:07:38.000Z" itemprop="dateModified">May 16 2014</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
-		
-		</div>
-		
-		<p>在idea在创建sbt项目，其会自动下载导入sbt相关的插件, 然后在项目的Module中加入Scala,并配置scala compile</p>
+		<h2 id="Naive_Bayes">Naive Bayes</h2>
+<h3 id="Bernoulli">Bernoulli</h3>
+<p>各feature独立<br>0/1: 只看出现与不出现, 整个feature集合在测试集中都生效，即某个样本就只有Fk,其含意是Fk=1以及Fn-k=0<br>非0/1的，要计算P(f1=v1|cj)、P(f1=v2|cj)、P(f1=v3|cj)， 可以将其转化成0/1，即将Fi的每个取值都看成一个feature, 这样feature:Fi=vj的值就是出现或不出现即0/1</p>
+<h3 id="Multinormal:">Multinormal:</h3>
+<p>多项式：就一个feature,  该feature的值是各词，p(f=wi|cj)表示wi出现的概率，即各词出现频次/总频次</p>
+<p>模型预测的结果p(y=1|X1)=0.8, p(y=1|X2)=0.6.   在用这些数据时可以选择个阀值，比如&gt;0.7的才可信。</p>
+<h2 id="样本不均匀">样本不均匀</h2>
+<p>label=0 与 label=1的比例是1:9</p>
+<h3 id="将label=0_生成9份">将label=0 生成9份</h3>
+<p>在原来第一份的基础上，采用放回随机抽样，抽到某个x(i)样本后，将其features中随机找两个feature，变换其值(如原先是1的就变成0，0的就变成1)，作为噪音。以此类推，生成另外8份</p>
+<h3 id="将label=1的分成9份">将label=1的分成9份</h3>
+<p>每份都与label=0生成一个model, 然后预测时与这9个model都进行预测，然后对结果进行投票，即选出次数最多的label作为最后结果</p>
+<h3 id="svm的两个参数可以处理">svm的两个参数可以处理</h3>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -96,60 +104,17 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/06/10/idea-sbt/" data-title="idea sbt | DataKnocker" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/unposts/machine-learning知识小记.html" data-title="machine learning知识小记 | DataKnocker" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
 </footer>   	       
 	</article>
 	
-<nav class="article-nav clearfix">
- 
-
-<div class="next">
-<a href="/2014/05/15/machine-learning知识小记/"  title="machine learning知识小记">
- <strong>NEXT:</strong><br/> 
- <span>machine learning知识小记
-</span>
-</a>
-</div>
-
-</nav>
-
 	
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
-  
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
-<aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">Tags</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS</a>
-</div>
-
-</aside>
-</div>
-    </div>
-    <footer><div id="footer" >
+        </div>
+        <footer><div id="footer" >
 	
 	<div class="line">
 		<span></span>
@@ -170,7 +135,7 @@
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){ 
   $('.navbar').click(function(){
@@ -197,8 +162,6 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
@@ -215,38 +178,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
 });
 </script>
 
@@ -284,5 +215,6 @@ $(document).ready(function(){
 
 
 
-  </body>
-</html>
+      </body>
+     </html>
+     
