@@ -1,0 +1,424 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>RDD操作详解 | DataKnocker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wangzejie">
+    
+    <meta name="description" content="rdd的compute方法主要用于生成Iterator，主要实现hasNext与next方法
+Transform
+map
+将元素转成其他类型RDD:MappedRDDcompute:调用Iterator.map()方法，hasNext方法为self.hasNext,next方法中执行f(元素)从而实">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="DataKnocker" title="DataKnocker"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="DataKnocker">DataKnocker</a></h1>
+				<h2 class="blog-motto">learn bigdata step by step</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/11/RDD各操作详解/" title="RDD操作详解" itemprop="url">RDD操作详解</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="wangzejie">wangzejie</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-07-11T05:17:04.000Z" itemprop="datePublished">Jul 11 2014</time>
+    Updated:<time datetime="2014-07-11T06:53:20.000Z" itemprop="dateModified">Jul 11 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Transform"><span class="toc-number">1.</span> <span class="toc-text">Transform</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#map"><span class="toc-number">1.1.</span> <span class="toc-text">map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter"><span class="toc-number">1.2.</span> <span class="toc-text">filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatMap"><span class="toc-number">1.3.</span> <span class="toc-text">flatMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#distinct"><span class="toc-number">1.4.</span> <span class="toc-text">distinct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repartition和coalece"><span class="toc-number">1.5.</span> <span class="toc-text">repartition和coalece</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sample"><span class="toc-number">1.6.</span> <span class="toc-text">sample</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#union_以及_++"><span class="toc-number">1.7.</span> <span class="toc-text">union  以及 ++</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cartesian"><span class="toc-number">1.8.</span> <span class="toc-text">cartesian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#groupBy(f)"><span class="toc-number">1.9.</span> <span class="toc-text">groupBy(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipe"><span class="toc-number">1.10.</span> <span class="toc-text">pipe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapPartitions"><span class="toc-number">1.11.</span> <span class="toc-text">mapPartitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip"><span class="toc-number">1.12.</span> <span class="toc-text">zip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zipPartitions"><span class="toc-number">1.13.</span> <span class="toc-text">zipPartitions</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Action"><span class="toc-number">2.</span> <span class="toc-text">Action</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SparkContext-runjob"><span class="toc-number">2.1.</span> <span class="toc-text">SparkContext.runjob</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#foreach(f)"><span class="toc-number">2.2.</span> <span class="toc-text">foreach(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#foreachPartition(f)"><span class="toc-number">2.3.</span> <span class="toc-text">foreachPartition(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collect、toArray"><span class="toc-number">2.4.</span> <span class="toc-text">collect、toArray</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subtract"><span class="toc-number">2.5.</span> <span class="toc-text">subtract</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce"><span class="toc-number">2.6.</span> <span class="toc-text">reduce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fold"><span class="toc-number">2.7.</span> <span class="toc-text">fold</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aggregate"><span class="toc-number">2.8.</span> <span class="toc-text">aggregate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">2.9.</span> <span class="toc-text">count</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#countApprox"><span class="toc-number">2.10.</span> <span class="toc-text">countApprox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#countByValue"><span class="toc-number">2.11.</span> <span class="toc-text">countByValue</span></a></li></ol>
+		</div>
+		
+		<p>rdd的compute方法主要用于生成Iterator，主要实现hasNext与next方法</p>
+<h2 id="Transform">Transform</h2>
+<h3 id="map">map</h3>
+<p>将元素转成其他类型<br>RDD:MappedRDD<br>compute:调用Iterator.map()方法，hasNext方法为self.hasNext,next方法中执行f(元素)从而实现类型转换<br>partitions:parent.partitions</p>
+<h3 id="filter">filter</h3>
+<p>过滤不满足f的元素<br>RDD:FilteredRDD<br>compute:调用Iterator.filter()方法，hasNext中会一直调用f，直到f输出为true, 同时生成hd=self.next,  next方法中直接返回hd<br>partitions:parent.partitions</p>
+<h3 id="flatMap">flatMap</h3>
+<p>通过f后各元素都转成Iterator（如split方法)， 然后遍历所有各Seq元素<br>RDD:FlatMapRDD<br>compute: 调用Iterator.flatMap()方法，调用f后各元素转成Iterator,调用转化后的各元素toIterator方法，cur = f(self.next).toIterator， hasNext为cur.hasNext, cur遍历完后重新对cur赋值下个元素，next方法为cur.next<br>partitions:parent.partitions</p>
+<h3 id="distinct">distinct</h3>
+<p>将元素变成(x,null)再reduceByKey((x,y)=&gt;x), 所以是按整个元素进行distinct，并不是按key</p>
+<h3 id="repartition和coalece">repartition和coalece</h3>
+<p>重新分区，有待研究。用于filter后很多分区数据无效进行分区重规划</p>
+<h3 id="sample">sample</h3>
+<p>元素取样,fraction表示rand &gt; fraction的都被选中<br>RDD:SampledRDD, 这里只研究不放回抽样，放回抽样有待研究<br>partitions：生成SampledRDDPartition，只比一般的Partition多了个seed参数<br>compute: 调用Iterator.filter()，f为各partition的seed生成的随机数&gt;fraction</p>
+<h3 id="union_以及_++">union  以及 ++</h3>
+<p>RDD:UnionRDD<br>partitions: 生成rdd1.partitions.size + rdd2.partitions.size 个UnionPartition<br>compute: 通过UnionPartition得到对应的rdd的partitions以及splitIndex从而得到真正的split，调用rdd.iterator(split)<br>dependencies: RangeDependency, 依赖数为rdd的个数，每个Dependency包含了对应的rdd以及该rdd各partition在UnionRDD的partition的位置(按rdd顺序)</p>
+<h3 id="cartesian">cartesian</h3>
+<p>迪卡尔积<br>RDD:CartesianRDD<br>partitions: rdd1.partitions.size * rdd2.partitions.size 个CartesianPartition，包含了rdd1对应的split s1和rdd2对应的split s2， for (s1 &lt;- rdd1.partitions; s2 &lt;- rdd2.partitions)<br>compute: 每个CartesianPartition得到对应的s1和s2, 遍历 s1和s2中的元素得到(x,y)<br>dependencies: 有两个NarrowDependency， 其中rdd1的NarrowDependency.getParent(id)为id/numPartitionsInRdd2, rdd2的NarrowDependency.getParent(id)为id % numPartitionsInRdd2</p>
+<h3 id="groupBy(f)">groupBy(f)</h3>
+<p>对各元素执行f后，对结果进行reduceByKey,  即(f(t), t).reduceByKey() ，得到的结果是(K,Seq[T]), f将T=&gt;K,  reduceByKey将原元素T组装成Seq</p>
+<h3 id="pipe">pipe</h3>
+<p>RDD各元素是command,利用ProcessBuilder进行执行<br>RDD:PipedRDD</p>
+<h3 id="mapPartitions">mapPartitions</h3>
+<p>map是针对的是partition中各个元素，即由系统自动实现遍历parition,  mapPartitions则是f操作的是整个partition，即用户在f中自行调用Iterator的hasNext和next进行更灵活的操作，不知道有没有理解对…</p>
+<h3 id="zip">zip</h3>
+<p>将rdd1和rdd2的元素依次组成(x,y), x是rdd1的元素,y是rdd2的元素，x和y在rdd1和rdd2的顺序是一样的，即(x1,y1),(x2,y2). 要求rdd1和rdd2的partition数要一样, partition中元素个数如果多于另一个，则忽略多出部分。<br>RDD:ZippedRDD<br>compute:由ZippedPartition得到对应的partition1和partition2, 调用Iterator.zip方法进行partition元素的zip，也是按对应顺序进行zip<br>partitions: 和rdd1.partitions.size个数一样的ZippedPartition，包含了处于相同位置的rdd1 partition1和rdd2 partition2</p>
+<h3 id="zipPartitions">zipPartitions</h3>
+<p>zip与zipPartitions的区别和map与mapPartitions的区别类似<br>RDD:ZippedPartitionsRDD2<br>compute:会调用f(rdd1.iterator(partitions(0), context), rdd2.iterator(partitions(1), context))，即f操作的是partition1和partition2产生的Iterator1和Iterator2</p>
+<h2 id="Action">Action</h2>
+<p>action主要调用SparkContext.runJob方法。</p>
+<h3 id="SparkContext-runjob">SparkContext.runjob</h3>
+<p>runJob的工作流程是在各worker上计算执行各Task,算完的结果会放到CompletionEvent对象中，在任务完成时会请求DAGSchedule的complete相关方法，最终由会调用JobWaiter的taskSucceeded(index: Int, result: Any)，该方法中会调用resultHandler(index, result.asInstanceOf[T])对结果进行聚合(该操作在driver上)。 taskSucceeded中会判断当任务全部完成时notifyAll，释放锁，从而driver可以进行对resultHandler产生的最终结果的进行操作</p>
+<p>runJob通用形式是</p>
+<pre><code>def runJob[<span class="link_label">T, U: ClassTag</span>](<span class="link_url">rdd: RDD[T], func: (TaskContext, Iterator[T]</span>) =&gt; U, partitions: Seq[Int], allowLocal: Boolean, resultHandler: (Int, U) =&gt; Unit)
+</code></pre><p>func是在各worker上执行各task时执行的方法。<br>resultHandler是在driver上执行(DAGScheduler的JobWatier在监听到Task完成时执行)。参数第一个参数是partitionId，第二个是该分区运行的结果。该方法一般是对各分区的结果进行汇总。每个Task完成时都会调用该方法将结果进行汇总。</p>
+<p>像reduce/fold/aggreate会使用通用的runJob,即设置自己的resultHandler，而其他如count等会使用默认的resultHandler,如</p>
+<pre><code>  <span class="function"><span class="keyword">def</span> <span class="title">runJob</span>[<span class="title">T</span>, <span class="title">U</span>:</span> ClassTag](
+      rdd: RDD[T],
+      func: (TaskContext, Iterator[T]) =&gt; U,
+      partitions: Seq[Int],
+      allowLocal: Boolean
+      ): Array[U] = {
+    val results = new Array[U](partitions.size)
+    runJob[T, U](rdd, func, partitions, allowLocal, (index, res) =&gt; results(index) = res)
+    results
+  }
+</code></pre><p>即采用系统自己实现的resultHandler： (index, res) =&gt; results(index) = res。  将各task的结果放到results中。</p>
+<h3 id="foreach(f)">foreach(f)</h3>
+<p>调用Iterator.foreach(f), 其中调用Iterator的hasNext和next来遍历各元素，并调用f(next())</p>
+<h3 id="foreachPartition(f)">foreachPartition(f)</h3>
+<p>f操作的是整个分区，即在用户的f中自己调用Iterator遍历方法进行相关操作</p>
+<h3 id="collect、toArray">collect、toArray</h3>
+<p>调用Iterator.toArray将各分区变成Array形式，再Array.concat(results: <em>*) 来将各Array合并成一个Array<br>使用了默认的resultHandler，将各task上算完的结果放到results中，并执行Array.concat(results: </em>*)</p>
+<h3 id="subtract">subtract</h3>
+<p>待补充, 使用substractByKey,即SubtractedRDD。这个不是个Transform吗?</p>
+<h3 id="reduce">reduce</h3>
+<p>将各元素从左到右按f进行合并<br>参数：<br>f(T,T)=&gt;T： 将两个元素进行合并。 f的第一个参数是resultHandler(index,res)的res,即是以第一个完成的task的结果作为f执行的第一个点。<br>reducePartition方法 (在SparkContext的runJob中是processPartition)用于在各worker上对其分配的Partition的数据进行计算reduceLeft从左到右计算。<br>mergeResult方法(在SparkContext的runJob中是resultHandler)。DAGSchedule的JobWaiter在任务完成时会调用该方法，用于将CompletionEvent中存放的结果进行f操作。所以最后结果的合并是在driver上进行操作。最终结果是对闭合变量进行相应操作。</p>
+<h3 id="fold">fold</h3>
+<p>和reduce差不多，也是各worker分别计算，然后汇总在driver上计算，不同点是 fold(zeroValue: T)(op: (T, T) =&gt; T)。 会调用TraversableOnce的foldLeft(z)(op)。<br>zeroValue和下面的aggregate用法一样都是为了节省内存开销。</p>
+<h3 id="aggregate">aggregate</h3>
+<p>aggregate<a href="zeroValue: U">U: ClassTag</a>(seqOp: (U, T) =&gt; U, combOp: (U, U) =&gt; U)<br>和fold差不多，也会调用会调用TraversableOnce的foldLeft(z)(op)。不同点是foldLeft的op是(B, A) =&gt; B，。而fold方法都是同类型,op是(A1,A1)=&gt;A1。<br>zeroValue的作用是在各task中，zeroValue将作为seqOp的第一个参数，然后将第二个参数不断合并到第一个参数，即合并到zeroValue中。也就是在同个task中使用的都是同一个U类型的zeroValue对象，从而节省内存开销。<br>aggregate实例：</p>
+<pre><code><span class="title">val</span> zeroCombiner = mutable.<span class="type">Map</span>.empty[<span class="type">Int</span>, (<span class="type">Int</span>, <span class="type">DoubleMatrix</span>)]
+<span class="title">val</span> aggregated = <span class="typedef"><span class="keyword">data</span>.aggregate<span class="container">(<span class="title">zeroCombiner</span>)</span><span class="container">({ (<span class="title">combiner</span>, <span class="title">point</span>)</span> =&gt; combiner += point.k -&gt; point.v}, <span class="container">{<span class="type">XXX</span>}</span>)  </span>
+//zeroCombiner会作为seqOp的第一个参数，不断将point的相关属性合并到combiner即zeroCombiner中并返回combiner作为下一次seqOp操作的第一个参数。
+</code></pre><h3 id="count">count</h3>
+<p>rdd的元素数。 各task计算各自分区的记录数，结果后会放到results中，然后调用results.sum求得总和</p>
+<h3 id="countApprox">countApprox</h3>
+<p>待研究。和count相似，但有个timeout，即在规定时间内返回结果，结果并不一定是总数。</p>
+<h3 id="countByValue">countByValue</h3>
+<p>计算各元素出现的次数。<br>利用mapPartitions先对将各partition变成 Map(v-&gt;次数)的类型，然后调用reduce(mergeMaps), mergeMaps(m1,m2), 将m2的(v-&gt;次数)合并到m1中，遇到相同的v时将次数相加</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spark/">spark</a><a href="/tags/RDD/">RDD</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/spark/">spark</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/07/11/RDD各操作详解/" data-title="RDD操作详解 | DataKnocker" data-tsina="1619689670" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/04/11/solr空间索引原理及源码分析/"  title="solr空间索引原理及源码分析">
+ <strong>NEXT:</strong><br/> 
+ <span>solr空间索引原理及源码分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Transform"><span class="toc-number">1.</span> <span class="toc-text">Transform</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#map"><span class="toc-number">1.1.</span> <span class="toc-text">map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter"><span class="toc-number">1.2.</span> <span class="toc-text">filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatMap"><span class="toc-number">1.3.</span> <span class="toc-text">flatMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#distinct"><span class="toc-number">1.4.</span> <span class="toc-text">distinct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repartition和coalece"><span class="toc-number">1.5.</span> <span class="toc-text">repartition和coalece</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sample"><span class="toc-number">1.6.</span> <span class="toc-text">sample</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#union_以及_++"><span class="toc-number">1.7.</span> <span class="toc-text">union  以及 ++</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cartesian"><span class="toc-number">1.8.</span> <span class="toc-text">cartesian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#groupBy(f)"><span class="toc-number">1.9.</span> <span class="toc-text">groupBy(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipe"><span class="toc-number">1.10.</span> <span class="toc-text">pipe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapPartitions"><span class="toc-number">1.11.</span> <span class="toc-text">mapPartitions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip"><span class="toc-number">1.12.</span> <span class="toc-text">zip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zipPartitions"><span class="toc-number">1.13.</span> <span class="toc-text">zipPartitions</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#Action"><span class="toc-number">2.</span> <span class="toc-text">Action</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SparkContext-runjob"><span class="toc-number">2.1.</span> <span class="toc-text">SparkContext.runjob</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#foreach(f)"><span class="toc-number">2.2.</span> <span class="toc-text">foreach(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#foreachPartition(f)"><span class="toc-number">2.3.</span> <span class="toc-text">foreachPartition(f)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collect、toArray"><span class="toc-number">2.4.</span> <span class="toc-text">collect、toArray</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subtract"><span class="toc-number">2.5.</span> <span class="toc-text">subtract</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce"><span class="toc-number">2.6.</span> <span class="toc-text">reduce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fold"><span class="toc-number">2.7.</span> <span class="toc-text">fold</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aggregate"><span class="toc-number">2.8.</span> <span class="toc-text">aggregate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">2.9.</span> <span class="toc-text">count</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#countApprox"><span class="toc-number">2.10.</span> <span class="toc-text">countApprox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#countByValue"><span class="toc-number">2.11.</span> <span class="toc-text">countByValue</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/hadoop/" title="hadoop">hadoop<sup>1</sup></a></li>
+		
+			<li><a href="/categories/solr/" title="solr">solr<sup>1</sup></a></li>
+		
+			<li><a href="/categories/spark/" title="spark">spark<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/RDD/" title="RDD">RDD<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mapreduce/" title="mapreduce">mapreduce<sup>1</sup></a></li>
+		
+			<li><a href="/tags/solr/" title="solr">solr<sup>1</sup></a></li>
+		
+			<li><a href="/tags/spark/" title="spark">spark<sup>1</sup></a></li>
+		
+			<li><a href="/tags/相似度计算/" title="相似度计算">相似度计算<sup>1</sup></a></li>
+		
+			<li><a href="/tags/空间索引/" title="空间索引">空间索引<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 进击的菜鸟 <br/>
+			专注于大数据框架、机器学习，会点前端、后台开发</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1619689670" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/dataknocker" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="wangzejie">wangzejie</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"dataknocker"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
