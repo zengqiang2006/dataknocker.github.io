@@ -81,7 +81,7 @@ map
     </p>
   <p class="article-time">
     <time datetime="2014-07-11T05:17:04.000Z" itemprop="datePublished">Jul 11 2014</time>
-    Updated:<time datetime="2014-07-11T06:53:20.000Z" itemprop="dateModified">Jul 11 2014</time>
+    Updated:<time datetime="2014-07-11T06:54:17.000Z" itemprop="dateModified">Jul 11 2014</time>
     
   </p>
 </header>
@@ -121,6 +121,7 @@ map
 <p>将rdd1和rdd2的元素依次组成(x,y), x是rdd1的元素,y是rdd2的元素，x和y在rdd1和rdd2的顺序是一样的，即(x1,y1),(x2,y2). 要求rdd1和rdd2的partition数要一样, partition中元素个数如果多于另一个，则忽略多出部分。<br>RDD:ZippedRDD<br>compute:由ZippedPartition得到对应的partition1和partition2, 调用Iterator.zip方法进行partition元素的zip，也是按对应顺序进行zip<br>partitions: 和rdd1.partitions.size个数一样的ZippedPartition，包含了处于相同位置的rdd1 partition1和rdd2 partition2</p>
 <h3 id="zipPartitions">zipPartitions</h3>
 <p>zip与zipPartitions的区别和map与mapPartitions的区别类似<br>RDD:ZippedPartitionsRDD2<br>compute:会调用f(rdd1.iterator(partitions(0), context), rdd2.iterator(partitions(1), context))，即f操作的是partition1和partition2产生的Iterator1和Iterator2</p>
+<hr>
 <h2 id="Action">Action</h2>
 <p>action主要调用SparkContext.runJob方法。</p>
 <h3 id="SparkContext-runjob">SparkContext.runjob</h3>
