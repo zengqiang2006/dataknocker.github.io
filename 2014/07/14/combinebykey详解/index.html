@@ -4,21 +4,10 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>spark相关流程解析 | DataKnocker</title>
+    <title>combineByKey详解 | DataKnocker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="wangzejie">
-    
-    <meta name="description" content="看了spark的部分源码，画了一些流程图，不好分类，就放在一起，以后再分开吧。note:请右击图片，在新页签打开图片
-spark启动流程图
-
-
-spark任务运行流程图
-
-
-Task遍历分区数据流程
-
-用公司wiki画的，导出来字体有些问题，先将就看吧.上图左边未出来的部分是firstParent">
     
     
     
@@ -80,14 +69,14 @@ Task遍历分区数据流程
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/11/spark相关流程解析/" title="spark相关流程解析" itemprop="url">spark相关流程解析</a>
+      <a href="/2014/07/14/combinebykey详解/" title="combineByKey详解" itemprop="url">combineByKey详解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://yoursite.com/about" title="wangzejie" target="_blank" itemprop="author">wangzejie</a>
 		
   <p class="article-time">
-    <time datetime="2014-07-11T09:22:03.000Z" itemprop="datePublished">Published Jul 11 2014</time>
+    <time datetime="2014-07-14T08:11:12.000Z" itemprop="datePublished">Published Jul 14 2014</time>
     
   </p>
 </header>
@@ -97,21 +86,11 @@ Task遍历分区数据流程
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark启动流程图"><span class="toc-number">1.</span> <span class="toc-text">spark启动流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spark任务运行流程图"><span class="toc-number">2.</span> <span class="toc-text">spark任务运行流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task遍历分区数据流程"><span class="toc-number">3.</span> <span class="toc-text">Task遍历分区数据流程</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>看了spark的部分源码，画了一些流程图，不好分类，就放在一起，以后再分开吧。<br><em>note:请右击图片，在新页签打开图片</em></p>
-<h3 id="spark启动流程图">spark启动流程图</h3>
-<p><img src="../../../../img/spark/spark启动流程.jpg" alt="spark启动流程图"></p>
-<hr>
-<h3 id="spark任务运行流程图">spark任务运行流程图</h3>
-<p><img src="../../../../img/spark/spark运行流程.jpg" alt="spark运行流程图"></p>
-<hr>
-<h3 id="Task遍历分区数据流程">Task遍历分区数据流程</h3>
-<p><img src="../../../../img/spark/Task遍历数据流程.jpg" alt="Task遍历分区数据流程"></p>
-<p><em>用公司wiki画的，导出来字体有些问题，先将就看吧.上图左边未出来的部分是firstParent</em></p>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 
@@ -123,7 +102,7 @@ Task遍历分区数据流程
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/spark/">spark</a>
+  <span></span> <a href="/tags/spark/">spark</a><a href="/tags/RDD/">RDD</a>
   </div>
 
 
@@ -131,7 +110,7 @@ Task遍历分区数据流程
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/07/11/spark相关流程解析/" data-title="spark相关流程解析 | DataKnocker" data-tsina="1619689670" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/07/14/combinebykey详解/" data-title="combineByKey详解 | DataKnocker" data-tsina="1619689670" class="share clearfix">
   </div>
 
 </div>
@@ -140,19 +119,11 @@ Task遍历分区数据流程
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/07/14/combinebykey详解/" title="combineByKey详解">
-  <strong>上一篇：</strong><br/>
-  <span>
-  combineByKey详解</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/07/11/RDD各操作详解/"  title="RDD操作详解">
+<a href="/2014/07/11/spark相关流程解析/"  title="spark相关流程解析">
  <strong>下一篇：</strong><br/> 
- <span>RDD操作详解
+ <span>spark相关流程解析
 </span>
 </a>
 </div>
@@ -171,7 +142,7 @@ Task遍历分区数据流程
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark启动流程图"><span class="toc-number">1.</span> <span class="toc-text">spark启动流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spark任务运行流程图"><span class="toc-number">2.</span> <span class="toc-text">spark任务运行流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task遍历分区数据流程"><span class="toc-number">3.</span> <span class="toc-text">Task遍历分区数据流程</span></a></li></ol>
+ 
  
   </div>
 
