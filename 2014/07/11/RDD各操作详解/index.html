@@ -9,7 +9,11 @@
     
     <meta name="author" content="wangzejie">
     
-    <meta name="description" content="rdd最主要方法:-getPreferredLocations: 本地性相关(以后再详细研究)-dependencies/getDependencies: 判断是否有ShuffleMapTask、获得firstParent-partitions/getPartitions: 决定Task数，每个pa">
+    <meta name="description" content="rdd最主要方法:
+
+getPreferredLocations: 本地性相关(以后再详细研究)
+dependencies/getDependencies: 判断是否有ShuffleMapTask、获得firstParent
+partitions/getPartitions: 决定Task数，每个p">
     
     
     
@@ -94,7 +98,15 @@
 		
 		</div>
 		
-		<p>rdd最主要方法:<br>-getPreferredLocations: 本地性相关(以后再详细研究)<br>-dependencies/getDependencies: 判断是否有ShuffleMapTask、获得firstParent<br>-partitions/getPartitions: 决定Task数，每个partition产生一个Task。源头一般是HadoopRDD中的hadoop的InputFormat.getSplits()或者是shuffle时设置的分区(此时数据来源是shuffle reduce阶段的shuffleFetcher获得的数据)。每个任务中都是通过获得相应的partition进而不断向前查找得到源头的分区进行相应的数据操作。<br>-partitioner: 默认是空的。表明该RDD是怎样进行分区的。如shuffle的reduce端的RDD的partitioner就是shuffle时设置的partitioner，默认是HashPartitioner。<br>-iterator(): 各Task对RDD操作时会调用此方法，返回数据集的Iterator。当在缓存中时直接返回，不在缓存中时则调用 compute方法并决定是否要将结果放到缓存中。<br>-compute(): 主要用于生成Iterator，主要实现hasNext与next方法。主要有三种生成Iterator形式：<br>   1、直接封装父RDD.iterator()得到的Iterator，即hasNext或next方法中会调用父RDD的Iterator的hasNext、next进行相应处理。如MappedRDD/FilteredRDD等<br>   2、f(firstParent.iterator()): 对父RDD的Iterator进行自定义处理, 即f中会使用Iterator的hasNext和next方法即对整个分区进行操作。如MapWithPartition等。其他2和1是相同的，只是遍历Iterator(调用hasNext和next)逻辑时2是外部传来的f，而1是由scala.collection.Iterator实现的各个方法。所以我们可以使用2的方式灵活的对分区数据进行转换，如转换成Map对value进行合并等。<br>   3、shuffle: 此时该RDD是shuffle reduce的角色。compute主要通过调用shuffleFetcher获得shuffle map阶段的数据再进行其他处理。如ShuffleRDD等。</p>
+		<p>rdd最主要方法:</p>
+<ul>
+<li>getPreferredLocations: 本地性相关(以后再详细研究)</li>
+<li>dependencies/getDependencies: 判断是否有ShuffleMapTask、获得firstParent</li>
+<li>partitions/getPartitions: 决定Task数，每个partition产生一个Task。源头一般是HadoopRDD中的hadoop的InputFormat.getSplits()或者是shuffle时设置的分区(此时数据来源是shuffle reduce阶段的shuffleFetcher获得的数据)。每个任务中都是通过获得相应的partition进而不断向前查找得到源头的分区进行相应的数据操作。</li>
+<li>partitioner: 默认是空的。表明该RDD是怎样进行分区的。如shuffle的reduce端的RDD的partitioner就是shuffle时设置的partitioner，默认是HashPartitioner。</li>
+<li>iterator(): 各Task对RDD操作时会调用此方法，返回数据集的Iterator。当在缓存中时直接返回，不在缓存中时则调用 compute方法并决定是否要将结果放到缓存中。</li>
+<li>compute(): 主要用于生成Iterator，主要实现hasNext与next方法。主要有三种生成Iterator形式：<br> 1、直接封装父RDD.iterator()得到的Iterator，即hasNext或next方法中会调用父RDD的Iterator的hasNext、next进行相应处理。如MappedRDD/FilteredRDD等<br> 2、f(firstParent.iterator()): 对父RDD的Iterator进行自定义处理, 即f中会使用Iterator的hasNext和next方法即对整个分区进行操作。如MapWithPartition等。其他2和1是相同的，只是遍历Iterator(调用hasNext和next)逻辑时2是外部传来的f，而1是由scala.collection.Iterator实现的各个方法。所以我们可以使用2的方式灵活的对分区数据进行转换，如转换成Map对value进行合并等。<br> 3、shuffle: 此时该RDD是shuffle reduce的角色。compute主要通过调用shuffleFetcher获得shuffle map阶段的数据再进行其他处理。如ShuffleRDD等。</li>
+</ul>
 <hr>
 <h2 id="Transform">Transform</h2>
 <h3 id="map">map</h3>
@@ -110,7 +122,7 @@
 <h3 id="sample">sample</h3>
 <p>元素取样,fraction表示rand &gt; fraction的都被选中<br>RDD:SampledRDD, 这里只研究不放回抽样，放回抽样有待研究<br>partitions：生成SampledRDDPartition，只比一般的Partition多了个seed参数<br>compute: 调用Iterator.filter()，f为各partition的seed生成的随机数&gt;fraction</p>
 <h3 id="intersection">intersection</h3>
-<p>rdd1.subtract(rdd2): 获得rdd1和rdd2共有的值。<br>先map(x=&gt;(x,null))变成kv型然后使用cogroup(具体实现见<a href="XXX">spark RDD keyvalue操作</a>) 得到按key聚合的值对，然后过滤掉其中为空的记录并输出key。</p>
+<p>rdd1.subtract(rdd2): 获得rdd1和rdd2共有的值。<br>先map(x=&gt;(x,null))变成kv型然后使用cogroup(具体实现见<a href="http://dataknocker.github.io/2014/07/22/spark%20rdd%20keyvalue%E6%93%8D%E4%BD%9C/#reduceByKey" target="_blank">spark RDD keyvalue操作</a>) 得到按key聚合的值对，然后过滤掉其中为空的记录并输出key。</p>
 <pre><code><span class="function"><span class="keyword">def</span> <span class="title">intersection</span><span class="params">(other: RDD[T])</span>:</span> RDD[T] = {
     this.map(v =&gt; (v, null)).cogroup(other.map(v =&gt; (v, null)))
         .filter { case (_, (leftGroup, rightGroup)) =&gt; leftGroup.nonEmpty &amp;&amp; rightGroup.nonEmpty }
@@ -118,7 +130,7 @@
 }
 </code></pre><p>这里感觉不应该使用cogroup。而应该要实现和SubtractedRDD类似的RDD，即将rdd1放到HashMap后，再遍历rdd2的kv，对Map中对应的key的value进行合并或者打一定的标志，等遍历完后再将有打标志的记录输出即可；或者再创建一个HashMap,遍历rdd2的kv时将Map中对应的key-value移到新HashMap中，最后新HashMap即是最后的结果。<br>不过要是实现SubtractedRDD的话，就是要返回rdd1与rdd2有共同key的rdd1的kvpairs，感觉有些怪异。。。</p>
 <h3 id="subtract">subtract</h3>
-<p>rdd1.subtract(rdd2): 去掉rdd1中与rdd2相同的值。<br>先map(x=&gt;(x,null))变成kv型然后使用substractByKey,即SubtractedRDD(具体实现见<a href="XXX">spark RDD keyvalue操作</a>) 得到去掉rdd2 key的rdd1的结果然后再输出key就是最后的结果。</p>
+<p>rdd1.subtract(rdd2): 去掉rdd1中与rdd2相同的值。<br>先map(x=&gt;(x,null))变成kv型然后使用substractByKey,即SubtractedRDD(具体实现见<a href="http://dataknocker.github.io/2014/07/22/spark%20rdd%20keyvalue%E6%93%8D%E4%BD%9C/#reduceByKey" target="_blank">spark RDD keyvalue操作</a>) 得到去掉rdd2 key的rdd1的结果然后再输出key就是最后的结果。</p>
 <h3 id="union_以及_++">union  以及 ++</h3>
 <p>RDD:UnionRDD<br>partitions: 生成rdd1.partitions.size + rdd2.partitions.size 个UnionPartition<br>compute: 通过UnionPartition得到对应的rdd的partitions以及splitIndex从而得到真正的split，调用rdd.iterator(split)<br>dependencies: RangeDependency, 依赖数为rdd的个数，每个Dependency包含了对应的rdd以及该rdd各partition在UnionRDD的partition的位置(按rdd顺序)</p>
 <h3 id="cartesian">cartesian</h3>
@@ -193,7 +205,7 @@
 <p>变成(f(x),x)对，即map(x =&gt; (f(x), x))</p>
 <h3 id="saveAsTextFile">saveAsTextFile</h3>
 <p>将结果保存到hdfs等文件系统上</p>
-<p>其他keyvalue型的RDD的操作见<a href="XXX">spark RDD keyvalue操作</a></p>
+<p>其他keyvalue型的RDD的操作见<a href="http://dataknocker.github.io/2014/07/22/spark%20rdd%20keyvalue%E6%93%8D%E4%BD%9C/#reduceByKey" target="_blank">spark RDD keyvalue操作</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
