@@ -77,14 +77,14 @@ partitions/getPartitions: 决定Task数，每个p">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/07/11/RDD各操作详解/" title="RDD操作详解" itemprop="url">RDD操作详解</a>
+      <a href="/2014/07/20/RDD各操作详解/" title="RDD操作详解" itemprop="url">RDD操作详解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://yoursite.com/about" title="wangzejie" target="_blank" itemprop="author">wangzejie</a>
 		
   <p class="article-time">
-    <time datetime="2014-07-11T05:17:04.000Z" itemprop="datePublished">Published Jul 11 2014</time>
+    <time datetime="2014-07-20T05:17:04.000Z" itemprop="datePublished">Published Jul 20 2014</time>
     
   </p>
 </header>
@@ -110,8 +110,12 @@ partitions/getPartitions: 决定Task数，每个p">
 <hr>
 <h2 id="Transform">Transform</h2>
 <h3 id="map">map</h3>
-<p>将元素转成其他类型<br>RDD:MappedRDD<br>compute:调用Iterator.map()方法，hasNext方法为self.hasNext,next方法中执行f(元素)从而实现类型转换<br>partitions:parent.partitions</p>
-<h3 id="filter">filter</h3>
+<p>将元素转成其他类型<br>RDD:MappedRDD<br>compute:调用Iterator.map()方法，hasNext方法为self.hasNext,next方法中执行f(元素)从而实现类型转换<br>partitions:parent.partitions<br>像map等pipline的主要是对父RDD的Iterator的hasNext和next进行加工，如</p>
+<pre><code>def map[<span class="link_label">B</span>](<span class="link_url">f: A =&gt; B</span>): Iterator[B] = new AbstractIterator[B] {
+<span class="code">    def hasNext = self.hasNext</span>
+<span class="code">    def next() = f(self.next())</span>
+}
+</code></pre><h3 id="filter">filter</h3>
 <p>过滤不满足f的元素<br>RDD:FilteredRDD<br>compute:调用Iterator.filter()方法，hasNext中会一直调用f，直到f输出为true, 同时生成hd=self.next,  next方法中直接返回hd<br>partitions:parent.partitions</p>
 <h3 id="flatMap">flatMap</h3>
 <p>通过f后各元素都转成Iterator（如split方法)， 然后遍历所有各Seq元素<br>RDD:FlatMapRDD<br>compute: 调用Iterator.flatMap()方法，调用f后各元素转成Iterator,调用转化后的各元素toIterator方法，cur = f(self.next).toIterator， hasNext为cur.hasNext, cur遍历完后重新对cur赋值下个元素，next方法为cur.next<br>partitions:parent.partitions</p>
@@ -173,14 +177,60 @@ partitions/getPartitions: 决定Task数，每个p">
 <h3 id="collect、toArray">collect、toArray</h3>
 <p>调用Iterator.toArray将各分区变成Array形式，再Array.concat(results: <em>*) 来将各Array合并成一个Array<br>使用了默认的resultHandler，将各task上算完的结果放到results中，并执行Array.concat(results: </em>*)</p>
 <h3 id="reduce">reduce</h3>
-<p>将各元素从左到右按f进行合并<br>参数：<br>f(T,T)=&gt;T： 将两个元素进行合并。 f的第一个参数是resultHandler(index,res)的res,即是以第一个完成的task的结果作为f执行的第一个点。<br>reducePartition方法 (在SparkContext的runJob中是processPartition)用于在各worker上对其分配的Partition的数据进行计算reduceLeft从左到右计算。<br>mergeResult方法(在SparkContext的runJob中是resultHandler)。DAGSchedule的JobWaiter在任务完成时会调用该方法，用于将CompletionEvent中存放的结果进行f操作。所以最后结果的合并是在driver上进行操作。最终结果是对闭合变量进行相应操作。</p>
+<p>将各元素从左到右按f进行合并</p>
+<pre><code>def reduce<span class="function"><span class="params">(f: (T, T) =&gt; T)</span>: <span class="title">T</span> = {
+    <span class="title">val</span> <span class="title">cleanF</span> = <span class="title">sc</span>.<span class="title">clean</span><span class="params">(f)</span>
+    <span class="title">val</span> <span class="title">reducePartition</span>: <span class="title">Iterator</span>[<span class="title">T</span>] =&gt;</span> Option[T] = iter<span class="function"> =&gt;</span> {
+      <span class="keyword">if</span> (iter.hasNext) {
+        Some(iter.reduceLeft(cleanF))
+      } <span class="keyword">else</span> {
+        None
+      }
+    }
+    <span class="reserved">var</span> <span class="attribute">jobResult</span>: Option[T] = None
+    val <span class="function"><span class="title">mergeResult</span> = <span class="params">(index: Int, taskResult: Option[T])</span> =&gt;</span> {
+      <span class="keyword">if</span> (taskResult.isDefined) {
+        jobResult = jobResult match {
+          <span class="reserved">case</span> Some<span class="function"><span class="params">(value)</span> =&gt;</span> Some(f(value, taskResult.get))
+          <span class="reserved">case</span> None<span class="function"> =&gt;</span> taskResult
+        }
+      }
+    }
+    sc.runJob(<span class="keyword">this</span>, reducePartition, mergeResult)
+    <span class="regexp">//</span> Get the final result out <span class="keyword">of</span> our Option, <span class="keyword">or</span> <span class="keyword">throw</span> an exception <span class="keyword">if</span> the RDD was empty
+    jobResult.getOrElse(<span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"empty collection"</span>))
+}
+</code></pre><p>参数：<br>f(T,T)=&gt;T： 将两个元素进行合并。 f的第一个参数是resultHandler(index,res)的res,即是以第一个完成的task的结果作为f执行的第一个点。<br>reducePartition方法 (在SparkContext的runJob中是processPartition)用于在各worker上对其分配的Partition的数据进行计算reduceLeft从左到右计算。<br>mergeResult方法(在SparkContext的runJob中是resultHandler)。DAGSchedule的JobWaiter在任务完成时会调用该方法，用于将CompletionEvent中存放的结果进行f操作。所以最后结果的合并是在driver上进行操作。最终结果是对闭合变量进行相应操作。</p>
 <h3 id="fold">fold</h3>
 <p>和reduce差不多，也是各worker分别计算，然后汇总在driver上计算，不同点是 fold(zeroValue: T)(op: (T, T) =&gt; T)。 会调用TraversableOnce的foldLeft(z)(op)。<br>zeroValue和下面的aggregate用法一样都是为了节省内存开销。</p>
 <h3 id="aggregate">aggregate</h3>
-<p>aggregate<a href="zeroValue: U">U: ClassTag</a>(seqOp: (U, T) =&gt; U, combOp: (U, U) =&gt; U)<br>和fold差不多，也会调用会调用TraversableOnce的foldLeft(z)(op)。不同点是foldLeft的op是(B, A) =&gt; B，。而fold方法都是同类型,op是(A1,A1)=&gt;A1。<br>zeroValue的作用是在各task中，zeroValue将作为seqOp的第一个参数，然后将第二个参数不断合并到第一个参数，即合并到zeroValue中。也就是在同个task中使用的都是同一个U类型的zeroValue对象，从而节省内存开销。<br>aggregate实例：</p>
+<pre><code>def aggregate[<span class="attribute">U</span>: ClassTag]<span class="function"><span class="params">(zeroValue: U)(seqOp: (U, T) =&gt; U, combOp: (U, U) =&gt; U)</span>: <span class="title">U</span> = {
+    // <span class="title">Clone</span> <span class="title">the</span> <span class="title">zero</span> <span class="title">value</span> <span class="title">since</span> <span class="title">we</span> <span class="title">will</span> <span class="title">also</span> <span class="title">be</span> <span class="title">serializing</span> <span class="title">it</span> <span class="title">as</span> <span class="title">part</span> <span class="title">of</span> <span class="title">tasks</span>
+    <span class="title">var</span> <span class="title">jobResult</span> = <span class="title">Utils</span>.<span class="title">clone</span><span class="params">(zeroValue, sc.env.closureSerializer.newInstance())</span>
+    <span class="title">val</span> <span class="title">cleanSeqOp</span> = <span class="title">sc</span>.<span class="title">clean</span><span class="params">(seqOp)</span>
+    <span class="title">val</span> <span class="title">cleanCombOp</span> = <span class="title">sc</span>.<span class="title">clean</span><span class="params">(combOp)</span>
+    <span class="title">val</span> <span class="title">aggregatePartition</span> = <span class="params">(it: Iterator[T])</span> =&gt;</span> it.aggregate(zeroValue)(cleanSeqOp, cleanCombOp)
+    val <span class="function"><span class="title">mergeResult</span> = <span class="params">(index: Int, taskResult: U)</span> =&gt;</span> jobResult = combOp(jobResult, taskResult)
+    sc.runJob(<span class="keyword">this</span>, aggregatePartition, mergeResult)
+    jobResult
+}
+</code></pre><p>foldLeft代码：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">foldLeft</span>[<span class="title">B</span>]<span class="params">(z: B)</span><span class="params">(op: <span class="params">(B, A)</span> =&gt; B)</span>:</span> B = {
+    var result = z 
+    this.seq foreach (x =&gt; result = op(result, x))
+    result
+}
+</code></pre><p>和fold差不多，也会调用会调用TraversableOnce的foldLeft(z)(op)。不同点是foldLeft的op是(B, A) =&gt; B，。而fold方法都是同类型,op是(A1,A1)=&gt;A1。<br>zeroValue的作用是在各task中，zeroValue将作为seqOp的第一个参数，然后将第二个参数不断合并到第一个参数，即合并到zeroValue中。也就是在同个task中使用的都是同一个U类型的zeroValue对象，从而节省内存开销。<br>aggregate实例：</p>
 <pre><code><span class="title">val</span> zeroCombiner = mutable.<span class="type">Map</span>.empty[<span class="type">Int</span>, (<span class="type">Int</span>, <span class="type">DoubleMatrix</span>)]
 <span class="title">val</span> aggregated = <span class="typedef"><span class="keyword">data</span>.aggregate<span class="container">(<span class="title">zeroCombiner</span>)</span><span class="container">({ (<span class="title">combiner</span>, <span class="title">point</span>)</span> =&gt; combiner += point.k -&gt; point.v}, <span class="container">{<span class="type">XXX</span>}</span>)  </span>
 //zeroCombiner会作为seqOp的第一个参数，不断将point的相关属性合并到combiner即zeroCombiner中并返回combiner作为下一次seqOp操作的第一个参数。
+</code></pre><p>zero的另一个例子：</p>
+<pre><code>val <span class="built_in">z</span> = sc<span class="preprocessor">.parallelize</span>(List(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>,<span class="string">"e"</span>,<span class="string">"f"</span>),<span class="number">2</span>)
+<span class="built_in">z</span><span class="preprocessor">.aggregate</span>(<span class="string">""</span>)(_ + _, _+_)
+<span class="label">res115:</span> String = abcdef
+
+<span class="built_in">z</span><span class="preprocessor">.aggregate</span>(<span class="string">"x"</span>)(_ + _, _+_)
+<span class="label">res116:</span> String = xxdefxabc
 </code></pre><h3 id="count">count</h3>
 <p>rdd的元素数。 各task计算各自分区的记录数，结果后会放到results中，然后调用results.sum求得总和</p>
 <h3 id="countApprox">countApprox</h3>
@@ -226,7 +276,7 @@ partitions/getPartitions: 决定Task数，每个p">
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/07/11/RDD各操作详解/" data-title="RDD操作详解 | DataKnocker" data-tsina="1619689670" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/07/20/RDD各操作详解/" data-title="RDD操作详解 | DataKnocker" data-tsina="1619689670" class="share clearfix">
   </div>
 
 </div>
@@ -236,18 +286,18 @@ partitions/getPartitions: 决定Task数，每个p">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/07/11/spark相关流程解析/" title="spark相关流程解析">
+ <a href="/2014/07/22/spark rdd keyvalue操作/" title="spark RDD keyvalue操作">
   <strong>上一篇：</strong><br/>
   <span>
-  spark相关流程解析</span>
+  spark RDD keyvalue操作</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/04/11/solr空间索引原理及源码分析/"  title="solr空间索引原理及源码分析">
+<a href="/2014/07/11/spark相关流程解析/"  title="spark相关流程解析">
  <strong>下一篇：</strong><br/> 
- <span>solr空间索引原理及源码分析
+ <span>spark相关流程解析
 </span>
 </a>
 </div>
