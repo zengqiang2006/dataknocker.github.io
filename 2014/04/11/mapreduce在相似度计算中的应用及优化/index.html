@@ -294,6 +294,14 @@ job<span class="preprocessor">.setGroupingComparatorClass</span>(GeoGroupingComp
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、用户维度的Join"><span class="toc-number">1.</span> <span class="toc-text">一、用户维度的Join</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、特征维度"><span class="toc-number">2.</span> <span class="toc-text">二、特征维度</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、转成特征对用户的矩阵：F1-&gt;U1…Un"><span class="toc-number">2.1.</span> <span class="toc-text">1、转成特征对用户的矩阵：F1-&gt;U1…Un</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、计算相似度"><span class="toc-number">2.2.</span> <span class="toc-text">2、计算相似度</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#(1)直接输出UxUy_pair(IO密集型)"><span class="toc-number">2.2.1.</span> <span class="toc-text">(1)直接输出UxUy pair(IO密集型)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#(2)按各user进行聚合(计算密集型)"><span class="toc-number">2.2.2.</span> <span class="toc-text">(2)按各user进行聚合(计算密集型)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#(3)排序放到Reducer端"><span class="toc-number">2.2.3.</span> <span class="toc-text">(3)排序放到Reducer端</span></a></li><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#a、reduce方法中对user_list进行排序"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">a、reduce方法中对user list进行排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b、利用Reducer的Sort功能"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">b、利用Reducer的Sort功能</span></a></li></ol>
+ 
+  </div>
+
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
