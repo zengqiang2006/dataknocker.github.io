@@ -101,7 +101,7 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
 <h2 id="涉及shuffle的操作">涉及shuffle的操作</h2>
 <p>keyvalue shuffle操作一般都不支持key是Array的情况，除非是自己写的partitioner<br>keyvalue shuffle操作主要分成两类：对一个RDD按key进行聚合combineByKey、partitionBy 以及对多个RDD按key进行相关操作cogroup、subtractByKey。</p>
 <h3 id="partitionBy">partitionBy</h3>
-<p>只使用ShuffledRDD(单个RDD shuffle最基本、纯粹的形态)。<br>对shuffle的结果不做处理，返回类型是Iterator[Pair]。即只对key进行partition操作，value不做任何处理。<br>其实spark应该也要实现通用的多RDD shuffle的类似ShuffledRDD的RDD (返回(rddi,Iterator))，这样CoGroupedRDD和SubtractedRDD就可以基于该RDD进行后续处理。不知道spark以后会不会添加。<br><img src="../../../../img/spark/ShuffleRDD.svg" alt="ShuffleRDD的操作流程"></p>
+<p>只使用ShuffledRDD(单个RDD shuffle最基本、纯粹的形态)。<br>对shuffle的结果不做处理，返回类型是Iterator[Pair]。即只对key进行partition操作，value不做任何处理。<br>其实spark应该也要实现通用的多RDD shuffle的类似ShuffledRDD的RDD (返回(rddi,Iterator))，这样CoGroupedRDD和SubtractedRDD就可以基于该RDD进行后续处理。不知道spark以后会不会添加。<br><img src="../../../../img/spark/ShuffleRDD.svg" alt="ShuffleRDD的操作流程"><br>shffule过程这里只是简单画了下，以后再写其他文章来深入讲解这块。</p>
 <hr>
 <h3 id="combineByKey">combineByKey</h3>
 <p>先上代码：</p>
