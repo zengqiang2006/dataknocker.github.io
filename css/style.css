@@ -931,7 +931,7 @@ article .article-content h2 {
   line-height: 1.2em;
   padding-bottom: 0.3em;
   margin-top: 1.5em;
-  border-bottom: 2px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
 }
 article .article-content h3,
 article .article-content h4,
@@ -946,9 +946,13 @@ article .article-content h4,
 article .article-content h5,
 article .article-content h6 {
   color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+article .article-content h1 #font-smoothing antialiased,
+article .article-content h2 #font-smoothing antialiased,
+article .article-content h3 #font-smoothing antialiased,
+article .article-content h4 #font-smoothing antialiased,
+article .article-content h5 #font-smoothing antialiased,
+article .article-content h6 #font-smoothing antialiased,
 article .article-content h1 >code,
 article .article-content h2 >code,
 article .article-content h3 >code,
@@ -1034,7 +1038,8 @@ article .article-content p {
 }
 @media only screen and (min-width: 1024px) {
   article .article-content p {
-    margin-top: 1em;
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;
   }
 }
 article .article-content img,
@@ -2002,7 +2007,7 @@ footer {
 .article-content pre,
 .article-content .highlight {
   background: #1d1f21;
-  margin: 0.5em 0;
+  margin: 0.5em -40px;
   padding: 1em 2%;
   overflow: auto;
   color: #c5c8c6;

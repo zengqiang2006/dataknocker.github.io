@@ -97,12 +97,11 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
 		
 		<p>主要在PairRDDFunctions内实现，通过隐式转换使kv形式的RDD具有这个类中的方法。<br>隐式转换代码如下，在SparkContext中进行，一定要是RDD[(K,V)]型的才可以被转换</p>
 <pre><code>implicit def rddToPairRDDFunctions[<span class="link_label">K: ClassTag, V: ClassTag</span>](<span class="link_url">rdd: RDD[(K, V</span>)]) = new PairRDDFunctions(rdd)
-</code></pre><p><em>note:写spark程序时使用PairRDDFunctions中的方法时会报错，需要import SparkContext._</em></p>
+</code></pre><p><em>note:写spark程序时使用PairRDDFunctions中的方法时会报错，需要import SparkContext._ ，使object SparkContext中的所有方法都能被引入进来</em></p>
 <h2 id="涉及shuffle的操作">涉及shuffle的操作</h2>
 <p>keyvalue shuffle操作一般都不支持key是Array的情况，除非是自己写的partitioner<br>keyvalue shuffle操作主要分成两类：对一个RDD按key进行聚合combineByKey、partitionBy 以及对多个RDD按key进行相关操作cogroup、subtractByKey。</p>
 <h3 id="partitionBy">partitionBy</h3>
 <p>只使用ShuffledRDD(单个RDD shuffle最基本、纯粹的形态)。<br>对shuffle的结果不做处理，返回类型是Iterator[Pair]。即只对key进行partition操作，value不做任何处理。<br>其实spark应该也要实现通用的多RDD shuffle的类似ShuffledRDD的RDD (返回(rddi,Iterator))，这样CoGroupedRDD和SubtractedRDD就可以基于该RDD进行后续处理。不知道spark以后会不会添加。<br><img src="../../../../img/spark/ShuffleRDD.svg" alt="ShuffleRDD的操作流程"><br>shffule过程这里只是简单画了下，以后再写其他文章来深入讲解这块。</p>
-<hr>
 <h3 id="combineByKey">combineByKey</h3>
 <p>先上代码：</p>
 <pre><code>def combineByKey[C](<span class="attribute">createCombiner</span>: V<span class="function"> =&gt;</span> C,
@@ -144,7 +143,7 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
       }, preservesPartitioning = <span class="literal">true</span>)</span>
     }
   }</span>
-</code></pre><p><img src="../../../../img/spark/combinekey.svg" alt="combineByKey的操作流程"><br>主要参数介绍：<br>createCombiner、mergeValue、mergeCombiners在Aggregator中使用，其实是在AppendOnlyMap/ExternalAppendOnlyMap(详见<a href="XXX">AppendOnlyMap/ExternalAppendOnlyMap</a>)中使用。<br>Aggregator中使用了AppendOnlyMap/ExternalAppendOnlyMap。<br>createCombiner：当Map中无对应的key时，则创建Combiner(如List等)，并将value放到该Combiner中。即完成Value-&gt;Combiner。<br>mergeValue：当Map中存在相应的key时，则将value添加到对应的Combiner中。<br>mergeCombiners：将各Combiner进行合并。</p>
+</code></pre><p><img src="../../../../img/spark/combinekey.svg" alt="combineByKey的操作流程"><br>主要参数介绍：<br>createCombiner、mergeValue、mergeCombiners在Aggregator中使用，其实是在AppendOnlyMap/ExternalAppendOnlyMap(详见<a href="http://dataknocker.github.io/2014/07/23/spark-appendonlymap/" target="_blank">AppendOnlyMap/ExternalAppendOnlyMap</a>)中使用。<br>Aggregator中使用了AppendOnlyMap/ExternalAppendOnlyMap。<br>createCombiner：当Map中无对应的key时，则创建Combiner(如List等)，并将value放到该Combiner中。即完成Value-&gt;Combiner。<br>mergeValue：当Map中存在相应的key时，则将value添加到对应的Combiner中。<br>mergeCombiners：将各Combiner进行合并。</p>
 <p>aggregator.combineValuesByKey：按key合并value，些时value是基本的value还非Combiner。当AppendOnlyMap中无key时，进行createCombiner，有key时进行mergeValue。<br>aggregator.combineCombinersByKey：些时value已经是Combiner(因为该步的数据其实是由ShuffleRDD的前一个RDD进行shffule的，即调用了aggregator.combineValuesByKey将结果转成Combiner)，当AppendOnlyMap中无key时，新的c作为value，有key时进行将新Combiner与旧Combiner进行合并。</p>
 <p>主要流程(mapSideCombine=true)：<br>1、在各分区上先按key将value进行聚合：aggregator.combineValuesByKey()<br>2、shuffle阶段，new ShuffleRDD<br>   map端：各分区按key.hash将各kvpair写到对应的bucket中<br>   reduce端：ShuffleRDD.compute()。 从map端fetch本reduce负责的key对应的kvpairs Iterator<br>3、对ShuffleRDD生成的各分区进行按key将对应的多个value list进行合并：aggregator.combineCombinersByKey</p>
 <p>combineByKey形成的stage的描述会是调用combineByKey所在的行，其实应该是ShuffleRDD的前一个RDD即MapPartititionRDD，但由于是在combineByKey中进行创建。<br>最常见的reduceByKey形成的stage的描述也是reduceByKey。<br>以下是使用combineByKey的RDD</p>
@@ -197,7 +196,6 @@ val b = a<span class="preprocessor">.map</span>(<span class="built_in">x</span> 
 b<span class="preprocessor">.foldByKey</span>(<span class="string">"X"</span>)(_ + _)<span class="preprocessor">.collect</span>
 //结果是: Array[(Int, String)] = Array((<span class="number">4</span>,Xlion), (<span class="number">3</span>,XdogXcat), (<span class="number">7</span>,Xpanther), (<span class="number">5</span>,XtigerXeagle))
 </code></pre><p>因为combineKey操作中：<br>1、各分区进行aggregator.combineValuesByKey， 而createZero()即X会在key第一次加入到Map中被使用，即结果为分区1：(3,Xdogcat),(5:Xtiger)； 分区2:(4:Xlion),(7,Xpanther),(5,Xeagle)<br>2、进行shuffle后分区1: (3,Xdogcat),(4,Xlion) 分区2:(5,Xtiger),(5,Xeagle),(7,Xpanther)。 真实分区可能不是这样，这里只是举例。<br>3、各分区进行aggregator.combineCombinersByKey，将相同key的值进行合并，即结果为分区1：(3,Xdogcat),(4,Xlion), 分区2：(5,XtigerXeagle),(7,Xpanther)</p>
-<hr>
 <h3 id="cogroup">cogroup</h3>
 <pre><code>//两个RDD进行cogroup
 def cogroup[W](other: RDD[(K, W)], partitioner: Partitioner): RDD[(K, (Iterable[V], Iterable[W]))]  = {
@@ -282,7 +280,6 @@ val <span class="attribute">mergeCombiners</span>: <span class="function"><span 
 <p><em>note:实际应用中经常会有不止2个rdd join的情况，可以用rdd1 join rdd2 join rdd3, 但这样会发生两次shuffle, 所以当3个rdd join可以使用cogroup(other1,other2)来实现自己的join方法，这样只需要一次shuffle，更多的话只能自己模仿cogroup来写了,毕竟CoGroupedRDD是支持Seq(rdd)的,工作量应该会少些。spark能写个通用的支持任意多个join的就好了…</em></p>
 <h4 id="groupWith">groupWith</h4>
 <p>Alias for cogroup。 只是调用cogroup不做任何处理。</p>
-<hr>
 <h3 id="subtractByKey">subtractByKey</h3>
 <p>rdd1.subtractByKey(rdd2), 去掉rdd1中与rdd2共有的key对应的kvpairs.<br>主要使用SubtractedRDD， 其dependency也是两个ShuffleDependency, compute方法见下面代码：</p>
 <pre><code>override def compute(p: Partition, context: TaskContext): Iterator[(K, V)] = {
@@ -316,7 +313,6 @@ val <span class="attribute">mergeCombiners</span>: <span class="function"><span 
 }
 </code></pre><p>shuffle的map阶段和cogroup一样，在reduce阶段有很大差异(其实可以用leftOuterJoin来实现该功能，只保留右rdd对应的值为None的记录，之所以没用时因为cogroup的reduce阶段会比subtractByKey的复杂很多以及多做一些不必要的工作，如要外排、右rdd的值也被保存等)。<br>reduce阶段：<br>1、创建一个HashMap<br>2、integrate方法通过SparkEnv.get.shuffleFetcher获得相应依赖rdd的map阶段的数据，并对每个数据进行相应的操作：<br>   左rdd: 将记录存到HashMap中，遇到相同key则将value合并到数组中。左rdd的记录就都在内存中<br>   右rdd: 遍历右rdd的记录，不断从HashMap中称除右rdd中出现的key<br>3、将(k,Seq(v))转化成(k,v)列表</p>
 <p><em>note:从实现可以看出subtractByKey用于rdd1比rdd2少很多的情况，因为rdd1是存在内存，rdd2只要遍历stream即可。如果rdd1很大，且reduce数较少的情况可能发生OOM。如果rdd1很大可以考虑使用cogroup来实现</em></p>
-<hr>
 <h2 id="transform">transform</h2>
 <h3 id="mapValues">mapValues</h3>
 <p>mapValues(f)，key不变，只对value进行f操作。<br>使用MappedValuesRDD。compute方法：</p>
@@ -333,7 +329,6 @@ val <span class="attribute">mergeCombiners</span>: <span class="function"><span 
 <p>返回key数据集合 map(._1)</p>
 <h3 id="values">values</h3>
 <p>返回value数据集合 map(._2)</p>
-<hr>
 <h2 id="action">action</h2>
 <h3 id="reduceByKeyLocally">reduceByKeyLocally</h3>
 <p>reduceByKeyLocally(func)不要和reduceByKey混淆,它是一个action。该方法主要用于将RDD[K,V]转化成drvier上的Map[K,V]<br>原理：<br>1、创建map<br>2、调用mapParitition对整个分区进行操作，具体是遍历该分区上的kv，判断key是否在map中，不在的话直接将该kvpair放到map中，否则将map中该key的value按func与v进行更新。该过程得到的是Iterator[HashMap]类型，即将各个分区转变成了一个HashMap<br>3、调用reduce。reduce中的方法是将两个map进行合并，即先在各分区上进行map合并(各分区就一个map)，然后将各分区的map传到driver进行map的两两合并得到最终结果。</p>
@@ -416,14 +411,6 @@ val <span class="attribute">mergeCombiners</span>: <span class="function"><span 
 
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#涉及shuffle的操作"><span class="toc-number">1.</span> <span class="toc-text">涉及shuffle的操作</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#partitionBy"><span class="toc-number">1.1.</span> <span class="toc-text">partitionBy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combineByKey"><span class="toc-number">1.2.</span> <span class="toc-text">combineByKey</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#reduceByKey"><span class="toc-number">1.2.1.</span> <span class="toc-text">reduceByKey</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#groupByKey"><span class="toc-number">1.2.2.</span> <span class="toc-text">groupByKey</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#foldByKey"><span class="toc-number">1.2.3.</span> <span class="toc-text">foldByKey</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#cogroup"><span class="toc-number">1.3.</span> <span class="toc-text">cogroup</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#join"><span class="toc-number">1.3.1.</span> <span class="toc-text">join</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#leftOuterJoin"><span class="toc-number">1.3.2.</span> <span class="toc-text">leftOuterJoin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rightOuterJoin"><span class="toc-number">1.3.3.</span> <span class="toc-text">rightOuterJoin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#groupWith"><span class="toc-number">1.3.4.</span> <span class="toc-text">groupWith</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#subtractByKey"><span class="toc-number">1.4.</span> <span class="toc-text">subtractByKey</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#transform"><span class="toc-number">2.</span> <span class="toc-text">transform</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapValues"><span class="toc-number">2.1.</span> <span class="toc-text">mapValues</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatMapValues"><span class="toc-number">2.2.</span> <span class="toc-text">flatMapValues</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keys"><span class="toc-number">2.3.</span> <span class="toc-text">keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#values"><span class="toc-number">2.4.</span> <span class="toc-text">values</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#action"><span class="toc-number">3.</span> <span class="toc-text">action</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reduceByKeyLocally"><span class="toc-number">3.1.</span> <span class="toc-text">reduceByKeyLocally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collectAsMap"><span class="toc-number">3.2.</span> <span class="toc-text">collectAsMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lookup"><span class="toc-number">3.3.</span> <span class="toc-text">lookup</span></a></li></ol>
- 
-  </div>
-
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
