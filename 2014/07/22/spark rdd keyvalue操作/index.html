@@ -101,7 +101,7 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
 <h2 id="涉及shuffle的操作">涉及shuffle的操作</h2>
 <p>keyvalue shuffle操作一般都不支持key是Array的情况，除非是自己写的partitioner<br>keyvalue shuffle操作主要分成两类：对一个RDD按key进行聚合combineByKey、partitionBy 以及对多个RDD按key进行相关操作cogroup、subtractByKey。</p>
 <h3 id="partitionBy">partitionBy</h3>
-<p>只使用ShuffledRDD(单个RDD shuffle最基本、纯粹的形态)。<br>对shuffle的结果不做处理，返回类型是Iterator[Pair]。即只对key进行partition操作，value不做任何处理。<br>其实spark应该也要实现通用的多RDD shuffle的类似ShuffledRDD的RDD (返回(rddi,Iterator))，这样CoGroupedRDD和SubtractedRDD就可以基于该RDD进行后续处理。不知道spark以后会不会添加。</p>
+<p>只使用ShuffledRDD(单个RDD shuffle最基本、纯粹的形态)。<br>对shuffle的结果不做处理，返回类型是Iterator[Pair]。即只对key进行partition操作，value不做任何处理。<br>其实spark应该也要实现通用的多RDD shuffle的类似ShuffledRDD的RDD (返回(rddi,Iterator))，这样CoGroupedRDD和SubtractedRDD就可以基于该RDD进行后续处理。不知道spark以后会不会添加。<br><img src="../../../../img/spark/ShuffleRDD.svg" alt="ShuffleRDD的操作流程"></p>
 <hr>
 <h3 id="combineByKey">combineByKey</h3>
 <p>先上代码：</p>
@@ -126,11 +126,13 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
         <span class="keyword">new</span> InterruptibleIterator(context, aggregator.combineValuesByKey(iter, context))
       }, preservesPartitioning = <span class="literal">true</span>)</span>
     } <span class="title">else</span> <span class="title">if</span> <span class="params">(mapSideCombine)</span> { //默认启用。先在各<span class="title">worker</span>上进行<span class="title">combine</span>,以减少数据量，相当于<span class="title">mapreduce</span>的<span class="title">combine</span>操作
-      <span class="title">val</span> <span class="title">combined</span> = <span class="title">self</span>.<span class="title">mapPartitionsWithContext</span><span class="params">((context, iter) =&gt; {
+      <span class="title">val</span> <span class="title">combined</span> = <span class="title">self</span>.<span class="title">mapPartitionsWithContext</span><span class="params">((context, iter) =&gt; {<span class="regexp">//</span>在各分区先进行按Key聚合
         aggregator.combineValuesByKey(iter, context)
       }, preservesPartitioning = <span class="literal">true</span>)</span>
+      //进行<span class="title">shuffle</span>过程对<span class="title">key</span>进行分组
       <span class="title">val</span> <span class="title">partitioned</span> = <span class="title">new</span> <span class="title">ShuffledRDD</span>[<span class="title">K</span>, <span class="title">C</span>, <span class="params">(K, C)</span>]<span class="params">(combined, partitioner)</span>
         .<span class="title">setSerializer</span><span class="params">(serializer)</span>
+      //在新分区上按<span class="title">Key</span>将<span class="title">value</span> <span class="title">list</span>进行合并
       <span class="title">partitioned</span>.<span class="title">mapPartitionsWithContext</span><span class="params">((context, iter) =&gt; {
         <span class="keyword">new</span> InterruptibleIterator(context, aggregator.combineCombinersByKey(iter, context))
       }, preservesPartitioning = <span class="literal">true</span>)</span>
@@ -142,9 +144,10 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
       }, preservesPartitioning = <span class="literal">true</span>)</span>
     }
   }</span>
-</code></pre><p>主要参数介绍：<br>createCombiner、mergeValue、mergeCombiners在Aggregator中使用。<br>createCombiner：当Map中无对应的key时，则创建Combiner(如List等)，并将value放到该Combiner中。即完成Value-&gt;Combiner。<br>mergeValue：当Map中存在相应的key时，则将value添加到对应的Combiner中。<br>mergeCombiners：将各Combiner进行合并。</p>
-<p>主要流程(mapSideCombine=true)：<br>1、在各分区上先进行聚合：aggregator.combineValuesByKey()<br>2、shuffle阶段，new ShuffleRDD<br>   map端：各分区按key.hash将各kvpair写到对应的bucket中<br>   reduce端：ShuffleRDD.compute()。 从map端fetch本reduce负责的key对应的kvpairs Iterator<br>3、对ShuffleRDD生成的各分区进行按key聚合：aggregator.combineCombinersByKey</p>
-<p>以下是使用combineByKey的RDD</p>
+</code></pre><p><img src="../../../../img/spark/combinekey.svg" alt="combineByKey的操作流程"><br>主要参数介绍：<br>createCombiner、mergeValue、mergeCombiners在Aggregator中使用，其实是在AppendOnlyMap/ExternalAppendOnlyMap(详见<a href="XXX">AppendOnlyMap/ExternalAppendOnlyMap</a>)中使用。<br>Aggregator中使用了AppendOnlyMap/ExternalAppendOnlyMap。<br>createCombiner：当Map中无对应的key时，则创建Combiner(如List等)，并将value放到该Combiner中。即完成Value-&gt;Combiner。<br>mergeValue：当Map中存在相应的key时，则将value添加到对应的Combiner中。<br>mergeCombiners：将各Combiner进行合并。</p>
+<p>aggregator.combineValuesByKey：按key合并value，些时value是基本的value还非Combiner。当AppendOnlyMap中无key时，进行createCombiner，有key时进行mergeValue。<br>aggregator.combineCombinersByKey：些时value已经是Combiner(因为该步的数据其实是由ShuffleRDD的前一个RDD进行shffule的，即调用了aggregator.combineValuesByKey将结果转成Combiner)，当AppendOnlyMap中无key时，新的c作为value，有key时进行将新Combiner与旧Combiner进行合并。</p>
+<p>主要流程(mapSideCombine=true)：<br>1、在各分区上先按key将value进行聚合：aggregator.combineValuesByKey()<br>2、shuffle阶段，new ShuffleRDD<br>   map端：各分区按key.hash将各kvpair写到对应的bucket中<br>   reduce端：ShuffleRDD.compute()。 从map端fetch本reduce负责的key对应的kvpairs Iterator<br>3、对ShuffleRDD生成的各分区进行按key将对应的多个value list进行合并：aggregator.combineCombinersByKey</p>
+<p>combineByKey形成的stage的描述会是调用combineByKey所在的行，其实应该是ShuffleRDD的前一个RDD即MapPartititionRDD，但由于是在combineByKey中进行创建。<br>最常见的reduceByKey形成的stage的描述也是reduceByKey。<br>以下是使用combineByKey的RDD</p>
 <h4 id="reduceByKey">reduceByKey</h4>
 <p>对RDD按key聚合并进行func运算作为新value。</p>
 <pre><code><span class="function"><span class="keyword">def</span> <span class="title">reduceByKey</span><span class="params">(partitioner: Partitioner, func: <span class="params">(V, V)</span> =&gt; V)</span>:</span> RDD[(K, V)] = {
@@ -174,6 +177,7 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
 }
 </code></pre><p>原理是当Key不存在时创建ArrayBuffer(v)，存在时将v加到该ArrayBuffer中，然后将各ArrayBuffer按key进行合并。</p>
 <h4 id="foldByKey">foldByKey</h4>
+<p>该方法具体还不知道有什么实际应用场景…</p>
 <pre><code>def foldByKey<span class="function"><span class="params">(zeroValue: V, partitioner: Partitioner)(func: (V, V) =&gt; V)</span>: <span class="title">RDD</span>[<span class="params">(K, V)</span>] = {
     // <span class="title">Serialize</span> <span class="title">the</span> <span class="title">zero</span> <span class="title">value</span> <span class="title">to</span> <span class="title">a</span> <span class="title">byte</span> <span class="title">array</span> <span class="title">so</span> <span class="title">that</span> <span class="title">we</span> <span class="title">can</span> <span class="title">get</span> <span class="title">a</span> <span class="title">new</span> <span class="title">clone</span> <span class="title">of</span> <span class="title">it</span> <span class="title">on</span> <span class="title">each</span> <span class="title">key</span>
     <span class="title">val</span> <span class="title">zeroBuffer</span> = <span class="title">SparkEnv</span>.<span class="title">get</span>.<span class="title">closureSerializer</span>.<span class="title">newInstance</span><span class="params">()</span>.<span class="title">serialize</span><span class="params">(zeroValue)</span>
@@ -186,7 +190,14 @@ implicit def rddToPairRDDFunctions[K: ClassTag, V: Cl">
 
     <span class="title">combineByKey</span>[<span class="title">V</span>]<span class="params">((v: V) =&gt; func(createZero(), v), func, func, partitioner)</span>
 }</span>
-</code></pre><hr>
+</code></pre><p>createZero()即copy一份和zeroValue一样的数据。其会在每个key第一次放到AppendOnlyMap中时调用。和fold一样，它要求func的两个参数是同类型的。</p>
+<p>关于zeroValue这里举个例子进行说明：</p>
+<pre><code>val a = sc<span class="preprocessor">.parallelize</span>(List(<span class="string">"dog"</span>, <span class="string">"tiger"</span>, <span class="string">"cat"</span>, <span class="string">"lion"</span>, <span class="string">"panther"</span>, <span class="string">"eagle"</span>), <span class="number">2</span>)
+val b = a<span class="preprocessor">.map</span>(<span class="built_in">x</span> =&gt; (<span class="built_in">x</span><span class="preprocessor">.length</span>, <span class="built_in">x</span>))
+b<span class="preprocessor">.foldByKey</span>(<span class="string">"X"</span>)(_ + _)<span class="preprocessor">.collect</span>
+//结果是: Array[(Int, String)] = Array((<span class="number">4</span>,Xlion), (<span class="number">3</span>,XdogXcat), (<span class="number">7</span>,Xpanther), (<span class="number">5</span>,XtigerXeagle))
+</code></pre><p>因为combineKey操作中：<br>1、各分区进行aggregator.combineValuesByKey， 而createZero()即X会在key第一次加入到Map中被使用，即结果为分区1：(3,Xdogcat),(5:Xtiger)； 分区2:(4:Xlion),(7,Xpanther),(5,Xeagle)<br>2、进行shuffle后分区1: (3,Xdogcat),(4,Xlion) 分区2:(5,Xtiger),(5,Xeagle),(7,Xpanther)。 真实分区可能不是这样，这里只是举例。<br>3、各分区进行aggregator.combineCombinersByKey，将相同key的值进行合并，即结果为分区1：(3,Xdogcat),(4,Xlion), 分区2：(5,XtigerXeagle),(7,Xpanther)</p>
+<hr>
 <h3 id="cogroup">cogroup</h3>
 <pre><code>//两个RDD进行cogroup
 def cogroup[W](other: RDD[(K, W)], partitioner: Partitioner): RDD[(K, (Iterable[V], Iterable[W]))]  = {
@@ -210,7 +221,25 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
        w2s.asInstanceOf[Se<span class="string">q[W2]</span>])
     }
 }
-</code></pre><p>流程，以两个RDD进行cogroup为例：<br>1、创建CoGroupedRDD，该RDD的dependency都是ShuffleDependency (当其两个父RDD的partitioner==Some(part)时是NarrowDependency, 这个以后再研究。大部分情况都是partitioner!=Some(part))。 于是会产生Shuffle过程：<br>   map端：两个父RDD都会将其分区数据写到相应的bucket中。<br>   reduce端：各分区通过SparkEnv.get.shuffleFetcher获得该分区所负责的key的Iterator数据，通过AppendOnlyMap/ExternalAppendOnlyMap对从map端各分区得到的结果进行聚合形成新的Iterator。<br>得到的结果是RDD[(K, Seq[Seq[_]])], 即对于每个Key, 都是Array[ArrayBuffer], 该二维数组存了各个RDD的聚合结果(即外层数组长度是rdd的个数)，里面的是具体某个RDD对应Key的value list。<br>2、通过mapValues对value进行处理：即将前面得到的二维数组seq(vs,ws)转化成tuple形式,vs和ws是各rdd相应key的value list。 最后得到的结果就是RDD[K,(Iterable[V], Iterable[W])]</p>
+</code></pre><p><img src="../../../../img/spark/cogroup.svg" alt="cogroup的操作流程"><br>流程，以两个RDD进行cogroup为例：<br>1、创建CoGroupedRDD，该RDD的dependency都是ShuffleDependency (当其两个父RDD的partitioner==Some(part)时是NarrowDependency, 这个以后再研究。大部分情况都是partitioner!=Some(part))。 于是会产生Shuffle过程：<br>   map端：两个父RDD都会将其分区数据写到相应的bucket中。<br>   reduce端：每个rdd都会通过SparkEnv.get.shuffleFetcher获得相应分区所负责的key的Iterator数据，通过AppendOnlyMap/ExternalAppendOnlyMap对从map阶段各分区得到的结果进行聚合形成新的Iterator。<br>得到的结果是RDD[(K, Seq[Seq[_]])], 即对于每个Key, 都是Array[ArrayBuffer], 该二维数组存了各个RDD的聚合结果(即外层数组长度是rdd的个数)，里面的是具体某个RDD对应Key的value list。这里只看使用ExternalAppendOnlyMap的核心代码，AppendOnlyMap与之类似。</p>
+<pre><code>val <span class="attribute">createCombiner</span>: (CoGroupValue<span class="function"> =&gt;</span> CoGroupCombiner) = value<span class="function"> =&gt;</span> {
+  val newCombiner = Array.fill(numRdds)(<span class="keyword">new</span> CoGroup)
+  value match { <span class="reserved">case</span> <span class="function"><span class="params">(v, depNum)</span> =&gt;</span> newCombiner(depNum) += v }
+  newCombiner
+}
+val <span class="attribute">mergeValue</span>: <span class="function"><span class="params">(CoGroupCombiner, CoGroupValue)</span> =&gt;</span> <span class="function"><span class="title">CoGroupCombiner</span> =
+  <span class="params">(combiner, value)</span> =&gt;</span> {
+  value match { <span class="reserved">case</span> <span class="function"><span class="params">(v, depNum)</span> =&gt;</span> combiner(depNum) += v }
+  combiner
+}
+val <span class="attribute">mergeCombiners</span>: <span class="function"><span class="params">(CoGroupCombiner, CoGroupCombiner)</span> =&gt;</span> <span class="function"><span class="title">CoGroupCombiner</span> =
+  <span class="params">(combiner1, combiner2)</span> =&gt;</span> {
+    combiner1.zip<span class="function"><span class="params">(combiner2)</span>.<span class="title">map</span> { <span class="title">case</span> <span class="params">(v1, v2)</span> =&gt;</span> v1 ++ v2 }
+  }
+<span class="keyword">new</span> ExternalAppendOnlyMap[K, CoGroupValue, CoGroupCombiner](
+  createCombiner, mergeValue, mergeCombiners)
+</code></pre><p>createCombiner:当相应key不存在时，会创建一个二维数据，该二维数组存了各个RDD的聚合结果。<br>mergeValue: 当相应key存在时进行value的merge。value的形式是(v,rddNum), 根据rddNum找到二维数组中相应RDD的结果数组，将新的v添加到该数组中<br>mergeCombiners: 多个Iterator(一个mem Iterator与多个DiskMapIterator)在优先队列dequeue操作时将key相同的kvpairs的value进行合并。</p>
+<p>2、通过mapValues对value进行处理：即将前面得到的二维数组seq(vs,ws)转化成tuple形式,vs和ws是各rdd相应key的value list。 最后得到的结果就是RDD[K,(Iterable[V], Iterable[W])]</p>
 <p>以下是使用cogroup的RDD, 主要是各种Join操作</p>
 <h4 id="join">join</h4>
 <p>只会保留两个rdd共同key对应的记录</p>
@@ -286,7 +315,7 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
     <span class="keyword">map</span>.iterator.<span class="keyword">map</span> { <span class="string">t =&gt;</span>  t._2.iterator.<span class="keyword">map</span> { (t._1, <span class="number">_</span>) } }.flatten
 }
 </code></pre><p>shuffle的map阶段和cogroup一样，在reduce阶段有很大差异(其实可以用leftOuterJoin来实现该功能，只保留右rdd对应的值为None的记录，之所以没用时因为cogroup的reduce阶段会比subtractByKey的复杂很多以及多做一些不必要的工作，如要外排、右rdd的值也被保存等)。<br>reduce阶段：<br>1、创建一个HashMap<br>2、integrate方法通过SparkEnv.get.shuffleFetcher获得相应依赖rdd的map阶段的数据，并对每个数据进行相应的操作：<br>   左rdd: 将记录存到HashMap中，遇到相同key则将value合并到数组中。左rdd的记录就都在内存中<br>   右rdd: 遍历右rdd的记录，不断从HashMap中称除右rdd中出现的key<br>3、将(k,Seq(v))转化成(k,v)列表</p>
-<p><em>note:从实现可以看出subtractByKey用于rdd1比rdd2少很多的情况，因为rdd1是存在内存，rdd2只要遍历stream即可。如果rdd1很大，且reduce数较少的情况可能发生OOM</em></p>
+<p><em>note:从实现可以看出subtractByKey用于rdd1比rdd2少很多的情况，因为rdd1是存在内存，rdd2只要遍历stream即可。如果rdd1很大，且reduce数较少的情况可能发生OOM。如果rdd1很大可以考虑使用cogroup来实现</em></p>
 <hr>
 <h2 id="transform">transform</h2>
 <h3 id="mapValues">mapValues</h3>
@@ -309,7 +338,8 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
 <h3 id="reduceByKeyLocally">reduceByKeyLocally</h3>
 <p>reduceByKeyLocally(func)不要和reduceByKey混淆,它是一个action。该方法主要用于将RDD[K,V]转化成drvier上的Map[K,V]<br>原理：<br>1、创建map<br>2、调用mapParitition对整个分区进行操作，具体是遍历该分区上的kv，判断key是否在map中，不在的话直接将该kvpair放到map中，否则将map中该key的value按func与v进行更新。该过程得到的是Iterator[HashMap]类型，即将各个分区转变成了一个HashMap<br>3、调用reduce。reduce中的方法是将两个map进行合并，即先在各分区上进行map合并(各分区就一个map)，然后将各分区的map传到driver进行map的两两合并得到最终结果。</p>
 <h3 id="collectAsMap">collectAsMap</h3>
-<p>将RDD转成Map。<br>先调用collect()将kvparis汇总到driver上，然后将kvpairs放到Map中。<br><em>note：遇到相同key时后来的value会把之前的value给覆盖，如果需要将value进行合并，则用reduceByKeyLocally</em></p>
+<p>将RDD转成Map。<br>先调用collect()将kvparis汇总到driver上，然后将kvpairs放到Map中。</p>
+<p><em>note：遇到相同key时后来的value会把之前的value给覆盖，如果需要将value进行合并，则用reduceByKeyLocally</em></p>
 <h3 id="lookup">lookup</h3>
 <p>通过key获得其所有的value。</p>
 <pre><code><span class="function"><span class="keyword">def</span> <span class="title">lookup</span><span class="params">(key: K)</span>:</span> Seq[V] = {
@@ -359,6 +389,14 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2014/07/23/spark-appendonlymap/" title="spark的外排:AppendOnlyMap与ExternalAppendOnlyMap">
+  <strong>上一篇：</strong><br/>
+  <span>
+  spark的外排:AppendOnlyMap与ExternalAppendOnlyMap</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2014/07/20/RDD各操作详解/"  title="RDD操作详解">
@@ -399,7 +437,7 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
 		
 			<li><a href="/categories/solr/" title="solr">solr<sup>1</sup></a></li>
 		
-			<li><a href="/categories/spark/" title="spark">spark<sup>3</sup></a></li>
+			<li><a href="/categories/spark/" title="spark">spark<sup>4</sup></a></li>
 		
 		</ul>
 </div>
@@ -409,7 +447,7 @@ def cogroup[W1, W2](other1: RDD[(K, W1)], other2: RDD[(K, W2)], partitioner: Par
   <div class="tagcloudlist">
     <p class="asidetitle">Tag Cloud</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/RDD/" style="font-size: 15.00px;">RDD</a><a href="/tags/hadoop/" style="font-size: 10.00px;">hadoop</a><a href="/tags/keyvalue/" style="font-size: 10.00px;">keyvalue</a><a href="/tags/mapreduce/" style="font-size: 10.00px;">mapreduce</a><a href="/tags/shuffle/" style="font-size: 10.00px;">shuffle</a><a href="/tags/solr/" style="font-size: 10.00px;">solr</a><a href="/tags/spark/" style="font-size: 20.00px;">spark</a><a href="/tags/相似度计算/" style="font-size: 10.00px;">相似度计算</a><a href="/tags/空间索引/" style="font-size: 10.00px;">空间索引</a>
+       <a href="/tags/AppendOnlyMap/" style="font-size: 10.00px;">AppendOnlyMap</a><a href="/tags/RDD/" style="font-size: 15.00px;">RDD</a><a href="/tags/hadoop/" style="font-size: 10.00px;">hadoop</a><a href="/tags/keyvalue/" style="font-size: 10.00px;">keyvalue</a><a href="/tags/mapreduce/" style="font-size: 10.00px;">mapreduce</a><a href="/tags/reduce/" style="font-size: 10.00px;">reduce</a><a href="/tags/shuffle/" style="font-size: 10.00px;">shuffle</a><a href="/tags/solr/" style="font-size: 10.00px;">solr</a><a href="/tags/spark/" style="font-size: 20.00px;">spark</a><a href="/tags/相似度计算/" style="font-size: 10.00px;">相似度计算</a><a href="/tags/空间索引/" style="font-size: 10.00px;">空间索引</a>
     </div>
   </div>
 

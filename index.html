@@ -72,6 +72,22 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
+    <a href="/2014/07/23/spark-appendonlymap/" title="spark的外排:AppendOnlyMap与ExternalAppendOnlyMap" itemprop="url">
+  
+    <h1 itemprop="name">spark的外排:AppendOnlyMap与ExternalAppendOnlyMap</h1>
+    
+     
+           <p itemprop="description" >AppendOnlyMap/ExternalAppendOnlyMap在spark被广泛使用，如join中shuffle的reduce阶段以及combineByKey操作等。
+AppendOnlyMap
+AppendOnlyMap是spark自己实现的Map，只能添加数据，不能r</p>
+        
+    
+    <time datetime="2014-07-23T12:46:54.000Z" itemprop="datePublished">Jul 23 2014</time>
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
     <a href="/2014/07/22/spark rdd keyvalue操作/" title="spark RDD keyvalue操作" itemprop="url">
   
     <h1 itemprop="name">spark RDD keyvalue操作</h1>
@@ -92,11 +108,11 @@ implicit def rddToPairRDDFunctions[K: Class</p>
     <h1 itemprop="name">RDD操作详解</h1>
     
      
-           <p itemprop="description" >rdd最主要方法:
+           <p itemprop="description" >rdd最主要方法
 
 getPreferredLocations: 本地性相关(以后再详细研究)
 dependencies/getDependencies: 判断是否有ShuffleMapTask、获得firstParent
-partitions/getPartitions: 决</p>
+partitions/getPartitions: 决定</p>
         
     
     <time datetime="2014-07-20T05:17:04.000Z" itemprop="datePublished">Jul 20 2014</time>
@@ -176,7 +192,7 @@ solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用Intersects
 		
 			<li><a href="/categories/solr/" title="solr">solr<sup>1</sup></a></li>
 		
-			<li><a href="/categories/spark/" title="spark">spark<sup>3</sup></a></li>
+			<li><a href="/categories/spark/" title="spark">spark<sup>4</sup></a></li>
 		
 		</ul>
 </div>
@@ -186,7 +202,7 @@ solr的4.0-4.1版本使用GeohashField.createSpatialQuery(), 未使用Intersects
   <div class="tagcloudlist">
     <p class="asidetitle">Tag Cloud</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/RDD/" style="font-size: 15.00px;">RDD</a><a href="/tags/hadoop/" style="font-size: 10.00px;">hadoop</a><a href="/tags/keyvalue/" style="font-size: 10.00px;">keyvalue</a><a href="/tags/mapreduce/" style="font-size: 10.00px;">mapreduce</a><a href="/tags/shuffle/" style="font-size: 10.00px;">shuffle</a><a href="/tags/solr/" style="font-size: 10.00px;">solr</a><a href="/tags/spark/" style="font-size: 20.00px;">spark</a><a href="/tags/相似度计算/" style="font-size: 10.00px;">相似度计算</a><a href="/tags/空间索引/" style="font-size: 10.00px;">空间索引</a>
+       <a href="/tags/AppendOnlyMap/" style="font-size: 10.00px;">AppendOnlyMap</a><a href="/tags/RDD/" style="font-size: 15.00px;">RDD</a><a href="/tags/hadoop/" style="font-size: 10.00px;">hadoop</a><a href="/tags/keyvalue/" style="font-size: 10.00px;">keyvalue</a><a href="/tags/mapreduce/" style="font-size: 10.00px;">mapreduce</a><a href="/tags/reduce/" style="font-size: 10.00px;">reduce</a><a href="/tags/shuffle/" style="font-size: 10.00px;">shuffle</a><a href="/tags/solr/" style="font-size: 10.00px;">solr</a><a href="/tags/spark/" style="font-size: 20.00px;">spark</a><a href="/tags/相似度计算/" style="font-size: 10.00px;">相似度计算</a><a href="/tags/空间索引/" style="font-size: 10.00px;">空间索引</a>
     </div>
   </div>
 
